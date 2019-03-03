@@ -13,9 +13,15 @@ for line in lines:
   else:
     listLine = line.split(',')
     categoryName = listLine[0]
-    alottedAmt = listLine[3]
+    if listLine[3] != "":
+
+      # print("here" + listLine[3])
+      alottedAmt = float(listLine[3])
+      # alottedAmt = float(0)
+    else:
+      alottedAmt = float(0)
     ExpectedCategories[categoryName] = alottedAmt
-    print(categoryName + ": $" + ExpectedCategories[categoryName])
+    print(categoryName + ": $" + str(ExpectedCategories[categoryName]))
 
 umbrellaInsurance =   Category("Umbrella Insurance")
 autoTransportation =  Category("Auto Transportation Costs")
@@ -129,4 +135,11 @@ with open(fileName, 'w', newline='') as exportFile:
     w.writerow([location])
 
   print("Miscellaneous: " + str(unaccountedSum))
+
+  for key in ExpectedCategories:
+    for category in categories:
+      if key == category.name:
+        delta = category.total + ExpectedCategories.get(key)
+        if delta < 0:
+          print("OVER-SPENDING OCCURRED! Category: " + key + ", Delta: $" + str(delta) )
 
