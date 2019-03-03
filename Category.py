@@ -1,6 +1,6 @@
 class Category():
 
-  def __init__(self, name, keywords):
+  def __init__(self, name, keywords=[]):
     self.name = name
     self.keywords = keywords
     self.total = 0
