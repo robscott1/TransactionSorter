@@ -1,23 +1,29 @@
 import csv
 from Category import Category
 
-def contains_word(phrase,word):
-  return word in phrase
-
+payments = Category("Online Payments", ["ONLINE PAYMENT","PAYPAL"])
 safeway = Category("Safeway", ["SAFEWAY"])
 groceries = Category("Groceries", ["SAFEWAY","STARBUCK"])
-bars = Category("Bars", ["MCLINTOCK","CREEKY","BULL'S","JAXSON","FROG & PEACH","BLUELIGHT","BARRELHOUSE"])
+bars = Category("Bars", ["MCLINTOCK","CREEKY","BULL'S","JAXSON",
+  "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE"])
 breakfast = Category("Breakfast",["HOMEGROWN", "GOOD EATS", "LINCOLNMARKETDELI"])
 coffee = Category("Coffee", ["STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S"])
-restaurants = Category("Restaurants", ["PATRIOT HOUSE","CHIPOTLE","IN N OUT","SQ *","SOMA CHICKEN","DOMINO'S"])
+restaurants = Category("Restaurants", ["PATRIOT HOUSE","CHIPOTLE","IN N OUT",
+  "SQ *","SOMA CHICKEN","DOMINO'S","TAQUERIA SANTA CRUZ","PRESSED"])
 movies = Category("Movies", ["Prime Video"])
 pharmacy = Category("Pharmacy", ["WALGREENS"])
 internet = Category("Internet", ["COMCAST"])
+entertainment = Category("Entertainment", ["BROWNPAPERTICKETS","FISHER CATCH"])
+shopping = Category("Clothes/Shoes", ["ADIDAS","CALVIN KLEIN"])
+amazon = Category("Amazon", ["Amzn","Amazon"])
+travel = Category("Personal Travel/Vacation", ["HOSTEL"])
+
 
 f = open('../Feb19.csv')
 lines = f.readlines()
 
-categories = [safeway,groceries,bars,breakfast,coffee,restaurants,movies,pharmacy,internet]
+categories = [payments,safeway,groceries,bars,breakfast,coffee,restaurants,movies,
+              pharmacy,internet,entertainment,shopping,amazon,travel]
 
 amount_charged = []
 amount_paid = []
@@ -47,18 +53,39 @@ for line in lines:
         match = True
 
     if match == False:    
-      unhandled.append(location)
+      unhandled.append([location,float(amount)])
 
 
 total_charged = sum(amount_charged)
 total_paid = sum(amount_paid)
-print("Total charged: " + str(total_charged))
-print("Total paid: " + str(total_paid))
 
-print("Total unhandled rows: " + str(len(unhandled)))
+fileName = "../CategoryGeneration.csv"
+with open(fileName, 'w', newline='') as exportFile:
+  w = csv.writer(exportFile, quoting=csv.QUOTE_ALL)
 
-for category in categories:
-  print(category.name + ": " + str(category.total))
+  print("Total charged: " + str(total_charged))
+  print("Total paid: " + str(total_paid))
 
-for location in set(unhandled):
-  print("[UNHANDLED LOCATION] " + location)
+  print("Total unhandled rows: " + str(len(unhandled)))
+
+  for category in categories:
+    print(category.name + ": " + str(category.total))
+    w.writerow([category.name,category.total])
+
+  w.writerow(["Unhandled Locations:"])
+
+  unaccountedSum = 0
+  for pair in unhandled:
+    print("[UNHANDLED LOCATION] " + pair[0] + ", Amount charged: " + str(pair[1]) )
+    unaccountedSum += pair[1]
+    w.writerow([location])
+
+  print("Miscellaneous: " + str(unaccountedSum))
+
+
+
+# fileName = "../CategoryGeneration.csv"
+# with open(fileName, 'w', newline='') as exportFile:
+#   w = csv.writer(exportFile, quoting=csv.QUOTE_ALL)
+#   for category in categories:
+#     w.writerow([category.name,category.total])
