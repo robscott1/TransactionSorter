@@ -13,6 +13,6 @@ class Category():
 
   def checkKeywords(self, location):
     for keyword in self.keywords:
-      if self.containsWord(location,keyword):
+      if self.containsWord(location.casefold(),keyword.casefold()):
         return True
     return False

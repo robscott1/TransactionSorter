@@ -1,5 +1,6 @@
 import csv
 import xlsxwriter
+from ExcelManager import ExcelManager
 from Category import Category
 
 categoryFile = open('../Kevin Cash Flow Forecasting - Credit Card Charges.csv')
@@ -30,26 +31,29 @@ autoInsurance =       Category("Auto Insurance")
 autoLoanPayment =     Category("Auto Loan Payment")
 hbo =                 Category("Amazon Prime HBO")
 tech =                Category("Technology Replace/Upgrade Costs")
-essentials =          Category("Toiletries/Essentials")
+essentials =          Category("Toiletries/Essentials", ["ROGUE"])
 contacts =            Category("Contacts")
 medicalOOP =          Category("Medical OoP Costs")
 mdvip =               Category("MDVIP Membership")
 payments =            Category("Online Payments", ["ONLINE PAYMENT","PAYPAL"])
 safeway =             Category("Safeway", ["SAFEWAY"])
-groceries =           Category("Groceries/Food/Sundry Items", ["SAFEWAY","STARBUCK"])
+groceries =           Category("Groceries/Food/Sundry Items", ["SAFEWAY","STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S"])
 bars =                Category("Bars", ["MCLINTOCK","CREEKY","BULL'S","JAXSON",
   "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE"])
 breakfast =           Category("Breakfast",["HOMEGROWN", "GOOD EATS", "LINCOLNMARKETDELI"])
 coffee =              Category("Coffee", ["STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S"])
 restaurants =         Category("Restaurants", ["PATRIOT HOUSE","CHIPOTLE","IN N OUT",
-  "SQ *","SOMA CHICKEN","DOMINO'S","TAQUERIA SANTA CRUZ","PRESSED"])
+  "SQ *","SOMA CHICKEN","DOMINO'S","TAQUERIA SANTA CRUZ","PRESSED","HOMEGROWN", "GOOD EATS", "LINCOLNMARKETDELI",
+  "MEAT CO"])
 movies =              Category("Movies", ["Prime Video"])
 pharmacy =            Category("Prescription Drug Costs", ["WALGREENS"])
 internet =            Category("Cable/Internet", ["COMCAST"])
-entertainment =       Category("Entertainment", ["BROWNPAPERTICKETS","FISHER CATCH"])
+entertainment =       Category("Entertainment", ["BROWNPAPERTICKETS","FISHER CATCH","MCLINTOCK","CREEKY","BULL'S","JAXSON",
+  "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE"])
 shopping =            Category("Clothes/Shoes (me)", ["ADIDAS","CALVIN KLEIN"])
-amazon =              Category("Amazon Prime", ["Amzn","Amazon"])
+amazon =              Category("Amazon Prime", ["Amzn","Amazon", "Prime Video"])
 travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL"])
+total =               Category("Total")
 
 
 categories = [umbrellaInsurance,
@@ -72,7 +76,9 @@ categories = [umbrellaInsurance,
               mdvip,
               travel,
               restaurants,
-              entertainment]
+              entertainment,
+              payments,
+              total]
 
 f = open('../Feb19.csv')
 lines = f.readlines()
@@ -114,20 +120,23 @@ total_paid = sum(amount_paid)
 
 fileName = "../Feb19Report.xlsx"
 with open(fileName, 'w', newline='') as exportFile:
-  workbook = xlsxwriter.Workbook("../Feb19Report2.xlsx")
+  workbook = xlsxwriter.Workbook(fileName)
   worksheet = workbook.add_worksheet()
   red_highlight = workbook.add_format()
   red_highlight.set_bg_color('red')
-  startColumn = 0
-  rowTracker = 0
+  bold_text = workbook.add_format({'bold': True})
+  w = ExcelManager(worksheet)
 
-  w = csv.writer(exportFile, quoting=csv.QUOTE_ALL)
+  w.writerow(["Category Overview"], bold_text)
+  w.writerow(["Status", "Expenditure Category", "Alotted Amount", "Amount Spent", "Delta"], bold_text)
 
-  w.writerow(["Category Overview"])
-  w.writerow(["Status", "Expenditure Category", "Alotted Amount", "Amount Spent", "Delta"])
-
+  delta = total_charged + ExpectedCategories.get("Total")
   print("Total charged: " + str(total_charged))
-  w.writerow([None, "Total charged:", None, total_charged])
+  if delta >= 0:
+    w.writerow([None, "Total charged:", ExpectedCategories.get("Total"), total_charged, delta])
+  else:
+    w.writerow([None, "Total charged:", ExpectedCategories.get("Total"), total_charged, delta], red_highlight)
+
   print("Total paid: " + str(total_paid))
   w.writerow([None, "Total paid:", None, total_paid])
 
@@ -137,23 +146,21 @@ with open(fileName, 'w', newline='') as exportFile:
         delta = category.total + ExpectedCategories.get(key)
         if delta < 0:
           print( "OVER-SPENDING OCCURRED! Category: " + key + ", Delta: $" + str(delta) )
-          w.writerow(["OVER-SPENDING OCCURRED!", key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
-          worksheet.write_row(rowTracker,startColumn,["OVER-SPENDING OCCURRED!", key, str(ExpectedCategories.get(key)), category.total, delta], red_highlight)
-          rowTracker += 1
+          w.writerow(["OVER-SPENDING OCCURRED!", key, ExpectedCategories.get(key), category.total, delta], red_highlight)
         else:
           print( "                        Category: " + key + ", Delta: $" + str(delta) )
-          w.writerow([None, key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
+          w.writerow([None, key, ExpectedCategories.get(key), category.total, delta])
 
-  w.writerow([])
-  w.writerow(["ATTENTION: Kevin's awesome program did not find keyword matches for the following transactions:"])  
+  w.writerow()
+  w.writerow(["ATTENTION: Kevin's awesome program did not find keyword matches for the following transactions:"], bold_text)  
   print("Total unhandled rows: " + str(len(unhandled)))
-  w.writerow(["Total unhandled transactions: " + str(len(unhandled)) + " out of " + str(len(lines)) + " total"])
+  w.writerow(["Total unhandled transactions: " + str(len(unhandled)) + " out of " + str(len(lines)) + " total"], bold_text)
 
   unaccountedSum = 0
   for pair in unhandled:
     print("[UNHANDLED LOCATION] " + pair[0] + ", Amount charged: " + str(pair[1]) )
     unaccountedSum += pair[1]
-    w.writerow(["[UNHANDLED TRANSACTION]", "Location:", pair[0], "Amount:", str(pair[1])])
+    w.writerow(["[UNHANDLED TRANSACTION]", "Location:", pair[0], "Amount:", pair[1]])
 
   print("Miscellaneous (Uncategorized amounts): " + str(unaccountedSum))
   w.writerow(["Miscellaneous (Uncategorized amounts):" + str(unaccountedSum)])
