@@ -1,4 +1,5 @@
 import csv
+import xlsxwriter
 from Category import Category
 
 categoryFile = open('../Kevin Cash Flow Forecasting - Credit Card Charges.csv')
@@ -111,8 +112,15 @@ for line in lines:
 total_charged = sum(amount_charged)
 total_paid = sum(amount_paid)
 
-fileName = "../Feb19Report.csv"
+fileName = "../Feb19Report.xlsx"
 with open(fileName, 'w', newline='') as exportFile:
+  workbook = xlsxwriter.Workbook("../Feb19Report2.xlsx")
+  worksheet = workbook.add_worksheet()
+  red_highlight = workbook.add_format()
+  red_highlight.set_bg_color('red')
+  startColumn = 0
+  rowTracker = 0
+
   w = csv.writer(exportFile, quoting=csv.QUOTE_ALL)
 
   w.writerow(["Category Overview"])
@@ -130,6 +138,8 @@ with open(fileName, 'w', newline='') as exportFile:
         if delta < 0:
           print( "OVER-SPENDING OCCURRED! Category: " + key + ", Delta: $" + str(delta) )
           w.writerow(["OVER-SPENDING OCCURRED!", key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
+          worksheet.write_row(rowTracker,startColumn,["OVER-SPENDING OCCURRED!", key, str(ExpectedCategories.get(key)), category.total, delta], red_highlight)
+          rowTracker += 1
         else:
           print( "                        Category: " + key + ", Delta: $" + str(delta) )
           w.writerow([None, key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
@@ -147,6 +157,8 @@ with open(fileName, 'w', newline='') as exportFile:
 
   print("Miscellaneous (Uncategorized amounts): " + str(unaccountedSum))
   w.writerow(["Miscellaneous (Uncategorized amounts):" + str(unaccountedSum)])
+
+  workbook.close()
   
 
   
