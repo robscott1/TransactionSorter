@@ -14,14 +14,11 @@ for line in lines:
     listLine = line.split(',')
     categoryName = listLine[0]
     if listLine[3] != "":
-
-      # print("here" + listLine[3])
       alottedAmt = float(listLine[3])
-      # alottedAmt = float(0)
     else:
       alottedAmt = float(0)
     ExpectedCategories[categoryName] = alottedAmt
-    print(categoryName + ": $" + str(ExpectedCategories[categoryName]))
+    # print(categoryName + ": $" + str(ExpectedCategories[categoryName]))
 
 umbrellaInsurance =   Category("Umbrella Insurance")
 autoTransportation =  Category("Auto Transportation Costs")
@@ -55,6 +52,7 @@ travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL"])
 
 
 categories = [umbrellaInsurance,
+              groceries,
               autoTransportation,
               uberTransportation,
               autoRepairs,
@@ -113,33 +111,42 @@ for line in lines:
 total_charged = sum(amount_charged)
 total_paid = sum(amount_paid)
 
-fileName = "../CategoryGeneration.csv"
+fileName = "../Feb19Report.csv"
 with open(fileName, 'w', newline='') as exportFile:
   w = csv.writer(exportFile, quoting=csv.QUOTE_ALL)
 
+  w.writerow(["Category Overview"])
+  w.writerow(["Status", "Expenditure Category", "Alotted Amount", "Amount Spent", "Delta"])
+
   print("Total charged: " + str(total_charged))
+  w.writerow([None, "Total charged:", None, total_charged])
   print("Total paid: " + str(total_paid))
-
-  print("Total unhandled rows: " + str(len(unhandled)))
-
-  for category in categories:
-    print(category.name + ": " + str(category.total))
-    w.writerow([category.name,category.total])
-
-  w.writerow(["Unhandled Locations:"])
-
-  unaccountedSum = 0
-  for pair in unhandled:
-    print("[UNHANDLED LOCATION] " + pair[0] + ", Amount charged: " + str(pair[1]) )
-    unaccountedSum += pair[1]
-    w.writerow([location])
-
-  print("Miscellaneous: " + str(unaccountedSum))
+  w.writerow([None, "Total paid:", None, total_paid])
 
   for key in ExpectedCategories:
     for category in categories:
       if key == category.name:
         delta = category.total + ExpectedCategories.get(key)
         if delta < 0:
-          print("OVER-SPENDING OCCURRED! Category: " + key + ", Delta: $" + str(delta) )
+          print( "OVER-SPENDING OCCURRED! Category: " + key + ", Delta: $" + str(delta) )
+          w.writerow(["OVER-SPENDING OCCURRED!", key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
+        else:
+          print( "                        Category: " + key + ", Delta: $" + str(delta) )
+          w.writerow([None, key, str(ExpectedCategories.get(key)), str(category.total), str(delta)])
 
+  w.writerow([])
+  w.writerow(["ATTENTION: Kevin's awesome program did not find keyword matches for the following transactions:"])  
+  print("Total unhandled rows: " + str(len(unhandled)))
+  w.writerow(["Total unhandled transactions: " + str(len(unhandled)) + " out of " + str(len(lines)) + " total"])
+
+  unaccountedSum = 0
+  for pair in unhandled:
+    print("[UNHANDLED LOCATION] " + pair[0] + ", Amount charged: " + str(pair[1]) )
+    unaccountedSum += pair[1]
+    w.writerow(["[UNHANDLED TRANSACTION]", "Location:", pair[0], "Amount:", str(pair[1])])
+
+  print("Miscellaneous (Uncategorized amounts): " + str(unaccountedSum))
+  w.writerow(["Miscellaneous (Uncategorized amounts):" + str(unaccountedSum)])
+  
+
+  
