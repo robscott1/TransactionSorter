@@ -77,12 +77,11 @@ categories = [umbrellaInsurance,
               travel,
               restaurants,
               entertainment,
-              payments,
-              total]
+              payments]
 
-f = open('../Feb19.csv')
+importFileName = "../Feb19"
+f = open(importFileName + ".csv")
 lines = f.readlines()
-
 
 amount_charged = []
 amount_paid = []
@@ -118,9 +117,9 @@ for line in lines:
 total_charged = sum(amount_charged)
 total_paid = sum(amount_paid)
 
-fileName = "../Feb19Report.xlsx"
-with open(fileName, 'w', newline='') as exportFile:
-  workbook = xlsxwriter.Workbook(fileName)
+exportFileName = importFileName + "Report.xlsx"
+with open(exportFileName, 'w', newline='') as exportFile:
+  workbook = xlsxwriter.Workbook(exportFileName)
   worksheet = workbook.add_worksheet()
   red_highlight = workbook.add_format()
   red_highlight.set_bg_color('red')
