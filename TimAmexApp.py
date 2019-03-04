@@ -1,4 +1,8 @@
+import csv
+import xlsxwriter
+from ExcelManager import ExcelManager
 from Category import Category
+from Sorter import Sorter
 
 class TimAmexApp():
 
@@ -64,7 +68,7 @@ class TimAmexApp():
                        self.payments]
 
   def run(self):
-    self.sorter.execute(self.parser, self.categories)
+    self.sorter.execute("../TimAmexFeb19", "../Kevin Cash Flow Forecasting - Credit Card Charges", self.parser, self.categories)
 
 
 class Parser():
@@ -100,4 +104,11 @@ class Parser():
           unhandled.append([location,float(amount)])
 
     return amount_charged, amount_paid, unhandled
+
+
+sorter = Sorter()
+
+app = TimAmexApp(sorter)
+
+app.run()
 

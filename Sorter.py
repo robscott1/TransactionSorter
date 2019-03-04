@@ -5,8 +5,8 @@ from ExcelManager import ExcelManager
 
 class Sorter():
 
-  def execute(self, parser, categories):
-    categoryFile = open('../Kevin Cash Flow Forecasting - Credit Card Charges.csv')
+  def execute(self, importFileName, categoryFileName, parser, categories):
+    categoryFile = open(categoryFileName + ".csv")
     lines = categoryFile.readlines()
 
     ExpectedCategories = {}
@@ -25,7 +25,6 @@ class Sorter():
 
         ExpectedCategories[categoryName] = alottedAmt
 
-    importFileName = "../TimFeb19"
     f = open(importFileName + ".csv")
     lines = f.readlines()
     
