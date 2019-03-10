@@ -20,27 +20,30 @@ class KevinVisaApp():
     self.hbo =                 Category("Amazon Prime HBO")
     self.tech =                Category("Technology Replace/Upgrade Costs")
     self.essentials =          Category("Toiletries/Essentials", ["ROGUE"])
-    self.contacts =            Category("Contacts")
-    self.medicalOOP =          Category("Medical OoP Costs")
+    self.contacts =            Category("Contacts", ["SARATOGA VISION"])
+    self.medicalOOP =          Category("Medical OoP Costs", ["LABCORP"])
     self.mdvip =               Category("MDVIP Membership")
     self.payments =            Category("Online Payments", ["ONLINE PAYMENT","PAYPAL"])
     self.safeway =             Category("Safeway", ["SAFEWAY"])
-    self.groceries =           Category("Groceries/Food/Sundry Items", ["SAFEWAY","STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S"])
+    self.groceries =           Category("Groceries/Food/Sundry Items", ["SAFEWAY","STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S","SOBERDOUGH"])
     self.bars =                Category("Bars", ["MCLINTOCK","CREEKY","BULL'S","JAXSON",
-      "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE"])
+      "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE","BRIXTON"])
     self.breakfast =           Category("Breakfast",["HOMEGROWN", "GOOD EATS", "LINCOLNMARKETDELI"])
     self.coffee =              Category("Coffee", ["STARBUCK","SPECIALTYS","BLACKHORSE","PEET'S"])
     self.restaurants =         Category("Restaurants", ["PATRIOT HOUSE","CHIPOTLE","IN N OUT",
       "SQ *","SOMA CHICKEN","DOMINO'S","TAQUERIA SANTA CRUZ","PRESSED","HOMEGROWN", "GOOD EATS", "LINCOLNMARKETDELI",
-      "MEAT CO"])
+      "MEAT CO","THE BIRD","JOANNAS","IRISH TIMES","GAMBINOS","SPECIALTY'S"])
     self.movies =              Category("Movies", ["Prime Video"])
     self.pharmacy =            Category("Prescription Drug Costs", ["WALGREENS"])
     self.internet =            Category("Cable/Internet", ["COMCAST"])
     self.entertainment =       Category("Entertainment", ["BROWNPAPERTICKETS","FISHER CATCH","MCLINTOCK","CREEKY","BULL'S","JAXSON",
-      "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE"])
-    self.shopping =            Category("Clothes/Shoes (me)", ["ADIDAS","CALVIN KLEIN"])
+      "FROG & PEACH","BLUELIGHT","BARRELHOUSE","MILK BAR","CORK N BOTTLE","CAMPUS BOTTLE","BRIXTON","BLUE LIGHT","MEZZANINE",
+      "STUBHU","FIELDWORK","RUSSIAN RIVER"])
+    self.laundry =             Category("Laundry", ["LAUNDRY"])
+    self.shopping =            Category("Clothes/Shoes (me)", ["ADIDAS","CALVIN KLEIN","CONVERSE","LEVI","POLO","LULULEMON","RUNNER'S MIND"])
     self.amazon =              Category("Amazon Prime", ["Amzn","Amazon", "Prime Video"])
-    self.travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL"])
+    self.travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL","TRIP.COM","VIETJET","UNITED","SWISS INTL"])
+    self.workExpense =         Category("Work Expenses", ["AUTOMATIONDIRECT"])
     self.total =               Category("Total")
     
     
@@ -57,6 +60,7 @@ class KevinVisaApp():
                        self.hbo,
                        self.tech,
                        self.essentials,
+                       self.laundry,
                        self.shopping,
                        self.contacts,
                        self.pharmacy,
@@ -65,10 +69,11 @@ class KevinVisaApp():
                        self.travel,
                        self.restaurants,
                        self.entertainment,
+                       self.workExpense,
                        self.payments]
 
   def run(self):
-    self.sorter.execute("../KevinVisaFeb19", "../Kevin Cash Flow Forecasting - Credit Card Charges", self.parser, self.categories)
+    self.sorter.execute("../KevinVisa2019", "../Kevin Cash Flow Forecasting - Credit Card Charges", self.parser, self.categories)
 
 
 class Parser():
