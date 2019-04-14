@@ -42,7 +42,7 @@ class KevinVisaApp():
     self.laundry =             Category("Laundry", ["LAUNDRY"])
     self.shopping =            Category("Clothes/Shoes (me)", ["ADIDAS","CALVIN KLEIN","CONVERSE","LEVI","POLO","LULULEMON","RUNNER'S MIND"])
     self.amazon =              Category("Amazon Prime", ["Amzn","Amazon", "Prime Video"])
-    self.travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL","TRIP.COM","VIETJET","UNITED","SWISS INTL"])
+    self.travel =              Category("Personal Travel/Vacation Costs", ["HOSTEL","TRIP.COM","VIETJET","UNITED","SWISS INTL","THAI SKY","ALASKA AIR"])
     self.workExpense =         Category("Work Expenses", ["AUTOMATIONDIRECT"])
     self.total =               Category("Total")
     
@@ -73,7 +73,7 @@ class KevinVisaApp():
                        self.payments]
 
   def run(self):
-    self.sorter.execute("../KevinVisa2019", "../Kevin Cash Flow Forecasting - Credit Card Charges", self.parser, self.categories)
+    self.sorter.execute("../KevinVisaMarch2019", "../Kevin Cash Flow Forecasting - Credit Card Charges", self.parser, self.categories)
 
 
 class Parser():

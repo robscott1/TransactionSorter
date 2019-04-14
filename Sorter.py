@@ -18,8 +18,8 @@ class Sorter():
       else:
         listLine = line.split(',')
         categoryName = listLine[0]
-        if listLine[3] != "":
-          alottedAmt = float(listLine[3])
+        if listLine[4] != "":
+          alottedAmt = float(listLine[4])
         else:
           alottedAmt = float(0)
 
