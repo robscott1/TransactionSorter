@@ -23,10 +23,3 @@ class TransactionManager():
     t = self.transactionFactory.createTransaction(data)
     self.registerTransaction(t)
 
-
-# mydata = et.tostring(root)
-# myfile = open("userData.xml", "a")
-# tree.write("userData.xml", encoding="utf-8", xml_declaration=True, pretty_print=True)
-# myfile.close()
-
-
