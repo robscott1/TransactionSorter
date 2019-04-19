@@ -2,8 +2,10 @@ class Transaction():
 
   def __init__(self, name):
     self.name = name
+    self.initialized = False
 
-  def initialize(self, date, category=None, amount=0.0, idKeywords=[], recurring=False, rateOfRecurrence=None):
+  def initialize(self, date=None, category=None, amount=0.0, idKeywords=[], recurring=False, rateOfRecurrence=None):
+    self.initialized = True
     self.date = date
     self.category = category
     self.amount = amount
@@ -35,3 +37,8 @@ class Transaction():
     else:
       self.recurring = False
       self.rateOfRecurrence = None
+
+  def printData(self):
+    print("Name: " + self.name)
+    print("Category: " + self.category)
+    print("Amount: " + str(self.amount))

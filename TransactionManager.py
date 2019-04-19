@@ -1,24 +1,32 @@
 from Transaction import Transaction
+from TransactionFactory import TransactionFactory
+from APIData import TransactionData
 from Category import Category
+from lxml import etree as et
 
 class TransactionManager():
 
   def __init__(self):
+    self.transactionFactory = TransactionFactory()
     self.transactions = dict()
     self.categories = dict()
 
   def registerTransaction(self, t):
     self.transactions[t.name] = t
-    self.categories[t.category].registerTransaction(t)
+    if self.categories[t.category] != None:
+      self.categories[t.category].registerTransaction(t)
 
   def registerCategory(self, c):
     self.categories[c.name] = c
 
+  def createTransaction(self, data):
+    t = self.transactionFactory.createTransaction(data)
+    self.registerTransaction(t)
 
-t = Transaction("OSL Ticket")
-t.initialize(date="05/20/2019", amount=400.0, category="Festivals")
-c = Category("Festivals")
-tm = TransactionManager()
-tm.registerCategory(c)
-tm.registerTransaction(t)
-print(tm.transactions[t.name].name)
+
+# mydata = et.tostring(root)
+# myfile = open("userData.xml", "a")
+# tree.write("userData.xml", encoding="utf-8", xml_declaration=True, pretty_print=True)
+# myfile.close()
+
+
