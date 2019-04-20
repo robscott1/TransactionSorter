@@ -13,11 +13,11 @@ class Application():
     tList, cList = self.pdm.retrievePersistentData("transactionDataIn.xml", "categoryDataIn.xml")
 
     for c in cList:
-      self.transactionManager.registerCategory(c)
+      self.transactionManager.createCategory(c)
     self.analysisManager.categories = self.transactionManager.categories
 
     for t in tList:
-      self.transactionManager.registerTransaction(t)
+      self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
 
   def saveData(self):

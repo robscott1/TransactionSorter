@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as et
-from Transaction import Transaction
-from Category import Category
+from APIData import TransactionData, CategoryData
 
 class xmlAgent():
 
@@ -8,9 +7,11 @@ class xmlAgent():
     root = tree.getroot()
     transactionList = []
     for transaction in root:
-      t = Transaction( transaction.findtext("name") )
+      t = TransactionData()
       for element in transaction:
-        if element.tag == "amount":
+        if element.tag == "name":
+          t.name = element.text
+        elif element.tag == "amount":
           t.amount = float(element.text)
         elif element.tag == "date":
           t.date = element.text
@@ -25,13 +26,15 @@ class xmlAgent():
     root = tree.getroot()
     categoryList = []
     for category in root:
-      c = Category( category.findtext("name") )
+      c = CategoryData()
       for element in category:
-        if element.tag == "idkeywords":
+        if element.tag == "name":
+          c.name = element.text
+        elif element.tag == "idkeywords":
           keywords = []
           for keyword in element:
             keywords.append(keyword.text)
-          c.keywords = keywords
+          c.idKeywords = keywords
 
       categoryList.append(c)
 
@@ -94,21 +97,5 @@ class PersistentDataManager():
   def stashPersistentData(self, transactionFilePath, categoryFilePath, tList, cList):
     self.xmlAgent.stashTransactionData(transactionFilePath, tList)
     self.xmlAgent.stashCategoryData(categoryFilePath, cList)
-
-# pdm = PersistentDataManager()
-# pdm.retrievePersistentData("userDataIn.xml", "categoryDataIn.xml")
-# for category in pdm.categoryList:
-#   print(category.name)
-#   print(category.keywords)
-
-# t = Transaction("Rent")
-# t.initialize(amount=400.0, category="Rent")
-# t2 = Transaction("ACL")
-# t2.initialize(amount=600.0, category="Festivals")
-
-# tList = []
-# tList.append(t)
-# tList.append(t2)
-# pdm.stashPersistentData("userDataOut.xml", "categoryDataOut.xml", pdm.transactionList, pdm.categoryList)
 
  
