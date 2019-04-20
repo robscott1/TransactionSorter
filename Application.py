@@ -10,7 +10,7 @@ class Application():
     self.analysisManager = AnalysisManager()
 
   def initialize(self):
-    tList, cList = self.pdm.retrievePersistentData("userDataIn.xml", "categoryDataIn.xml")
+    tList, cList = self.pdm.retrievePersistentData("transactionDataIn.xml", "categoryDataIn.xml")
 
     for c in cList:
       self.transactionManager.registerCategory(c)
@@ -21,7 +21,7 @@ class Application():
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
 
   def saveData(self):
-    self.pdm.stashPersistentData("userDataOut.xml", "categoryDataOut.xml", 
+    self.pdm.stashPersistentData("transactionDataOut.xml", "categoryDataOut.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
 
