@@ -1,13 +1,14 @@
 from Transaction import Transaction
 from TransactionFactory import TransactionFactory
-from APIData import TransactionData
+from APIData import TransactionData, CategoryData
 from Category import Category
-from lxml import etree as et
+from CategoryFactory import CategoryFactory
 
 class TransactionManager():
 
   def __init__(self):
     self.transactionFactory = TransactionFactory()
+    self.categoryFactory = CategoryFactory()
     self.transactions = dict()
     self.categories = dict()
 
@@ -22,4 +23,8 @@ class TransactionManager():
   def createTransaction(self, data):
     t = self.transactionFactory.createTransaction(data)
     self.registerTransaction(t)
+
+  def createCategory(self, data):
+    c = self.categoryFactory.createCategory(data)
+    self.registerCategory(c)
 
