@@ -2,7 +2,7 @@ import xlsxwriter
 
 class ExcelManager():
 
-  def __init__(self, worksheet):
+  def __init__(self, worksheet = None):
     self.initColumn = 0
     self.currentRow = 0
     self.worksheet = worksheet

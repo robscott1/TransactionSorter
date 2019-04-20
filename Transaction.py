@@ -3,6 +3,7 @@ class Transaction():
   def __init__(self, name):
     self.name = name
     self.initialized = False
+    self.key = None
 
   def initialize(self, date=None, category=None, amount=0.0, idKeywords=[], recurring=False, rateOfRecurrence=None):
     self.initialized = True

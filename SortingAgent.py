@@ -1,9 +1,23 @@
 import csv
 import xlsxwriter
 from Category import Category
+from Transaction import Transaction
 from ExcelManager import ExcelManager
 
 class Sorter():
+
+  def categorize(self, completedTransactions, categories):
+    for t in completedTransactions:
+      match = False
+      for category in categories.values():
+        if category.checkKeywords(t.key) == True:
+          category.registerCompletedTransaction(t)
+          match = True
+          break
+
+      if match == False:
+        categories["Unhandled"].registerCompletedTransaction(t)
+
 
   def execute(self, importFileName, categoryFileName, parser, categories):
     categoryFile = open(categoryFileName + ".csv")

@@ -6,7 +6,8 @@ class Category():
     self.name = name
     self.keywords = keywords
     self.total = 0
-    self.transactions = dict()
+    self.plannedTransactions = dict()
+    self.completedTransactions = []
 
   def addAmount(self, amt):
     self.total += amt
@@ -21,4 +22,24 @@ class Category():
     return False
 
   def registerTransaction(self, t):
-    self.transactions[t.name] = t
+    self.plannedTransactions[t.name] = t
+
+  def registerCompletedTransaction(self, t):
+    self.completedTransactions.append(t)
+
+  def getTotalAmountSpent(self):
+    amount = 0
+    for t in self.completedTransactions:
+      amount += t.amount
+
+    return amount
+
+  def getTotalAmountAllotted(self):
+    amountAllotted = 0
+    for t in self.plannedTransactions.values():
+      amountAllotted += t.amount
+
+    return amountAllotted
+
+  def getDelta(self):
+    return self.getTotalAmountAllotted() - self.getTotalAmountSpent()

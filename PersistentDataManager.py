@@ -92,14 +92,14 @@ class PersistentDataManager():
     return self.transactionList, self.categoryList
 
   def stashPersistentData(self, transactionFilePath, categoryFilePath, tList, cList):
-    # self.xmlAgent.stashTransactionData(transactionFilePath, tList)
+    self.xmlAgent.stashTransactionData(transactionFilePath, tList)
     self.xmlAgent.stashCategoryData(categoryFilePath, cList)
 
-pdm = PersistentDataManager()
-pdm.retrievePersistentData("userDataIn.xml", "categoryDataIn.xml")
-for category in pdm.categoryList:
-  print(category.name)
-  print(category.keywords)
+# pdm = PersistentDataManager()
+# pdm.retrievePersistentData("userDataIn.xml", "categoryDataIn.xml")
+# for category in pdm.categoryList:
+#   print(category.name)
+#   print(category.keywords)
 
 # t = Transaction("Rent")
 # t.initialize(amount=400.0, category="Rent")
@@ -109,5 +109,6 @@ for category in pdm.categoryList:
 # tList = []
 # tList.append(t)
 # tList.append(t2)
-pdm.stashPersistentData("userDataOut.xml", "categoryDataOut.xml", pdm.transactionList, pdm.categoryList)
+# pdm.stashPersistentData("userDataOut.xml", "categoryDataOut.xml", pdm.transactionList, pdm.categoryList)
+
  
