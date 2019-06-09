@@ -1,5 +1,5 @@
 from ExcelManager import ExcelManager
-from SortingAgent import Sorter as SortingAgent
+from SortingAgent import SortingAgent
 from Transaction import Transaction
 from Category import Category
 
@@ -15,7 +15,7 @@ class AnalysisManager():
     self.excelManager = ExcelManager()
 
   def sortCompletedTransactions(self):
-    self.sortingAgent.categorize()
+    self.sortingAgent.categorize(self.completedTransactions, self.categories)
 
   def getAmountSpentByCategory(self, categoryName):
     c = self.categories[categoryName]

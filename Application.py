@@ -20,6 +20,9 @@ class Application():
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
 
+  def sortCompletedTransactions(self):
+    self.analysisManager.sortCompletedTransactions()
+
   def saveData(self):
     self.pdm.stashPersistentData("transactionDataOut.xml", "categoryDataOut.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())

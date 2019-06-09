@@ -4,7 +4,7 @@ from Category import Category
 from Transaction import Transaction
 from ExcelManager import ExcelManager
 
-class Sorter():
+class SortingAgent():
 
   def categorize(self, completedTransactions, categories):
     for t in completedTransactions:
