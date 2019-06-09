@@ -5,6 +5,10 @@ class Transaction():
     self.initialized = False
     self.key = None
 
+  def initialize(self, amount, location):
+    self.amount = amount
+    self.location = location
+
   def initialize(self, date=None, category=None, amount=0.0, idKeywords=[], recurring=False, rateOfRecurrence=None):
     self.initialized = True
     self.date = date

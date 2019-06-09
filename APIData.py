@@ -8,6 +8,7 @@ class TransactionData():
     self.idKeywords = None
     self.recurring = None
     self.rateOfRecurrence = None
+    self.location = None
 
 class CategoryData():
 
