@@ -25,9 +25,9 @@ class AnalysisManager():
       parsedData = TransactionData()
       parsedData.amount = amountList[index]
       parsedData.location = locationList[index]
-      completedTransaction = self.transactionFactory.createTransaction(parsedData)
+      completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)
       self.completedTransactions.append(completedTransaction)
-      
+     
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
 
   def getAmountSpentByCategory(self, categoryName):

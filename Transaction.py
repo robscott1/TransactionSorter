@@ -1,19 +1,16 @@
 class Transaction():
 
-  def __init__(self, name):
+  def __init__(self, name=None):
     self.name = name
     self.initialized = False
     self.key = None
 
-  def initialize(self, amount, location):
-    self.amount = amount
-    self.location = location
-
-  def initialize(self, date=None, category=None, amount=0.0, idKeywords=[], recurring=False, rateOfRecurrence=None):
+  def initialize(self, date=None, category=None, amount=0.0, location=None, idKeywords=[], recurring=False, rateOfRecurrence=None):
     self.initialized = True
     self.date = date
     self.category = category
     self.amount = amount
+    self.location = location
     self.idKeywords = idKeywords
 
     if recurring == True:

@@ -9,3 +9,8 @@ class TransactionFactory():
                            idKeywords=data.idKeywords, recurring=data.recurring, 
                            rateOfRecurrence=data.rateOfRecurrence)
     return transaction
+
+  def createCompletedTransaction(self, data):
+    transaction = Transaction()
+    transaction.initialize(amount=data.amount, location=data.location)
+    return transaction
