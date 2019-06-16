@@ -20,15 +20,25 @@ class Application():
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
 
-  def sortCompletedTransactions(self):
-    self.analysisManager.sortCompletedTransactions()
+  def sortCompletedTransactions(self, fileName):
+    self.analysisManager.sortCompletedTransactions(fileName)
 
   def saveData(self):
     self.pdm.stashPersistentData("transactionDataOut.xml", "categoryDataOut.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
+  def getAmountSpentByCategory(self, category):
+    return self.analysisManager.getAmountSpentByCategory(category)
+
+  def getCategoryList(self):
+    return self.analysisManager.categories
+
 
 app = Application()
 app.initialize()
+app.sortCompletedTransactions("../KevinVisaMay2019")
+cats = app.getCategoryList()
+for c in cats.values():
+  print(c.name + ": " + str(c.getTotalAmountSpent()))
 app.saveData()
 

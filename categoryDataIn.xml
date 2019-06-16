@@ -8,9 +8,23 @@
     </idkeywords>
   </category>
   <category>
+    <name>Amazon</name>
+    <idkeywords>
+      <keyword>amzn</keyword>
+      <keyword>amazon</keyword>
+      <keyword>prime video</keyword>
+    </idkeywords>
+  </category>
+  <category>
+    <name>Groceries</name>
+    <idkeywords>
+      <keyword>SAFEWAY</keyword>
+    </idkeywords>
+  </category>
+  <category>
     <name>Coffee</name>
     <idkeywords>
-      <keyword>starbucks</keyword>
+      <keyword>starbuck</keyword>
       <keyword>specialtys</keyword>
     </idkeywords>
   </category>

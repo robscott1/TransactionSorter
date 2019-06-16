@@ -10,7 +10,7 @@ class SortingAgent():
     for t in completedTransactions:
       match = False
       for category in categories.values():
-        if category.checkKeywords(t.key) == True:
+        if category.checkKeywords(t.location) == True:
           category.registerCompletedTransaction(t)
           match = True
           break

@@ -30,7 +30,7 @@ class Category():
   def getTotalAmountSpent(self):
     amount = 0
     for t in self.completedTransactions:
-      amount += t.amount
+      amount += float(t.amount)
 
     return amount
 

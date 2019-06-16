@@ -11,9 +11,8 @@ class AnalysisManager():
   def __init__(self):
     self.completedTransactions = []
     self.plannedTransactions = None
-    unhandled = Category("Unhandled")
     self.categories = dict()
-    self.categories[unhandled.name] = unhandled
+    self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent = SortingAgent()
     self.excelManager = ExcelManager()
     self.csvAgent = CSVAgent()
@@ -27,12 +26,14 @@ class AnalysisManager():
       parsedData.location = locationList[index]
       completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)
       self.completedTransactions.append(completedTransaction)
-     
+    
+
+    self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
 
   def getAmountSpentByCategory(self, categoryName):
     c = self.categories[categoryName]
-    return c.getTotalAmount()
+    return c.getTotalAmountSpent()
 
   def getDeltaByCategory(self, categoryName):
     c = self.categories[categoryName]
