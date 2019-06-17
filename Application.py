@@ -33,6 +33,9 @@ class Application():
   def getCategoryList(self):
     return self.analysisManager.categories
 
+  def getUnhandledTransactions(self):
+    return self.analysisManager.categories["Unhandled"]
+
 
 app = Application()
 app.initialize()
@@ -40,5 +43,7 @@ app.sortCompletedTransactions("../KevinVisaMay2019")
 cats = app.getCategoryList()
 for c in cats.values():
   print(c.name + ": " + str(c.getTotalAmountSpent()))
+for t in app.getUnhandledTransactions().completedTransactions:
+  print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
 app.saveData()
 
