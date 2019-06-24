@@ -8,6 +8,7 @@ from TransactionFactory import TransactionFactory
 
 class AnalysisManager():
 
+  # intitializes lower functioning tools within analysis manager
   def __init__(self):
     self.completedTransactions = []
     self.plannedTransactions = None
@@ -18,6 +19,10 @@ class AnalysisManager():
     self.csvAgent = CSVAgent()
     self.transactionFactory = TransactionFactory()
 
+  # takes parsed data from CSV agent and records amount and
+  # location of transaction
+  # createCompletedTransaction uses the TransactionData object
+  # to get all of the necessary information to store it
   def sortCompletedTransactions(self, fileName):
     amountList, locationList = self.csvAgent.parseFile(fileName)
     for index in range(len(amountList)):
@@ -35,14 +40,17 @@ class AnalysisManager():
     c = self.categories[categoryName]
     return c.getTotalAmountSpent()
 
+  # finds difference between amount allotted and amount spent
   def getDeltaByCategory(self, categoryName):
     c = self.categories[categoryName]
     return c.getDelta()
 
+  # retrieves amount alloted
   def getAmountAllottedByCategory(self, categoryName):
     c = self.categories[categoryName]
     return c.getTotalAmountAllotted()
 
+  # retrives total amount spent, used for categories
   def getTotalAmountSpent(self):
     total = 0
     for t in self.completedTransactions:

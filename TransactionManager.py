@@ -12,6 +12,8 @@ class TransactionManager():
     self.transactions = dict()
     self.categories = dict()
 
+  # assigns dictionary key to the name of transaction in transaction dict
+  # difference between registering and creating?
   def registerTransaction(self, t):
     self.transactions[t.name] = t
     if self.categories[t.category] != None:

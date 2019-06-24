@@ -6,6 +6,12 @@ from ExcelManager import ExcelManager
 
 class SortingAgent():
 
+  # takes completed transactions and are appended to 
+  # the Category "completed transactoins" with any of 
+  # the idKeywords matching the location of transaction
+  # unhandled transactions (no matching keywords) are 
+  # put into unhandled category object
+  # GUI will allow user to assign unhandled transactions
   def categorize(self, completedTransactions, categories):
     for t in completedTransactions:
       match = False
