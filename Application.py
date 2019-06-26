@@ -52,7 +52,11 @@ class Application():
   def getUnhandledTransactions(self):
     return self.analysisManager.categories["Unhandled"]
 
+  #called from GUI to create Category object
+  def createNewCategory(self, data):
+    self.transactionManager.createCategory(data)
 
+"""
 app = Application()
 app.initialize()
 app.sortCompletedTransactions("../CreditCard3")
@@ -62,4 +66,5 @@ for c in cats.values():
 for t in app.getUnhandledTransactions().completedTransactions:
   print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
 app.saveData()
+"""
 

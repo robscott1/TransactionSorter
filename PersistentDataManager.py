@@ -3,6 +3,11 @@ from APIData import TransactionData, CategoryData
 
 class xmlAgent():
 
+  # extracts data from xml file and assigns
+  # attributes to a transaction object
+
+  # returns list to Application() where it 
+  # gets handed off to the analysis manager
   def parseTransactionData(self, tree):
     root = tree.getroot()
     transactionList = []
@@ -22,6 +27,7 @@ class xmlAgent():
 
     return transactionList
 
+  # same as above, parses the categories
   def parseCategoryData(self, tree):
     root = tree.getroot()
     categoryList = []

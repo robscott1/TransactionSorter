@@ -1,0 +1,30 @@
+
+##############################################################################################
+                    # end of auto-generated code
+##############################################################################################
+    
+        self.importCsvBtn.clicked.connect(self.runApp)
+        self.pushButton_2.clicked.connect(self.openCatPop)
+
+    def openCatPop(self):
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.Dialog)
+        self.Dialog.show()
+
+
+
+    def runApp(self):
+        self.filename = "../" + str(self.newCatInput.text())
+        
+        self.app = Application()
+        self.app.initialize()
+        self.app.sortCompletedTransactions(self.filename)
+        print("I think its fine....")
+        for t in self.app.getUnhandledTransactions().completedTransactions:
+            print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
+    
+
+##############################################################################################
+                    # begin auto-generated code
+##############################################################################################
