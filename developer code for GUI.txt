@@ -2,28 +2,61 @@
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
-    
+        
+        # placed here to instantiate the backend in the GUI at the start, 
+        # it makes it easier for the backed to be passed into the popup windows
+        # where several functions are called
+        self.app = Application()
+        self.app.initialize()
+
+
         self.importCsvBtn.clicked.connect(self.runApp)
         self.pushButton_2.clicked.connect(self.openCatPop)
+
 
     def openCatPop(self):
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
-        self.ui.setupUi(self.Dialog)
+        self.ui.setupUi(self.Dialog, self.app)
         self.Dialog.show()
 
 
 
     def runApp(self):
         self.filename = "../" + str(self.newCatInput.text())
-        
-        self.app = Application()
-        self.app.initialize()
         self.app.sortCompletedTransactions(self.filename)
         print("I think its fine....")
         for t in self.app.getUnhandledTransactions().completedTransactions:
             print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
     
+
+##############################################################################################
+                    # begin auto-generated code
+##############################################################################################
+
+
+
+
+categoryPopup
+
+##############################################################################################
+                    # end of auto-generated code
+##############################################################################################
+        
+    self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
+    self.saveCategoryInfo.clicked.connect(self.createNewCategory)
+
+  # allows user to enter keywords for category and represents them
+  # in a list field in the popup window
+  def appendKeyword(self):
+    self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
+
+  def createNewCategory(self):
+    newCategory = CategoryData()
+    newCategory.name = str(self.newCategoryName.text())
+    newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
+    self.app.createNewCategory(newCategory)
+    self.app.saveData()
 
 ##############################################################################################
                     # begin auto-generated code
