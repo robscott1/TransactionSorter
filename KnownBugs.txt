@@ -1,0 +1,9 @@
+## CALLING API FUNCTIONS FROM THE FRONT-END
+
+- Clicking the "Save" button from the category pop up window with no data entered messes with the xml files on the back end. We dont want to call back-end functions unless that data that has been entered is legit.
+- If a non-numeric entry is entered for "Monthly Allotment" in the category pop up window, the program will crash trying to convert it to a float. We need to use a try/except block to fix this.
+
+## FRONT-END
+
+
+## BACK-END
