@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
-        self.importTab.setGeometry(QtCore.QRect(20, 10, 961, 641))
+        self.importTab.setGeometry(QtCore.QRect(10, 10, 961, 641))
         self.importTab.setObjectName("importTab")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -78,6 +78,15 @@ class Ui_MainWindow(object):
         self.openCatPopUp = QtWidgets.QPushButton(self.tab_2)
         self.openCatPopUp.setGeometry(QtCore.QRect(600, 100, 113, 32))
         self.openCatPopUp.setObjectName("openCatPopUp")
+        self.listLabel = QtWidgets.QLabel(self.tab_2)
+        self.listLabel.setGeometry(QtCore.QRect(510, 70, 60, 16))
+        self.listLabel.setObjectName("listLabel")
+        self.deleteCategory = QtWidgets.QPushButton(self.tab_2)
+        self.deleteCategory.setGeometry(QtCore.QRect(600, 160, 113, 32))
+        self.deleteCategory.setObjectName("deleteCategory")
+        self.editCategory = QtWidgets.QPushButton(self.tab_2)
+        self.editCategory.setGeometry(QtCore.QRect(600, 130, 113, 32))
+        self.editCategory.setObjectName("editCategory")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -103,7 +112,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.importTab.setCurrentIndex(0)
+        self.importTab.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -125,6 +134,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "New Item"))
         self.categoryList.setSortingEnabled(__sortingEnabled)
         self.openCatPopUp.setText(_translate("MainWindow", "New Category"))
+        self.listLabel.setText(_translate("MainWindow", "Category"))
+        self.deleteCategory.setText(_translate("MainWindow", "Delete"))
+        self.editCategory.setText(_translate("MainWindow", "Edit"))
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -141,6 +153,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
+        self.updateCategoryListWidget()
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
@@ -155,7 +168,6 @@ class Ui_MainWindow(object):
         self.ui.setupUi(self.Dialog, self.app)
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
         self.Dialog.show()
-
 
 
     def runApp(self):
@@ -189,7 +201,5 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    ui.updateCategoryListWidget()
     MainWindow.show()
     sys.exit(app.exec_())
-

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'categoryPop.ui'
+# Form implementation generated from reading ui file 'CategoryPop.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.2
 #
@@ -8,8 +8,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from APIData import CategoryData
-
-
 
 
 class Ui_Dialog(object):
@@ -76,9 +74,6 @@ class Ui_Dialog(object):
                     # end of auto-generated code
 ##############################################################################################
     
-    # initialize mainWindow functions in order to take the category from the popup
-    # and append it to the list wi
-        #self.mainWindow = Ui_MainWindow()
 
     #keyword list initialize now and can have words appended with the add button 
     # and updated while the window is open
@@ -94,10 +89,6 @@ class Ui_Dialog(object):
         self.newCategoryKeywordField.setText("")
         
       
-      # when save is clicked, the information in the 2 lineEdit fields will be turned 
-      # a categoryData Object
-      # ******* still need to find a way to access all of the list items for keywords*******
-      
       # will need a try and except-- the program crashes when the user hits enter
       # needs to tell the user to enter valid entries for all inputs  
     def createNewCategory(self):
@@ -110,6 +101,8 @@ class Ui_Dialog(object):
 ##############################################################################################
                     # begin auto-generated code
 ##############################################################################################
+
+
 
 
 if __name__ == "__main__":

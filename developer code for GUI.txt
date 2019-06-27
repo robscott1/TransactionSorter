@@ -1,4 +1,8 @@
 
+from PyQt5 import QtCore, QtGui, QtWidgets
+from Application import Application
+from pyCategoryPop import Ui_Dialog
+
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -11,7 +15,7 @@
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
-        self.pushButton_2.clicked.connect(self.openNewCatPop)
+        self.openCatPopUp.clicked.connect(self.openNewCatPop)
 
     # when newCategory button is pushed on categorize tab, this will
     # prompt a popup that allows user to enter a new category, monthly allotment
@@ -20,7 +24,12 @@
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
         self.Dialog.show()
+        self.ui.saveCategoryInfo.clicked.connect(self.closeDialog)
+
+    def closeDialog(self):
+        self.close()
 
 
     def runApp(self):
@@ -30,7 +39,16 @@
         for t in self.app.getUnhandledTransactions().completedTransactions:
             print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
 
-    
+    # the function from app actually returns a dictionary
+    # use the .values to access the category object stored in each value of the dictionary
+    # category.name accesses the name to append to the list widget
+    def updateCategoryListWidget(self):
+        self.app.saveData()
+        self.categoryList.clear()
+        for category in self.app.getCategoryNamesList():
+            self.categoryList.addItem(category)
+        
+
 
 ##############################################################################################
                     # begin auto-generated code
@@ -40,6 +58,28 @@
 
 categoryPopup
 
+
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from APIData import CategoryData
+
+
+##############################################################################################
+                    # end of auto-generated code
+##############################################################################################
+
+        self.app = App
+
+##############################################################################################
+                    # begin auto-generated code
+##############################################################################################
+
+
+
+
+
+
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -47,33 +87,26 @@ categoryPopup
 
     #keyword list initialize now and can have words appended with the add button 
     # and updated while the window is open
-    self.keywordList = []
-    self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
-    self.saveCategoryInfo.clicked.connect(self.createNewCategory)
+        self.keywordList = []
+        self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
+        self.saveCategoryInfo.clicked.connect(self.createNewCategory)
 
-  # allows user to enter keywords for category and represents them
-  # in a list field in the popup window
-  def appendKeyword(self):
-    self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
-    self.keywordList.append(self.newCategoryKeywordField.text())
-    
-  
-  # when save is clicked, the information in the 2 lineEdit fields will be turned 
-  # a categoryData Object
-  # ******* still need to find a way to access all of the list items for keywords*******
-  
-  # will need a try and except-- the program crashes when the user hits enter
-  # needs to tell the user to enter valid entries for all inputs  
-  def createNewCategory(self):
-    newCategory = CategoryData()
-    newCategory.name = str(self.newCategoryName.text())
-    newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
-    newCategory.idKeywords = self.keywordList
-    self.app.createNewCategory(newCategory)
-    self.Ui_MainWindow.addNewCategory(newCategory.name)
-
-
-    
+      # allows user to enter keywords for category and represents them
+      # in a list field in the popup window
+    def appendKeyword(self):
+        self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
+        self.keywordList.append(self.newCategoryKeywordField.text())
+        self.newCategoryKeywordField.setText("")
+        
+      
+      # will need a try and except-- the program crashes when the user hits enter
+      # needs to tell the user to enter valid entries for all inputs  
+    def createNewCategory(self):
+        newCategory = CategoryData()
+        newCategory.name = str(self.newCategoryName.text())
+        newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
+        newCategory.idKeywords = self.keywordList
+        self.app.createNewCategory(newCategory)
 
 ##############################################################################################
                     # begin auto-generated code

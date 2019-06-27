@@ -49,7 +49,7 @@ class Application():
     @returns: A list of keys for a category
     dictionary in the form of category names
     '''
-    return self.analysisManager.categories.keys()
+    return list(self.analysisManager.categories.keys())
 
   # retrieves the list of transactions that were not picked up
   # by Category objects
