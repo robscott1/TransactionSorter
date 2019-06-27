@@ -55,16 +55,57 @@ class Application():
   #called from GUI to create Category object
   def createNewCategory(self, data):
     self.transactionManager.createCategory(data)
-    
-"""
-app = Application()
-app.initialize()
-app.sortCompletedTransactions("../CreditCard3")
-cats = app.getCategoryList()
-for c in cats.values():
-  print(c.name + ": " + str(c.getTotalAmountSpent()))
-for t in app.getUnhandledTransactions().completedTransactions:
-  print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
-app.saveData()
-"""
 
+  def getCompletedTransactionsList(self):
+    '''
+    @returns: The list of completed transactions from the
+    most recently imported csv file
+    '''
+    return self.analysisManager.completedTransactions
+
+  def getTotalAmountSpent(self):
+    '''
+    @returns: The total amount spent from all the transactions
+    in the most recently imported csv file
+    '''
+    return self.analysisManager.getTotalAmountSpent()
+
+  def getAmountSpentByCategory(self, categoryName):
+    '''
+    Wrapper function for the AnalysisManager's equivalent
+    call
+
+    @categoryName: A string to be used as a dictionary
+    key to associate to the corresponding category object
+
+    @returns: The sum of all transactions that have been
+    associated with that category
+    '''
+    return self.analysisManager.getAmountSpentByCategory(categoryName)
+
+  def getDeltaByCategory(self, categoryName):
+    '''
+    Wrapper function for the AnalysisManager's equivalent
+    call
+
+    @categoryName: A string to be used as a dictionary
+    key to associate to the corresponding category object
+
+    @returns: The difference between the amount that was
+    allotted and the amount that was spent for a given category
+    '''
+    return self.analysisManager.getDeltaByCategory(categoryName)
+
+
+def getAmountAllottedByCategory(self, categoryName):
+    '''
+    Wrapper function for the AnalysisManager's equivalent
+    call
+
+    @categoryName: A string to be used as a dictionary
+    key to associate to the corresponding category object
+
+    @returns: The amount that the user allotted for a given
+    category
+    '''
+    return self.analysisManager.getAmountAllottedByCategory(categoryName)
