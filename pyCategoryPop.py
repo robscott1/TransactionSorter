@@ -91,6 +91,7 @@ class Ui_Dialog(object):
     def appendKeyword(self):
         self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
         self.keywordList.append(self.newCategoryKeywordField.text())
+        self.newCategoryKeywordField.setText("")
         
       
       # when save is clicked, the information in the 2 lineEdit fields will be turned 
