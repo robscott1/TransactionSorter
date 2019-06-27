@@ -171,9 +171,8 @@ class Ui_MainWindow(object):
     def updateCategoryListWidget(self):
         self.app.saveData()
         self.categoryList.clear()
-        self.listOfCategories = self.app.getCategoryList().values()
-        for category in self.listOfCategories:
-            self.categoryList.addItem(category.name)
+        for category in self.app.getCategoryNamesList():
+            self.categoryList.addItem(category)
         
 
 

@@ -40,9 +40,16 @@ class Application():
   def getAmountSpentByCategory(self, category):
     return self.analysisManager.getAmountSpentByCategory(category)
 
-  # retieves list of categories
-  def getCategoryList(self):
-    return self.analysisManager.categories
+  def getCategoryNamesList(self):
+    '''
+    This method can be used to get the keys
+    to look up category information using 
+    other API functions.
+
+    @returns: A list of keys for a category
+    dictionary in the form of category names
+    '''
+    return self.analysisManager.categories.keys()
 
   # retrieves the list of transactions that were not picked up
   # by Category objects
