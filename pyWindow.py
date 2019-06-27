@@ -169,6 +169,7 @@ class Ui_MainWindow(object):
     # use the .values to access the category object stored in each value of the dictionary
     # category.name accesses the name to append to the list widget
     def updateCategoryListWidget(self):
+        self.app.saveData()
         self.categoryList.clear()
         self.listOfCategories = self.app.getCategoryList().values()
         for category in self.listOfCategories:
