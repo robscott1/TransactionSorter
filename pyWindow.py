@@ -7,8 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pyCategoryPop import Ui_Dialog
 from Application import Application
+from pyCategoryPop import Ui_Dialog
 
 
 class Ui_MainWindow(object):
@@ -35,23 +35,23 @@ class Ui_MainWindow(object):
         self.toolButton.setObjectName("toolButton")
         self.horizontalLayout.addWidget(self.toolButton)
         self.gridLayout.addLayout(self.horizontalLayout, 8, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.tab)
+        self.enterCSVLabel = QtWidgets.QLabel(self.tab)
         font = QtGui.QFont()
         font.setPointSize(36)
-        self.label.setFont(font)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 2, 0, 1, 1)
+        self.enterCSVLabel.setFont(font)
+        self.enterCSVLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.enterCSVLabel.setObjectName("enterCSVLabel")
+        self.gridLayout.addWidget(self.enterCSVLabel, 2, 0, 1, 1)
         self.importCsvBtn = QtWidgets.QPushButton(self.tab)
         self.importCsvBtn.setObjectName("importCsvBtn")
         self.gridLayout.addWidget(self.importCsvBtn, 9, 0, 1, 1)
-        self.label_3 = QtWidgets.QLabel(self.tab)
+        self.titleLabel = QtWidgets.QLabel(self.tab)
         font = QtGui.QFont()
         font.setPointSize(72)
-        self.label_3.setFont(font)
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 0, 0, 1, 1)
+        self.titleLabel.setFont(font)
+        self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.titleLabel.setObjectName("titleLabel")
+        self.gridLayout.addWidget(self.titleLabel, 0, 0, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.importTab.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -60,24 +60,24 @@ class Ui_MainWindow(object):
         self.instructionsLabel.setGeometry(QtCore.QRect(280, 20, 361, 21))
         self.instructionsLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.instructionsLabel.setObjectName("instructionsLabel")
-        self.unhandledT = QtWidgets.QListWidget(self.tab_2)
-        self.unhandledT.setGeometry(QtCore.QRect(500, 100, 81, 221))
-        self.unhandledT.setObjectName("unhandledT")
+        self.categoryList = QtWidgets.QListWidget(self.tab_2)
+        self.categoryList.setGeometry(QtCore.QRect(500, 100, 81, 221))
+        self.categoryList.setObjectName("categoryList")
         item = QtWidgets.QListWidgetItem()
-        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
-        self.unhandledT.addItem(item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
+        self.categoryList.addItem(item)
         item = QtWidgets.QListWidgetItem()
-        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
-        self.unhandledT.addItem(item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
+        self.categoryList.addItem(item)
         item = QtWidgets.QListWidgetItem()
-        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
-        self.unhandledT.addItem(item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
+        self.categoryList.addItem(item)
         self.typeNewCat = QtWidgets.QLineEdit(self.tab_2)
-        self.typeNewCat.setGeometry(QtCore.QRect(90, 80, 113, 21))
+        self.typeNewCat.setGeometry(QtCore.QRect(90, 90, 161, 231))
         self.typeNewCat.setObjectName("typeNewCat")
-        self.pushButton_2 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_2.setGeometry(QtCore.QRect(600, 100, 113, 32))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.openCatPopUp = QtWidgets.QPushButton(self.tab_2)
+        self.openCatPopUp.setGeometry(QtCore.QRect(600, 100, 113, 32))
+        self.openCatPopUp.setObjectName("openCatPopUp")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -103,8 +103,34 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.importTab.setCurrentIndex(1)
+        self.importTab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.toolButton.setText(_translate("MainWindow", "..."))
+        self.enterCSVLabel.setText(_translate("MainWindow", "Enter CSV file"))
+        self.importCsvBtn.setText(_translate("MainWindow", "Import CSV"))
+        self.titleLabel.setText(_translate("MainWindow", "Kinda Dope.."))
+        self.importTab.setTabText(self.importTab.indexOf(self.tab), _translate("MainWindow", "Import"))
+        self.instructionsLabel.setText(_translate("MainWindow", "Create New Categories and Sort Unhandles Transactions"))
+        __sortingEnabled = self.categoryList.isSortingEnabled()
+        self.categoryList.setSortingEnabled(False)
+        item = self.categoryList.item(0)
+        item.setText(_translate("MainWindow", "New Item"))
+        item = self.categoryList.item(1)
+        item.setText(_translate("MainWindow", "New Item"))
+        item = self.categoryList.item(2)
+        item.setText(_translate("MainWindow", "New Item"))
+        self.categoryList.setSortingEnabled(__sortingEnabled)
+        self.openCatPopUp.setText(_translate("MainWindow", "New Category"))
+        self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
+        self.menuImport.setTitle(_translate("MainWindow", "Import"))
+        self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
+        self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
+        self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
+        self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
 ##############################################################################################
                     # end of auto-generated code
@@ -118,13 +144,16 @@ class Ui_MainWindow(object):
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
-        self.pushButton_2.clicked.connect(self.openCatPop)
+        self.openCatPopUp.clicked.connect(self.openNewCatPop)
 
-
-    def openCatPop(self):
+    # when newCategory button is pushed on categorize tab, this will
+    # prompt a popup that allows user to enter a new category, monthly allotment
+    # and a list of potential keywords
+    def openNewCatPop(self):
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
         self.Dialog.show()
 
 
@@ -135,37 +164,21 @@ class Ui_MainWindow(object):
         print("I think its fine....")
         for t in self.app.getUnhandledTransactions().completedTransactions:
             print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
-    
+
+    # the function from app actually returns a dictionary
+    # use the .values to access the category object stored in each value of the dictionary
+    # category.name accesses the name to append to the list widget
+    def updateCategoryListWidget(self):
+        self.categoryList.clear()
+        self.listOfCategories = self.app.getCategoryList().values()
+        for category in self.listOfCategories:
+            self.categoryList.addItem(category.name)
+        
+
 
 ##############################################################################################
                     # begin auto-generated code
 ##############################################################################################
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.toolButton.setText(_translate("MainWindow", "..."))
-        self.label.setText(_translate("MainWindow", "Enter CSV file"))
-        self.importCsvBtn.setText(_translate("MainWindow", "Import CSV"))
-        self.label_3.setText(_translate("MainWindow", "Kinda Dope.."))
-        self.importTab.setTabText(self.importTab.indexOf(self.tab), _translate("MainWindow", "Import"))
-        self.instructionsLabel.setText(_translate("MainWindow", "Create New Categories and Sort Unhandles Transactions"))
-        __sortingEnabled = self.unhandledT.isSortingEnabled()
-        self.unhandledT.setSortingEnabled(False)
-        item = self.unhandledT.item(0)
-        item.setText(_translate("MainWindow", "New Item"))
-        item = self.unhandledT.item(1)
-        item.setText(_translate("MainWindow", "New Item"))
-        item = self.unhandledT.item(2)
-        item.setText(_translate("MainWindow", "New Item"))
-        self.unhandledT.setSortingEnabled(__sortingEnabled)
-        self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
-        self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
-        self.menuImport.setTitle(_translate("MainWindow", "Import"))
-        self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
-        self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
-        self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
-        self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
 
 
@@ -176,5 +189,7 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    ui.updateCategoryListWidget()
     MainWindow.show()
     sys.exit(app.exec_())
+

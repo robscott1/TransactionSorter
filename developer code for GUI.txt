@@ -11,15 +11,16 @@
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
-        self.pushButton_2.clicked.connect(self.openCatPop)
+        self.pushButton_2.clicked.connect(self.openNewCatPop)
 
-
-    def openCatPop(self):
+    # when newCategory button is pushed on categorize tab, this will
+    # prompt a popup that allows user to enter a new category, monthly allotment
+    # and a list of potential keywords
+    def openNewCatPop(self):
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
         self.Dialog.show()
-
 
 
     def runApp(self):
@@ -28,6 +29,7 @@
         print("I think its fine....")
         for t in self.app.getUnhandledTransactions().completedTransactions:
             print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
+
     
 
 ##############################################################################################
@@ -36,13 +38,16 @@
 
 
 
-
 categoryPopup
 
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
-        
+    
+
+    #keyword list initialize now and can have words appended with the add button 
+    # and updated while the window is open
+    self.keywordList = []
     self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
     self.saveCategoryInfo.clicked.connect(self.createNewCategory)
 
@@ -50,13 +55,25 @@ categoryPopup
   # in a list field in the popup window
   def appendKeyword(self):
     self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
-
+    self.keywordList.append(self.newCategoryKeywordField.text())
+    
+  
+  # when save is clicked, the information in the 2 lineEdit fields will be turned 
+  # a categoryData Object
+  # ******* still need to find a way to access all of the list items for keywords*******
+  
+  # will need a try and except-- the program crashes when the user hits enter
+  # needs to tell the user to enter valid entries for all inputs  
   def createNewCategory(self):
     newCategory = CategoryData()
     newCategory.name = str(self.newCategoryName.text())
     newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
+    newCategory.idKeywords = self.keywordList
     self.app.createNewCategory(newCategory)
-    self.app.saveData()
+    self.Ui_MainWindow.addNewCategory(newCategory.name)
+
+
+    
 
 ##############################################################################################
                     # begin auto-generated code

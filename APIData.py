@@ -17,3 +17,4 @@ class CategoryData():
     self.idKeywords = None
     self.monthlyAllotment = None
     self.amountSpent = None
+    

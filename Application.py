@@ -55,7 +55,7 @@ class Application():
   #called from GUI to create Category object
   def createNewCategory(self, data):
     self.transactionManager.createCategory(data)
-
+    
 """
 app = Application()
 app.initialize()
