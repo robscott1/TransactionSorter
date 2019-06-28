@@ -12,10 +12,14 @@ from pyCategoryPop import Ui_Dialog
         # where several functions are called
         self.app = Application()
         self.app.initialize()
+        self.createCategoryListWidget()
+        self.printUnhandledTransactions()
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
+        self.editCategory.clicked.connect(self.openEditCatPop)
+
 
     # when newCategory button is pushed on categorize tab, this will
     # prompt a popup that allows user to enter a new category, monthly allotment
@@ -26,10 +30,27 @@ from pyCategoryPop import Ui_Dialog
         self.ui.setupUi(self.Dialog, self.app)
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
         self.Dialog.show()
-        self.ui.saveCategoryInfo.clicked.connect(self.closeDialog)
 
-    def closeDialog(self):
-        self.close()
+    def openEditCatPop(self):
+        self.row = self.categoryList.currentRow()
+        self.item = self.categoryList.item(self.row)
+        self.item = str(self.item.text())
+
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
+        self.Dialog.show()
+
+        self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
+        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.item)))
+
+        # First, check if there are any keywords to be added.
+        # Add items only if an iterable list of keywords is returned.
+        keywords = self.app.getKeywordsByCategory(self.item)
+        if keywords != None:
+          self.ui.newCategoryKeywords.addItems(keywords)
+
 
 
     def runApp(self):
@@ -44,9 +65,20 @@ from pyCategoryPop import Ui_Dialog
     # category.name accesses the name to append to the list widget
     def updateCategoryListWidget(self):
         self.app.saveData()
-        self.categoryList.clear()
-        for category in self.app.getCategoryNamesList():
-            self.categoryList.addItem(category)
+        self.createCategoryListWidget()
+
+    def createCategoryListWidget(self):
+      self.categoryList.clear()
+      for category in self.app.getCategoryNamesList():
+        self.categoryList.addItem(category)
+
+    def printUnhandledTransactions(self):
+        for t in self.app.getUnhandledTransactions().completedTransactions:
+            self.("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
+
+
+
+
         
 
 
