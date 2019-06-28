@@ -36,6 +36,8 @@ class xmlAgent():
       for element in category:
         if element.tag == "name":
           c.name = element.text
+        elif element.tag == "monthlyAllotment":
+          c.monthlyAllotment = element.text
         elif element.tag == "idkeywords":
           keywords = []
           for keyword in element:
@@ -74,6 +76,8 @@ class xmlAgent():
       cat = et.SubElement(root, "category") 
       name = et.SubElement(cat, "name") 
       name.text = c.name
+      monthlyAllotment = et.SubElement(cat, "monthlyAllotment")
+      monthlyAllotment.text = c.monthlyAllotment
       idkeywords = et.SubElement(cat, "idkeywords")
       for key in c.keywords:
         keyword = et.SubElement(idkeywords, "keyword")
