@@ -12,11 +12,13 @@ from pyCategoryPop import Ui_Dialog
         # where several functions are called
         self.app = Application()
         self.app.initialize()
+        self.filename = "../CreditCard3"
+        self.app.sortCompletedTransactions(self.filename)
         self.createCategoryListWidget()
         self.printUnhandledTransactions()
+        self.prepareForDragAndDrop()
+    
 
-
-        self.importCsvBtn.clicked.connect(self.runApp)
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
 
@@ -53,13 +55,6 @@ from pyCategoryPop import Ui_Dialog
 
 
 
-    def runApp(self):
-        self.filename = "../" + str(self.newCatInput.text())
-        self.app.sortCompletedTransactions(self.filename)
-        print("I think its fine....")
-        for t in self.app.getUnhandledTransactions().completedTransactions:
-            print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
-
     # the function from app actually returns a dictionary
     # use the .values to access the category object stored in each value of the dictionary
     # category.name accesses the name to append to the list widget
@@ -73,10 +68,13 @@ from pyCategoryPop import Ui_Dialog
         self.categoryList.addItem(category)
 
     def printUnhandledTransactions(self):
-        for t in self.app.getUnhandledTransactions().completedTransactions:
-            self.("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
+        for t in self.app.getUnhandledTransactions():
+            self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
+            for i in len(self.unhandledTransactionsList.count)
 
 
+    def prepareForDragAndDrop(self):
+        self.unhandledTransactionsList.setDragEnabled(True)
 
 
         
@@ -85,7 +83,6 @@ from pyCategoryPop import Ui_Dialog
 ##############################################################################################
                     # begin auto-generated code
 ##############################################################################################
-
 
 
 categoryPopup
