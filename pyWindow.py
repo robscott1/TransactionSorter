@@ -199,12 +199,12 @@ class Ui_MainWindow(object):
         self.createCategoryTable()
 
     def createCategoryWidget(self):
-        self.tab1 = QtWidgets.QWidget()
-        self.tab2 = QtWidgets.QWidget()
-
-        self.categoryWidget.addTab(self.tab1, "test1")
-        self.categoryWidget.addTab(self.tab2, "test2")
-
+        self.categoryWidget.clear()
+        self.categoryNamesList = self.app.getCategoryNamesList()
+        print(self.categoryNamesList)
+        for category in self.categoryNamesList:
+            self.tab = QtWidgets.QWidget()
+            self.categoryWidget.addTab(self.tab, category)
 
 
     def printUnhandledTransactions(self):
