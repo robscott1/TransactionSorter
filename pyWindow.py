@@ -10,15 +10,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_Dialog
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(988, 720)
+        MainWindow.resize(1224, 876)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
-        self.importTab.setGeometry(QtCore.QRect(10, 10, 961, 641))
+        self.importTab.setGeometry(QtCore.QRect(20, 10, 961, 641))
         self.importTab.setObjectName("importTab")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -72,9 +71,6 @@ class Ui_MainWindow(object):
         item = QtWidgets.QListWidgetItem()
         item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsDropEnabled|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
         self.categoryList.addItem(item)
-        self.typeNewCat = QtWidgets.QLineEdit(self.tab_2)
-        self.typeNewCat.setGeometry(QtCore.QRect(90, 90, 161, 231))
-        self.typeNewCat.setObjectName("typeNewCat")
         self.openCatPopUp = QtWidgets.QPushButton(self.tab_2)
         self.openCatPopUp.setGeometry(QtCore.QRect(600, 100, 113, 32))
         self.openCatPopUp.setObjectName("openCatPopUp")
@@ -87,10 +83,16 @@ class Ui_MainWindow(object):
         self.editCategory = QtWidgets.QPushButton(self.tab_2)
         self.editCategory.setGeometry(QtCore.QRect(600, 130, 113, 32))
         self.editCategory.setObjectName("editCategory")
+        self.unhandledTransactionsList = QtWidgets.QListWidget(self.tab_2)
+        self.unhandledTransactionsList.setGeometry(QtCore.QRect(80, 100, 251, 221))
+        self.unhandledTransactionsList.setObjectName("unhandledTransactionsList")
+        self.label = QtWidgets.QLabel(self.tab_2)
+        self.label.setGeometry(QtCore.QRect(170, 70, 91, 16))
+        self.label.setObjectName("label")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 988, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 22))
         self.menubar.setObjectName("menubar")
         self.menuImport = QtWidgets.QMenu(self.menubar)
         self.menuImport.setObjectName("menuImport")
@@ -137,6 +139,7 @@ class Ui_MainWindow(object):
         self.listLabel.setText(_translate("MainWindow", "Category"))
         self.deleteCategory.setText(_translate("MainWindow", "Delete"))
         self.editCategory.setText(_translate("MainWindow", "Edit"))
+        self.label.setText(_translate("MainWindow", "Transactions"))
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -153,12 +156,15 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
+        self.filename = "../CreditCard3"
+        self.app.sortCompletedTransactions(self.filename)
         self.createCategoryListWidget()
+        self.printUnhandledTransactions()
+    
 
-
-        self.importCsvBtn.clicked.connect(self.runApp)
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
+
 
     # when newCategory button is pushed on categorize tab, this will
     # prompt a popup that allows user to enter a new category, monthly allotment
@@ -191,13 +197,18 @@ class Ui_MainWindow(object):
           self.ui.newCategoryKeywords.addItems(keywords)
 
 
-
+    '''
+    commented this out because the undhandledTransactions widget cannot
+    update until the csv is imported. Since it all happens when the window
+    initializes, it can never run. Hard code your csv into the script for now
+    
+    
     def runApp(self):
         self.filename = "../" + str(self.newCatInput.text())
         self.app.sortCompletedTransactions(self.filename)
         print("I think its fine....")
-        for t in self.app.getUnhandledTransactions().completedTransactions:
-            print("[UNHANDLED] Amount: " + t.amount + ", Location: " + t.location)
+    '''
+
 
     # the function from app actually returns a dictionary
     # use the .values to access the category object stored in each value of the dictionary
@@ -210,14 +221,20 @@ class Ui_MainWindow(object):
       self.categoryList.clear()
       for category in self.app.getCategoryNamesList():
         self.categoryList.addItem(category)
+
+    def printUnhandledTransactions(self):
+        for t in self.app.getUnhandledTransactions():
+            self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
+
+
+
+
         
 
 
 ##############################################################################################
                     # begin auto-generated code
 ##############################################################################################
-
-
 
 
 if __name__ == "__main__":
