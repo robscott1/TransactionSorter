@@ -197,18 +197,6 @@ class Ui_MainWindow(object):
           self.ui.newCategoryKeywords.addItems(keywords)
 
 
-    '''
-    commented this out because the undhandledTransactions widget cannot
-    update until the csv is imported. Since it all happens when the window
-    initializes, it can never run. Hard code your csv into the script for now
-    
-    
-    def runApp(self):
-        self.filename = "../" + str(self.newCatInput.text())
-        self.app.sortCompletedTransactions(self.filename)
-        print("I think its fine....")
-    '''
-
 
     # the function from app actually returns a dictionary
     # use the .values to access the category object stored in each value of the dictionary
