@@ -160,8 +160,6 @@ class Ui_MainWindow(object):
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
 
-        print(self.app.transactionManager.categories['Rides'].monthlyAllotment)
-
     # when newCategory button is pushed on categorize tab, this will
     # prompt a popup that allows user to enter a new category, monthly allotment
     # and a list of potential keywords
@@ -184,10 +182,8 @@ class Ui_MainWindow(object):
         self.Dialog.show()
 
         self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
-        self.ui.newCategoryAllotment.setText("a hunnid")
-        self.ui.newCategoryKeywords.addItems(["tits", "shit"])
-
-
+        self.ui.newCategoryAllotment.setText(self.app.getAmountAllottedByCategory(self.item))
+        self.ui.newCategoryKeywords.addItems(self.app.getKeywordsByCategory(self.item))
 
 
 

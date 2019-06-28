@@ -116,3 +116,15 @@ def getAmountAllottedByCategory(self, categoryName):
     category
     '''
     return self.analysisManager.getAmountAllottedByCategory(categoryName)
+
+def getKeywordsByCategory(self, categoryName):
+  '''
+  Wrapper function for the AnalysisManager's equivalent
+  call
+
+  @categoryName: A string to be used as a dictionary
+  key to associate to the corresponding category object
+
+  @returns: The list of keywords to identify transactions
+  '''
+  return self.analysisManager.getKeywordsByCategory(self, categoryName)
