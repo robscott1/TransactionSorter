@@ -2,12 +2,13 @@ from Transaction import Transaction
 
 class Category():
 
-  def __init__(self, name, keywords=[]):
+  def __init__(self, name, keywords=[], monthlyAllotment = 0):
     self.name = name
     self.keywords = keywords
     self.total = 0
     self.plannedTransactions = dict()
     self.completedTransactions = []
+    self.monthlyAllotment = monthlyAllotment
 
   def addAmount(self, amt):
     self.total += amt
