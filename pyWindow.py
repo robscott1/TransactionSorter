@@ -199,16 +199,11 @@ class Ui_MainWindow(object):
         self.createCategoryTable()
 
     def createCategoryWidget(self):
-        self.categoryList = self.app.getCategoryNamesList()
-        for i in range(len(self.categoryList), -1, -1):
-            self.categoryWidget.removeTab(i)
-        for i in range(len(self.app.getCategoryNamesList())):
-            self.categoryWidget.addTab(self.categoryList[i], str(self.categoryList[i]))
+        self.tab1 = QtWidgets.QWidget()
+        self.tab2 = QtWidgets.QWidget()
 
-        self.vbox = QVBoxLayout()
-        self.vbox.addWidget(categoryWidget)
-
-        self.setLayout(self.vbox)
+        self.categoryWidget.addTab(self.tab1, "test1")
+        self.categoryWidget.addTab(self.tab2, "test2")
 
 
 
