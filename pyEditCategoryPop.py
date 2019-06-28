@@ -7,10 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from APIData import CategoryData
 
 
 class Ui_Form(object):
-    def setupUi(self, Form):
+    def setupUi(self, Form, App):
         Form.setObjectName("Form")
         Form.resize(400, 300)
         self.editCatLabel = QtWidgets.QLabel(Form)
@@ -44,6 +45,11 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+
+        self.app = App
+
+
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
@@ -58,8 +64,10 @@ class Ui_Form(object):
                     # end of auto-generated code
 ##############################################################################################
 
+        self
 
 
+        
 
 
 

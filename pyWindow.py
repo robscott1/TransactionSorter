@@ -158,6 +158,9 @@ class Ui_MainWindow(object):
 
         self.importCsvBtn.clicked.connect(self.runApp)
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
+        self.editCategory.clicked.connect(self.openEditCatPop)
+
+        print(self.app.transactionManager.categories['Rides'].monthlyAllotment)
 
     # when newCategory button is pushed on categorize tab, this will
     # prompt a popup that allows user to enter a new category, monthly allotment
@@ -168,6 +171,24 @@ class Ui_MainWindow(object):
         self.ui.setupUi(self.Dialog, self.app)
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
         self.Dialog.show()
+
+    def openEditCatPop(self):
+        self.row = self.categoryList.currentRow()
+        self.item = self.categoryList.item(self.row)
+        self.item = str(self.item.text())
+
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
+        self.Dialog.show()
+
+        self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
+        self.ui.newCategoryAllotment.setText("a hunnid")
+        self.ui.newCategoryKeywords.addItems(["tits", "shit"])
+
+
+
 
 
     def runApp(self):
