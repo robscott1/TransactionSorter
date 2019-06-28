@@ -153,7 +153,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.updateCategoryListWidget()
+        self.createCategoryListWidget()
 
 
         self.importCsvBtn.clicked.connect(self.runApp)
@@ -182,8 +182,13 @@ class Ui_MainWindow(object):
         self.Dialog.show()
 
         self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
-        self.ui.newCategoryAllotment.setText(self.app.getAmountAllottedByCategory(self.item))
-        self.ui.newCategoryKeywords.addItems(self.app.getKeywordsByCategory(self.item))
+        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.item)))
+
+        # First, check if there are any keywords to be added.
+        # Add items only if an iterable list of keywords is returned.
+        keywords = self.app.getKeywordsByCategory(self.item)
+        if keywords != None:
+          self.ui.newCategoryKeywords.addItems(keywords)
 
 
 
@@ -199,9 +204,12 @@ class Ui_MainWindow(object):
     # category.name accesses the name to append to the list widget
     def updateCategoryListWidget(self):
         self.app.saveData()
-        self.categoryList.clear()
-        for category in self.app.getCategoryNamesList():
-            self.categoryList.addItem(category)
+        self.createCategoryListWidget()
+
+    def createCategoryListWidget(self):
+      self.categoryList.clear()
+      for category in self.app.getCategoryNamesList():
+        self.categoryList.addItem(category)
         
 
 

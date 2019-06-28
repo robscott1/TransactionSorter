@@ -38,7 +38,7 @@ class xmlAgent():
           c.name = element.text
         elif element.tag == "monthlyAllotment":
           c.monthlyAllotment = element.text
-        elif element.tag == "idkeywords":
+        elif element.tag == "idKeywords":
           keywords = []
           for keyword in element:
             keywords.append(keyword.text)
@@ -78,10 +78,11 @@ class xmlAgent():
       name.text = c.name
       monthlyAllotment = et.SubElement(cat, "monthlyAllotment")
       monthlyAllotment.text = str(c.monthlyAllotment)
-      idkeywords = et.SubElement(cat, "idKeywords")
-      for key in c.keywords:
-        keyword = et.SubElement(idkeywords, "keyword")
-        keyword.text = key
+      idKeywords = et.SubElement(cat, "idKeywords")
+      if c.keywords != None:
+        for key in c.keywords:
+          keyword = et.SubElement(idKeywords, "keyword")
+          keyword.text = key
 
     tree = et.ElementTree()
     tree._setroot(root)

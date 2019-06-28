@@ -50,6 +50,10 @@ class AnalysisManager():
     c = self.categories[categoryName]
     return c.getTotalAmountAllotted()
 
+  def getAmountPlannedByCategory(self, categoryName):
+    c = self.categories[categoryName]
+    return c.getPlannedTransactionAmount()
+
   # retrives total amount spent, used for categories
   def getTotalAmountSpent(self):
     total = 0

@@ -2,7 +2,7 @@ from Transaction import Transaction
 
 class Category():
 
-  def __init__(self, name, keywords=[], monthlyAllotment = 0):
+  def __init__(self, name, monthlyAllotment = 0, keywords=[]):
     self.name = name
     self.keywords = keywords
     self.total = 0
@@ -36,11 +36,14 @@ class Category():
     return amount
 
   def getTotalAmountAllotted(self):
-    amountAllotted = 0
-    for t in self.plannedTransactions.values():
-      amountAllotted += t.amount
+    return self.monthlyAllotment
 
-    return amountAllotted
+  def getPlannedTransactionAmount(self):
+    amountPlanned = 0
+    for t in self.plannedTransactions.values():
+      amountPlanned += t.amount
+
+    return amountPlanned
 
   def getDelta(self):
     return self.getTotalAmountAllotted() - self.getTotalAmountSpent()
