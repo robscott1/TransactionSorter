@@ -77,7 +77,7 @@ class xmlAgent():
       name = et.SubElement(cat, "name") 
       name.text = c.name
       monthlyAllotment = et.SubElement(cat, "monthlyAllotment")
-      monthlyAllotment.text = c.monthlyAllotment
+      monthlyAllotment.text = str(c.monthlyAllotment)
       idkeywords = et.SubElement(cat, "idkeywords")
       for key in c.keywords:
         keyword = et.SubElement(idkeywords, "keyword")
