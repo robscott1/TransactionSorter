@@ -10,7 +10,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_Dialog
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -19,6 +18,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
         self.importTab.setGeometry(QtCore.QRect(50, 50, 961, 641))
+        self.importTab.setAcceptDrops(True)
         self.importTab.setObjectName("importTab")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
         self.openCatPopUp.setGeometry(QtCore.QRect(100, 560, 113, 32))
         self.openCatPopUp.setObjectName("openCatPopUp")
         self.listLabel = QtWidgets.QLabel(self.tab_2)
-        self.listLabel.setGeometry(QtCore.QRect(440, 300, 71, 16))
+        self.listLabel.setGeometry(QtCore.QRect(420, 300, 71, 16))
         self.listLabel.setObjectName("listLabel")
         self.deleteCategory = QtWidgets.QPushButton(self.tab_2)
         self.deleteCategory.setGeometry(QtCore.QRect(340, 560, 113, 32))
@@ -79,14 +79,16 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.tab_2)
         self.label.setGeometry(QtCore.QRect(430, 50, 91, 16))
         self.label.setObjectName("label")
-        self.categoryTable = QtWidgets.QTableWidget(self.tab_2)
-        self.categoryTable.setGeometry(QtCore.QRect(80, 330, 811, 221))
-        self.categoryTable.setMouseTracking(False)
-        self.categoryTable.setAcceptDrops(True)
-        self.categoryTable.setDragEnabled(True)
-        self.categoryTable.setObjectName("categoryTable")
-        self.categoryTable.setColumnCount(0)
-        self.categoryTable.setRowCount(0)
+        self.categoryWidget = QtWidgets.QTabWidget(self.tab_2)
+        self.categoryWidget.setGeometry(QtCore.QRect(30, 330, 881, 191))
+        self.categoryWidget.setAcceptDrops(True)
+        self.categoryWidget.setObjectName("categoryWidget")
+        self.Unhandled = QtWidgets.QWidget()
+        self.Unhandled.setObjectName("Unhandled")
+        self.categoryWidget.addTab(self.Unhandled, "")
+        self.Groceries = QtWidgets.QWidget()
+        self.Groceries.setObjectName("Groceries")
+        self.categoryWidget.addTab(self.Groceries, "")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -113,6 +115,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.importTab.setCurrentIndex(1)
+        self.categoryWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -129,6 +132,8 @@ class Ui_MainWindow(object):
         self.deleteCategory.setText(_translate("MainWindow", "Delete"))
         self.editCategory.setText(_translate("MainWindow", "Edit"))
         self.label.setText(_translate("MainWindow", "Transactions"))
+        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Unhandled), _translate("MainWindow", "Unhandled"))
+        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Groceries), _translate("MainWindow", "Groceries"))
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -147,7 +152,7 @@ class Ui_MainWindow(object):
         self.app.initialize()
         self.filename = "../CreditCard3"
         self.app.sortCompletedTransactions(self.filename)
-        self.createCategoryTable()
+        self.createCategoryWidget()
         self.printUnhandledTransactions()
     
 
@@ -162,13 +167,12 @@ class Ui_MainWindow(object):
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryTable)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
         self.Dialog.show()
 
     def openEditCatPop(self):
-        self.col = self.categoryTable.currentColumn()
-        self.col = self.categoryTable.item(self.col)
-        self.col = str(self.col.text())
+        self.tab = self.currentWidget()        
+        self.tab = str(self.tab.text())
 
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
@@ -176,8 +180,8 @@ class Ui_MainWindow(object):
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryTable)
         self.Dialog.show()
 
-        self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
-        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.item)))
+        self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.tab].name)
+        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.tab)))
 
         # First, check if there are any keywords to be added.
         # Add items only if an iterable list of keywords is returned.
@@ -194,23 +198,25 @@ class Ui_MainWindow(object):
         self.app.saveData()
         self.createCategoryTable()
 
-    def createCategoryTable(self):
+    def createCategoryWidget(self):
+        self.categoryList = self.app.getCategoryNamesList()
+        for i in range(len(self.categoryList), -1, -1):
+            self.categoryWidget.removeTab(i)
         for i in range(len(self.app.getCategoryNamesList())):
-            self.categoryTable.insertColumn(i)
-        self.namesList = self.app.getCategoryNamesList()
-        self.categoryTable.setHorizontalHeaderLabels(self.namesList)
+            self.categoryWidget.addTab(self.categoryList[i], str(self.categoryList[i]))
+
+        self.vbox = QVBoxLayout()
+        self.vbox.addWidget(categoryWidget)
+
+        self.setLayout(self.vbox)
+
+
 
     def printUnhandledTransactions(self):
         for t in self.app.getUnhandledTransactions():
             self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
 
 
-        
-
-
-##############################################################################################
-                    # begin auto-generated code
-##############################################################################################
 
 
 

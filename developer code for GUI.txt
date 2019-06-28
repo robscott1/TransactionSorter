@@ -2,7 +2,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_Dialog
-
+#
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -14,9 +14,8 @@ from pyCategoryPop import Ui_Dialog
         self.app.initialize()
         self.filename = "../CreditCard3"
         self.app.sortCompletedTransactions(self.filename)
-        self.createCategoryListWidget()
+        self.createCategoryTable()
         self.printUnhandledTransactions()
-        self.prepareForDragAndDrop()
     
 
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
@@ -30,18 +29,18 @@ from pyCategoryPop import Ui_Dialog
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryTable)
         self.Dialog.show()
 
     def openEditCatPop(self):
-        self.row = self.categoryList.currentRow()
-        self.item = self.categoryList.item(self.row)
-        self.item = str(self.item.text())
+        self.col = self.categoryTable.currentColumn()
+        self.col = self.categoryTable.item(self.col)
+        self.col = str(self.col.text())
 
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryListWidget)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryTable)
         self.Dialog.show()
 
         self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.item].name)
@@ -51,30 +50,28 @@ from pyCategoryPop import Ui_Dialog
         # Add items only if an iterable list of keywords is returned.
         keywords = self.app.getKeywordsByCategory(self.item)
         if keywords != None:
-          self.ui.newCategoryKeywords.addItems(keywords)
+            self.ui.newCategoryKeywords.addItems(keywords)
 
 
 
     # the function from app actually returns a dictionary
     # use the .values to access the category object stored in each value of the dictionary
     # category.name accesses the name to append to the list widget
-    def updateCategoryListWidget(self):
+    def updateCategoryTable(self):
         self.app.saveData()
-        self.createCategoryListWidget()
+        self.createCategoryTable()
 
-    def createCategoryListWidget(self):
-      self.categoryList.clear()
-      for category in self.app.getCategoryNamesList():
-        self.categoryList.addItem(category)
+    def createCategoryTable(self):
+        for i in range(len(self.app.getCategoryNamesList())):
+            self.categoryTable.insertColumn(i)
+        self.categoryTable.insertRow(0)
+        
+        self.namesList = self.app.getCategoryNamesList()
+        self.categoryTable.setHorizontalHeaderLabels(self.namesList)
 
     def printUnhandledTransactions(self):
         for t in self.app.getUnhandledTransactions():
             self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
-            for i in len(self.unhandledTransactionsList.count)
-
-
-    def prepareForDragAndDrop(self):
-        self.unhandledTransactionsList.setDragEnabled(True)
 
 
         
