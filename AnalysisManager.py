@@ -59,5 +59,5 @@ class AnalysisManager():
     return total
 
   def getKeywordsByCategory(self, categoryName):
-    return categories[categoryName].idKeywords
+    return self.categories[categoryName].keywords
 
