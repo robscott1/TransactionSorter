@@ -7,3 +7,5 @@
 
 
 ## BACK-END
+- parser has random quotation marks when it collects the info on transactions, its from the quotations
+when it pulled it from the csv. See the unhandledTransactions List Widget. Just need cleaner extraction of the good stuff 
