@@ -128,7 +128,7 @@ class Application():
     @returns: The sum of all planned transactions associated with
     the given category
     '''
-    return self.analysisManager.getAmountAllottedByCategory(categoryName)
+    return self.analysisManager.getAmountPlannedByCategory(categoryName)
 
   def getKeywordsByCategory(self, categoryName):
     '''
