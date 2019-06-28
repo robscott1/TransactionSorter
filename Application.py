@@ -57,7 +57,7 @@ class Application():
   # Category that has yet to be created, or this transaction location
   # was not part of the idKeywords list for the respective category
   def getUnhandledTransactions(self):
-    return self.analysisManager.categories["Unhandled"]
+    return self.analysisManager.categories["Unhandled"].completedTransactions
 
   #called from GUI to create Category object
   def createNewCategory(self, data):
