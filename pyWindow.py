@@ -171,21 +171,21 @@ class Ui_MainWindow(object):
         self.Dialog.show()
 
     def openEditCatPop(self):
-        self.tab = self.currentWidget()        
-        self.tab = str(self.tab.text())
-
+        self.tab = self.categoryWidget.currentIndex()        
+        self.index = self.app.getCategoryNamesList()[self.tab]
+        print(self.index)
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryTable)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
         self.Dialog.show()
 
-        self.ui.newCategoryName.setText(self.app.transactionManager.categories[self.tab].name)
-        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.tab)))
+        self.ui.newCategoryName.setText(self.index)
+        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
 
         # First, check if there are any keywords to be added.
         # Add items only if an iterable list of keywords is returned.
-        keywords = self.app.getKeywordsByCategory(self.item)
+        keywords = self.app.getKeywordsByCategory(self.index)
         if keywords != None:
             self.ui.newCategoryKeywords.addItems(keywords)
 
@@ -194,9 +194,9 @@ class Ui_MainWindow(object):
     # the function from app actually returns a dictionary
     # use the .values to access the category object stored in each value of the dictionary
     # category.name accesses the name to append to the list widget
-    def updateCategoryTable(self):
+    def updateCategoryWidget(self):
         self.app.saveData()
-        self.createCategoryTable()
+        self.createCategoryWidget()
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
