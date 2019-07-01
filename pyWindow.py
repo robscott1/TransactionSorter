@@ -158,7 +158,7 @@ class Ui_MainWindow(object):
 
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
-        self.deleteCategory.clicked.connect(self.deleteCategory)
+        self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
 
 
     # when newCategory button is pushed on categorize tab, this will
@@ -211,7 +211,7 @@ class Ui_MainWindow(object):
         for t in self.app.getUnhandledTransactions():
             self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
 
-    def deleteCategory(self):
+    def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex()        
         self.index = self.app.getCategoryNamesList()[self.tab]
 
