@@ -207,8 +207,10 @@ class Ui_MainWindow(object):
         print(self.categoryNamesList)
         for category in self.categoryNamesList:
             if category != "Unhandled":
-                self.tab = QtWidgets.QWidget()
+                self.tab = QtWidgets.QListWidget()
+                self.tab.setAcceptDrops(True)
                 self.categoryWidget.addTab(self.tab, category)
+
 
 
     def printUnhandledTransactions(self):
@@ -218,7 +220,6 @@ class Ui_MainWindow(object):
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]
-        print(self.index, self.tab)
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
 
