@@ -28,10 +28,10 @@ class DragDropListWidget(QtWidgets.QListWidget):
 
   def dropEvent(self, event):
     event.accept()
-    row = self.mainWindow.unhandledTransactionsList.currentRow()
-    referenceNumber = self.mainWindow.unhandledTransactionsList.item(row, 0).text()
-    location = self.mainWindow.unhandledTransactionsList.item(row, 1).text()
-    amount = self.mainWindow.unhandledTransactionsList.item(row, 2).text()
+    row = self.mainWindow.tableWidget.currentRow()
+    referenceNumber = self.mainWindow.tableWidget.item(row, 0).text()
+    location = self.mainWindow.tableWidget.item(row, 1).text()
+    amount = self.mainWindow.tableWidget.item(row, 2).text()
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, location, amount, referenceNumber)
     self.app.saveData()
