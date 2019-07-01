@@ -27,6 +27,9 @@ class Category():
 
   def registerCompletedTransaction(self, t):
     self.completedTransactions.append(t)
+    # update the keywords of the category to associate
+    # with the location of the registered transaction
+    self.keywords.append(t.location)
 
   def getTotalAmountSpent(self):
     amount = 0
