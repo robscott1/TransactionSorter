@@ -83,12 +83,12 @@ class Ui_MainWindow(object):
         self.categoryWidget.setGeometry(QtCore.QRect(30, 330, 881, 191))
         self.categoryWidget.setAcceptDrops(True)
         self.categoryWidget.setObjectName("categoryWidget")
-        self.Unhandled = QtWidgets.QWidget()
-        self.Unhandled.setObjectName("Unhandled")
-        self.categoryWidget.addTab(self.Unhandled, "")
-        self.Groceries = QtWidgets.QWidget()
-        self.Groceries.setObjectName("Groceries")
-        self.categoryWidget.addTab(self.Groceries, "")
+        #self.Unhandled = QtWidgets.QWidget()
+        #self.Unhandled.setObjectName("Unhandled")
+        #self.categoryWidget.addTab(self.Unhandled, "")
+        #self.Groceries = QtWidgets.QWidget()
+        #self.Groceries.setObjectName("Groceries")
+        #self.categoryWidget.addTab(self.Groceries, "")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -126,14 +126,14 @@ class Ui_MainWindow(object):
         self.importCsvBtn.setText(_translate("MainWindow", "Import CSV"))
         self.titleLabel.setText(_translate("MainWindow", "Kinda Dope.."))
         self.importTab.setTabText(self.importTab.indexOf(self.tab), _translate("MainWindow", "Import"))
-        self.instructionsLabel.setText(_translate("MainWindow", "Create New Categories and Sort Unhandles Transactions"))
+        self.instructionsLabel.setText(_translate("MainWindow", "Create New Categories and Sort Unhandled Transactions"))
         self.openCatPopUp.setText(_translate("MainWindow", "New Category"))
         self.listLabel.setText(_translate("MainWindow", "Categories"))
         self.deleteCategory.setText(_translate("MainWindow", "Delete"))
         self.editCategory.setText(_translate("MainWindow", "Edit"))
         self.label.setText(_translate("MainWindow", "Transactions"))
-        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Unhandled), _translate("MainWindow", "Unhandled"))
-        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Groceries), _translate("MainWindow", "Groceries"))
+        #self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Unhandled), _translate("MainWindow", "Unhandled"))
+        #self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Groceries), _translate("MainWindow", "Groceries"))
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -206,8 +206,9 @@ class Ui_MainWindow(object):
         self.categoryNamesList = self.app.getCategoryNamesList()
         print(self.categoryNamesList)
         for category in self.categoryNamesList:
-            self.tab = QtWidgets.QWidget()
-            self.categoryWidget.addTab(self.tab, category)
+            if category != "Unhandled":
+                self.tab = QtWidgets.QWidget()
+                self.categoryWidget.addTab(self.tab, category)
 
 
     def printUnhandledTransactions(self):
@@ -215,8 +216,11 @@ class Ui_MainWindow(object):
             self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
 
     def deleteSelectedCategory(self):
-        self.tab = self.categoryWidget.currentIndex()        
+        self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]
+        print(self.index, self.tab)
+        self.app.deleteCategory(self.index)
+        self.updateCategoryWidget()
 
 
 
