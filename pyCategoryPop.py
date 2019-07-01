@@ -75,23 +75,26 @@ class Ui_Dialog(object):
 ##############################################################################################
     
 
-    #keyword list initialize now and can have words appended with the add button 
-    # and updated while the window is open
         self.keywordList = []
         self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
         self.saveCategoryInfo.clicked.connect(self.createNewCategory)
 
-      # allows user to enter keywords for category and represents them
-      # in a list field in the popup window
     def appendKeyword(self):
+        '''
+        Simultaneously adds keyword to idKeywords list for respective category
+        and displays new words in list widget in pop up window
+        '''
         self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
         self.keywordList.append(self.newCategoryKeywordField.text())
         self.newCategoryKeywordField.setText("")
         
       
-      # will need a try and except-- the program crashes when the user hits enter
-      # needs to tell the user to enter valid entries for all inputs  
+      
     def createNewCategory(self):
+        '''
+        Creates a category data object and assigns attributes based on 
+        the entries in the newCategoryPopup
+        '''
         newCategory = CategoryData()
         newCategory.name = str(self.newCategoryName.text())
         newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())

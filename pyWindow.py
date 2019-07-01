@@ -161,10 +161,12 @@ class Ui_MainWindow(object):
         self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
 
 
-    # when newCategory button is pushed on categorize tab, this will
-    # prompt a popup that allows user to enter a new category, monthly allotment
-    # and a list of potential keywords
     def openNewCatPop(self):
+        '''
+        when newCategory button is pushed on categorize tab, this will
+        prompt a popup that allows user to enter a new category, monthly allotment
+        and a list of potential keywords
+        '''
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
@@ -172,6 +174,11 @@ class Ui_MainWindow(object):
         self.Dialog.show()
 
     def openEditCatPop(self):
+        '''
+        Opens same window as openNewCatPop but autofills the 
+        information and allows it to be edited
+        '''
+
         self.tab = self.categoryWidget.currentIndex()        
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.Dialog = QtWidgets.QDialog()
@@ -190,10 +197,6 @@ class Ui_MainWindow(object):
             self.ui.newCategoryKeywords.addItems(keywords)
 
 
-
-    # the function from app actually returns a dictionary
-    # use the .values to access the category object stored in each value of the dictionary
-    # category.name accesses the name to append to the list widget
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
