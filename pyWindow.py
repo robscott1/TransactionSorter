@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QTableWidget, QTableWidgetItem
 from PyQt5.QtGui import QDrag
 from Application import Application
 from pyCategoryPop import Ui_Dialog
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 
 class DragDropListWidget(QtWidgets.QListWidget):
   '''
@@ -38,8 +38,9 @@ class DragDropListWidget(QtWidgets.QListWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, location, amount)
     self.app.saveData()
+    self.mainWindow.printUnhandledTransactions()
     # print the keywords of the updated category for debugging purposes
-    print(self.app.getKeywordsByCategory(c))
+    print(c, self.app.getKeywordsByCategory(c))
 
 
 class Ui_MainWindow(object):
@@ -175,7 +176,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.filename = "../KevinVisaMay2019"
+        self.filename = "../CreditCard3"
         self.app.sortCompletedTransactions(self.filename)
         self.createCategoryWidget()
         self.printUnhandledTransactions()
@@ -239,13 +240,16 @@ class Ui_MainWindow(object):
 
 
     def printUnhandledTransactions(self):
+        self.unhandledTransactionsList.clear()
         self.unhandledTransactionsList.insertColumn(0)
         self.unhandledTransactionsList.insertColumn(1)
+        self.unhandledTransactionsList.insertColumn(2)
         for t in self.app.getUnhandledTransactions():
             rowPos = self.unhandledTransactionsList.rowCount()
             self.unhandledTransactionsList.insertRow(rowPos)
-            self.unhandledTransactionsList.setItem(rowPos, 0, QTableWidgetItem(t.location))
-            self.unhandledTransactionsList.setItem(rowPos, 1, QTableWidgetItem(t.amount))
+            self.unhandledTransactionsList.setItem(rowPos, 0, QTableWidgetItem(str(t.referenceNumber)))
+            self.unhandledTransactionsList.setItem(rowPos, 1, QTableWidgetItem(t.location))
+            self.unhandledTransactionsList.setItem(rowPos, 2, QTableWidgetItem(t.amount))
             self.unhandledTransactionsObjects = self.app.getUnhandledTransactions()
 
     def deleteSelectedCategory(self):
