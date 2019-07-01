@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1224</width>
-    <height>876</height>
+    <width>988</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -127,7 +127,7 @@
      <widget class="QLabel" name="listLabel">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>440</x>
         <y>300</y>
         <width>71</width>
         <height>16</height>
@@ -163,30 +163,17 @@
        <string>Edit</string>
       </property>
      </widget>
-     <widget class="QListWidget" name="unhandledTransactionsList">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>70</y>
-        <width>451</width>
-        <height>221</height>
-       </rect>
-      </property>
-      <property name="dragEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>400</x>
         <y>50</y>
-        <width>91</width>
+        <width>151</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>Transactions</string>
+       <string>Unhandled Transactions</string>
       </property>
      </widget>
      <widget class="QTabWidget" name="categoryWidget">
@@ -202,7 +189,7 @@
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Unhandled">
        <attribute name="title">
@@ -215,6 +202,31 @@
        </attribute>
       </widget>
      </widget>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>80</y>
+        <width>431</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>Transaction ID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Location</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Amount</string>
+       </property>
+      </column>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -223,7 +235,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1224</width>
+     <width>988</width>
      <height>22</height>
     </rect>
    </property>

@@ -5,13 +5,9 @@
 # Created by: PyQt5 UI code generator 5.12.2
 #
 # WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QAbstractItemView, QTableWidget, QTableWidgetItem
-from PyQt5.QtGui import QDrag
 from Application import Application
 from pyCategoryPop import Ui_Dialog
-from Transaction import CompletedTransaction
 
 class DragDropListWidget(QtWidgets.QListWidget):
   '''
@@ -33,10 +29,11 @@ class DragDropListWidget(QtWidgets.QListWidget):
   def dropEvent(self, event):
     event.accept()
     row = self.mainWindow.unhandledTransactionsList.currentRow()
-    location = self.mainWindow.unhandledTransactionsList.item(row, 0).text()
-    amount = self.mainWindow.unhandledTransactionsList.item(row, 1).text()
+    referenceNumber = self.mainWindow.unhandledTransactionsList.item(row, 0).text()
+    location = self.mainWindow.unhandledTransactionsList.item(row, 1).text()
+    amount = self.mainWindow.unhandledTransactionsList.item(row, 2).text()
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
-    self.app.registerCompletedTransaction(c, location, amount)
+    self.app.registerCompletedTransaction(c, location, amount, referenceNumber)
     self.app.saveData()
     self.mainWindow.printUnhandledTransactions()
     # print the keywords of the updated category for debugging purposes
@@ -46,7 +43,7 @@ class DragDropListWidget(QtWidgets.QListWidget):
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1224, 876)
+        MainWindow.resize(988, 720)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
@@ -97,7 +94,7 @@ class Ui_MainWindow(object):
         self.openCatPopUp.setGeometry(QtCore.QRect(100, 560, 113, 32))
         self.openCatPopUp.setObjectName("openCatPopUp")
         self.listLabel = QtWidgets.QLabel(self.tab_2)
-        self.listLabel.setGeometry(QtCore.QRect(420, 300, 71, 16))
+        self.listLabel.setGeometry(QtCore.QRect(440, 300, 71, 16))
         self.listLabel.setObjectName("listLabel")
         self.deleteCategory = QtWidgets.QPushButton(self.tab_2)
         self.deleteCategory.setGeometry(QtCore.QRect(340, 560, 113, 32))
@@ -105,21 +102,35 @@ class Ui_MainWindow(object):
         self.editCategory = QtWidgets.QPushButton(self.tab_2)
         self.editCategory.setGeometry(QtCore.QRect(220, 560, 113, 32))
         self.editCategory.setObjectName("editCategory")
-        self.unhandledTransactionsList = QTableWidget(self.tab_2)
-        self.unhandledTransactionsList.setGeometry(QtCore.QRect(240, 70, 451, 221))
-        self.unhandledTransactionsList.setDragEnabled(True)
-        self.unhandledTransactionsList.setObjectName("unhandledTransactionsList")
         self.label = QtWidgets.QLabel(self.tab_2)
-        self.label.setGeometry(QtCore.QRect(430, 50, 91, 16))
+        self.label.setGeometry(QtCore.QRect(400, 50, 151, 16))
         self.label.setObjectName("label")
         self.categoryWidget = QtWidgets.QTabWidget(self.tab_2)
         self.categoryWidget.setGeometry(QtCore.QRect(30, 330, 881, 191))
         self.categoryWidget.setAcceptDrops(True)
         self.categoryWidget.setObjectName("categoryWidget")
+        self.Unhandled = QtWidgets.QWidget()
+        self.Unhandled.setObjectName("Unhandled")
+        self.categoryWidget.addTab(self.Unhandled, "")
+        self.Groceries = QtWidgets.QWidget()
+        self.Groceries.setObjectName("Groceries")
+        self.categoryWidget.addTab(self.Groceries, "")
+        self.tableWidget = QtWidgets.QTableWidget(self.tab_2)
+        self.tableWidget.setGeometry(QtCore.QRect(250, 80, 431, 191))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        self.tableWidget.setDragEnabled(True)
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 988, 22))
         self.menubar.setObjectName("menubar")
         self.menuImport = QtWidgets.QMenu(self.menubar)
         self.menuImport.setObjectName("menuImport")
@@ -158,14 +169,22 @@ class Ui_MainWindow(object):
         self.listLabel.setText(_translate("MainWindow", "Categories"))
         self.deleteCategory.setText(_translate("MainWindow", "Delete"))
         self.editCategory.setText(_translate("MainWindow", "Edit"))
-        self.label.setText(_translate("MainWindow", "Transactions"))
-        
+        self.label.setText(_translate("MainWindow", "Unhandled Transactions"))
+        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Unhandled), _translate("MainWindow", "Unhandled"))
+        self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Groceries), _translate("MainWindow", "Groceries"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Transaction ID"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Location"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Amount"))
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
         self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
+
 
 ##############################################################################################
                     # end of auto-generated code
@@ -240,17 +259,19 @@ class Ui_MainWindow(object):
 
 
     def printUnhandledTransactions(self):
-        self.unhandledTransactionsList.clear()
+        self.tableWidget.clear()
+        '''
         self.unhandledTransactionsList.insertColumn(0)
         self.unhandledTransactionsList.insertColumn(1)
         self.unhandledTransactionsList.insertColumn(2)
+        '''
         for t in self.app.getUnhandledTransactions():
-            rowPos = self.unhandledTransactionsList.rowCount()
-            self.unhandledTransactionsList.insertRow(rowPos)
-            self.unhandledTransactionsList.setItem(rowPos, 0, QTableWidgetItem(str(t.referenceNumber)))
-            self.unhandledTransactionsList.setItem(rowPos, 1, QTableWidgetItem(t.location))
-            self.unhandledTransactionsList.setItem(rowPos, 2, QTableWidgetItem(t.amount))
-            self.unhandledTransactionsObjects = self.app.getUnhandledTransactions()
+            rowPos = self.tableWidget.rowCount()
+            self.tableWidget.insertRow(rowPos)
+            self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
+            self.tableWidget.setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
+            self.tableWidget.setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
+            # self.unhandledTransactionsObjects = self.app.getUnhandledTransactions() 
 
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
@@ -258,6 +279,9 @@ class Ui_MainWindow(object):
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
 
+##############################################################################################
+                    # beginning of auto-generated code
+##############################################################################################
 
 
 
