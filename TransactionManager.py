@@ -10,7 +10,8 @@ class TransactionManager():
     self.transactionFactory = TransactionFactory()
     self.categoryFactory = CategoryFactory()
     self.transactions = dict()
-    self.categories = dict()
+    self.categories = dict()  
+    self.categories["Unhandled"] = Category("Unhandled")
 
   # assigns dictionary key to the name of transaction in transaction dict
   # difference between registering and creating?
@@ -38,7 +39,7 @@ class TransactionManager():
 
     @name: Category name to be deleted
     '''
-    
+
     # Use a try-block in order to handle a scenario
     # where a non-existent key is entered so the program
     # does not crash

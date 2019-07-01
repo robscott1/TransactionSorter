@@ -13,7 +13,6 @@ class AnalysisManager():
     self.completedTransactions = []
     self.plannedTransactions = None
     self.categories = dict()
-    self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent = SortingAgent()
     self.excelManager = ExcelManager()
     self.csvAgent = CSVAgent()
