@@ -30,3 +30,21 @@ class TransactionManager():
     c = self.categoryFactory.createCategory(data)
     self.registerCategory(c)
 
+  def deleteCategory(self, name):
+    '''
+    Deletes a user-defined category. Protects against any 
+    system-scope categories from being deleted, such as
+    the Unhandled category
+
+    @name: Category name to be deleted
+    '''
+    
+    # Use a try-block in order to handle a scenario
+    # where a non-existent key is entered so the program
+    # does not crash
+    try:
+      if name != "Unhandled":
+        del self.categories[name]
+    except KeyError:
+      print("Key not found")
+

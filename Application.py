@@ -62,6 +62,7 @@ class Application():
   #called from GUI to create Category object
   def createNewCategory(self, data):
     self.transactionManager.createCategory(data)
+    self.analysisManager.categories = self.transactionManager.categories
 
   def getCompletedTransactionsList(self):
     '''
@@ -141,3 +142,27 @@ class Application():
     @returns: The list of keywords to identify transactions
     '''
     return self.analysisManager.getKeywordsByCategory(categoryName)
+
+  def deleteCategory(self, categoryName):
+    '''
+    Wrapper function for the Transaction Manager's equivalent call.
+    After the call, the category list of the Analysis Manager is 
+    updated to reflect the change. I am not sure if python is copying the
+    list over between the 2 managers, or if the Analysis Manager is
+    getting a pointer/reference to the Transaction Manager's original
+    list of categories. If the situation is the latter, then the second
+    line of this method is actually not necessary. For now, I am playing
+    it safe and making sure the Analysis Manager is updated accoedingly.
+
+    @categoryName: Category name to be deleted
+    '''
+    self.transactionManager.deleteCategory(categoryName)
+    self.analysisManager.categories = self.transactionManager.categories
+
+
+if __name__ == "__main__":
+  app = Application()
+  app.initialize()
+  filename = "../KevinVisaMay2019"
+  app.sortCompletedTransactions(filename)
+  
