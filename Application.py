@@ -166,7 +166,7 @@ class Application():
 
     @categoryName: Name of the category that the 
     transaction will be registered with
-    @completedTransaction: Transaction to be registered
+    @completedTransaction: Transaction object to be registered
     '''
     self.transactionManager.registerCompletedTransaction(categoryName, completedTransaction)
     self.analysisManager.categories = self.transactionManager.categories
