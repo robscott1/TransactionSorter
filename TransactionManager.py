@@ -20,6 +20,9 @@ class TransactionManager():
     if self.categories[t.category] != None:
       self.categories[t.category].registerTransaction(t)
 
+  def registerCompletedTransaction(self, categoryName, completedTransaction):
+    self.categories[categoryName].registerCompletedTransaction(completedTransaction)
+
   def registerCategory(self, c):
     self.categories[c.name] = c
 

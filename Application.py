@@ -159,6 +159,20 @@ class Application():
     self.transactionManager.deleteCategory(categoryName)
     self.analysisManager.categories = self.transactionManager.categories
 
+  def registerCompletedTransaction(self, categoryName, completedTransaction):
+    '''
+    Registers a completed transaction with a category so that it can be 
+    properly sorted next time.
+
+    @categoryName: Name of the category that the 
+    transaction will be registered with
+    @completedTransaction: Transaction to be registered
+    '''
+    self.transactionManager.registerCompletedTransaction(categoryName, completedTransaction)
+    self.analysisManager.categories = self.transactionManager.categories
+
+
+
 
 if __name__ == "__main__":
   app = Application()
