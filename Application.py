@@ -152,7 +152,7 @@ class Application():
     getting a pointer/reference to the Transaction Manager's original
     list of categories. If the situation is the latter, then the second
     line of this method is actually not necessary. For now, I am playing
-    it safe and making sure the Analysis Manager is updated accoedingly.
+    it safe and making sure the Analysis Manager is updated accordingly.
 
     @categoryName: Category name to be deleted
     '''
