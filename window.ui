@@ -105,7 +105,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Create New Categories and Sort Unhandles Transactions</string>
+       <string>Create New Categories and Sort Unhandled Transactions</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -202,7 +202,7 @@
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="Unhandled">
        <attribute name="title">
