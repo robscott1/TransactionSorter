@@ -7,8 +7,40 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QAbstractItemView, QTableWidget, QTableWidgetItem
+from PyQt5.QtGui import QDrag
 from Application import Application
 from pyCategoryPop import Ui_Dialog
+from Transaction import Transaction
+
+class DragDropListWidget(QtWidgets.QListWidget):
+  '''
+  This class utilizes the concept of inheritance. It is
+  the child class of QListWidget, which means that it 
+  has all of the functionality of QListWidget, but has
+  the ability to implement its own extra methods that
+  QListWidget does not have, and re-implement QListWidget
+  methods in its own specialized way. In our case,
+  we are re-implementing the dropEvent() method so that
+  it carries out our own specified functionality when called -
+  I believe it does nothing by default.
+  '''
+  def __init__(self, app, mainWindow, parent = None):
+    self.app = app
+    self.mainWindow = mainWindow
+    super(DragDropListWidget, self).__init__(parent)
+
+  def dropEvent(self, event):
+    event.accept()
+    row = self.mainWindow.unhandledTransactionsList.currentRow()
+    location = self.mainWindow.unhandledTransactionsList.item(row, 0).text()
+    amount = self.mainWindow.unhandledTransactionsList.item(row, 1).text()
+    c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
+    self.app.registerCompletedTransaction(c, location, amount)
+    self.app.saveData()
+    # print the keywords of the updated category for debugging purposes
+    print(self.app.getKeywordsByCategory(c))
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -72,7 +104,7 @@ class Ui_MainWindow(object):
         self.editCategory = QtWidgets.QPushButton(self.tab_2)
         self.editCategory.setGeometry(QtCore.QRect(220, 560, 113, 32))
         self.editCategory.setObjectName("editCategory")
-        self.unhandledTransactionsList = QtWidgets.QListWidget(self.tab_2)
+        self.unhandledTransactionsList = QTableWidget(self.tab_2)
         self.unhandledTransactionsList.setGeometry(QtCore.QRect(240, 70, 451, 221))
         self.unhandledTransactionsList.setDragEnabled(True)
         self.unhandledTransactionsList.setObjectName("unhandledTransactionsList")
@@ -83,12 +115,6 @@ class Ui_MainWindow(object):
         self.categoryWidget.setGeometry(QtCore.QRect(30, 330, 881, 191))
         self.categoryWidget.setAcceptDrops(True)
         self.categoryWidget.setObjectName("categoryWidget")
-        #self.Unhandled = QtWidgets.QWidget()
-        #self.Unhandled.setObjectName("Unhandled")
-        #self.categoryWidget.addTab(self.Unhandled, "")
-        #self.Groceries = QtWidgets.QWidget()
-        #self.Groceries.setObjectName("Groceries")
-        #self.categoryWidget.addTab(self.Groceries, "")
         self.importTab.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -132,8 +158,7 @@ class Ui_MainWindow(object):
         self.deleteCategory.setText(_translate("MainWindow", "Delete"))
         self.editCategory.setText(_translate("MainWindow", "Edit"))
         self.label.setText(_translate("MainWindow", "Transactions"))
-        #self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Unhandled), _translate("MainWindow", "Unhandled"))
-        #self.categoryWidget.setTabText(self.categoryWidget.indexOf(self.Groceries), _translate("MainWindow", "Groceries"))
+        
         self.importTab.setTabText(self.importTab.indexOf(self.tab_2), _translate("MainWindow", "Categorize"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -150,7 +175,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.filename = "../CreditCard3"
+        self.filename = "../KevinVisaMay2019"
         self.app.sortCompletedTransactions(self.filename)
         self.createCategoryWidget()
         self.printUnhandledTransactions()
@@ -180,7 +205,7 @@ class Ui_MainWindow(object):
         '''
 
         self.tab = self.categoryWidget.currentIndex()        
-        self.index = self.app.getCategoryNamesList()[self.tab]
+        self.index = self.app.getCategoryNamesList()[self.tab+1]
         self.Dialog = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.Dialog, self.app)
@@ -207,15 +232,21 @@ class Ui_MainWindow(object):
         print(self.categoryNamesList)
         for category in self.categoryNamesList:
             if category != "Unhandled":
-                self.tab = QtWidgets.QListWidget()
+                self.tab = DragDropListWidget(self.app, self)
                 self.tab.setAcceptDrops(True)
                 self.categoryWidget.addTab(self.tab, category)
 
 
 
     def printUnhandledTransactions(self):
+        self.unhandledTransactionsList.insertColumn(0)
+        self.unhandledTransactionsList.insertColumn(1)
         for t in self.app.getUnhandledTransactions():
-            self.unhandledTransactionsList.addItem("Location: " + t.location + "Amount: " + t.amount )
+            rowPos = self.unhandledTransactionsList.rowCount()
+            self.unhandledTransactionsList.insertRow(rowPos)
+            self.unhandledTransactionsList.setItem(rowPos, 0, QTableWidgetItem(t.location))
+            self.unhandledTransactionsList.setItem(rowPos, 1, QTableWidgetItem(t.amount))
+            self.unhandledTransactionsObjects = self.app.getUnhandledTransactions()
 
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        

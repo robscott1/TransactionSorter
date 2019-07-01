@@ -159,7 +159,7 @@ class Application():
     self.transactionManager.deleteCategory(categoryName)
     self.analysisManager.categories = self.transactionManager.categories
 
-  def registerCompletedTransaction(self, categoryName, completedTransaction):
+  def registerCompletedTransaction(self, categoryName, transLocation, transAmount):
     '''
     Registers a completed transaction with a category so that it can be 
     properly sorted next time.
@@ -168,7 +168,7 @@ class Application():
     transaction will be registered with
     @completedTransaction: Transaction object to be registered
     '''
-    self.transactionManager.registerCompletedTransaction(categoryName, completedTransaction)
+    self.transactionManager.registerCompletedTransaction(categoryName, transLocation, transAmount)
     self.analysisManager.categories = self.transactionManager.categories
 
 

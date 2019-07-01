@@ -73,16 +73,17 @@ class xmlAgent():
     root = et.Element("root")
   
     for c in categories:
-      cat = et.SubElement(root, "category") 
-      name = et.SubElement(cat, "name") 
-      name.text = c.name
-      monthlyAllotment = et.SubElement(cat, "monthlyAllotment")
-      monthlyAllotment.text = str(c.monthlyAllotment)
-      idKeywords = et.SubElement(cat, "idKeywords")
-      if c.keywords != None:
-        for key in c.keywords:
-          keyword = et.SubElement(idKeywords, "keyword")
-          keyword.text = key
+      if c.name != "Unhandled":
+        cat = et.SubElement(root, "category") 
+        name = et.SubElement(cat, "name") 
+        name.text = c.name
+        monthlyAllotment = et.SubElement(cat, "monthlyAllotment")
+        monthlyAllotment.text = str(c.monthlyAllotment)
+        idKeywords = et.SubElement(cat, "idKeywords")
+        if c.keywords != None:
+          for key in c.keywords:
+            keyword = et.SubElement(idKeywords, "keyword")
+            keyword.text = key
 
     tree = et.ElementTree()
     tree._setroot(root)
