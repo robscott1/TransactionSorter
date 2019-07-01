@@ -1,4 +1,4 @@
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 
 class Category():
 

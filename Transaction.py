@@ -1,4 +1,4 @@
-class Transaction():
+class PlannedTransaction():
 
   def __init__(self, name=None):
     self.name = name
@@ -7,6 +7,7 @@ class Transaction():
 
   def initialize(self, date=None, category=None, amount=0.0, location=None, idKeywords=[], recurring=False, rateOfRecurrence=None):
     self.initialized = True
+    #for planned, not for completed
     self.date = date
     self.category = category
     self.amount = amount
@@ -44,3 +45,10 @@ class Transaction():
     print("Name: " + self.name)
     print("Category: " + self.category)
     print("Amount: " + str(self.amount))
+
+class CompletedTransaction():
+  
+  def __init__(self, location=None, amount=None, referenceNumber=None):
+    self.location = location
+    self.amount = amount
+    self.referenceNumber = referenceNumber

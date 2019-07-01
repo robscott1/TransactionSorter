@@ -1,7 +1,11 @@
 from APIData import TransactionData
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 
 class TransactionFactory():
+
+  def __init__(self):
+    self.completedTransactionIndex = 0
+
 
   def createTransaction(self, data):
     transaction = Transaction(data.name)
@@ -11,6 +15,6 @@ class TransactionFactory():
     return transaction
 
   def createCompletedTransaction(self, data):
-    transaction = Transaction()
-    transaction.initialize(amount=data.amount, location=data.location)
+    transaction = CompletedTransaction(location=data.location, amount=data.amount, referenceNumber= self.completedTransactionIndex)
+    self.completedTransactionIndex += 1
     return transaction

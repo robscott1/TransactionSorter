@@ -1,4 +1,4 @@
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 from TransactionFactory import TransactionFactory
 from APIData import TransactionData, CategoryData
 from Category import Category

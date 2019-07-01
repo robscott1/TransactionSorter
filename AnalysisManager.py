@@ -1,6 +1,6 @@
 from ExcelManager import ExcelManager
 from SortingAgent import SortingAgent
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 from Category import Category
 from CSVAgent import CSVAgent
 from APIData import TransactionData

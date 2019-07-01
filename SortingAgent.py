@@ -1,7 +1,7 @@
 import csv
 import xlsxwriter
 from Category import Category
-from Transaction import Transaction
+from Transaction import CompletedTransaction
 from ExcelManager import ExcelManager
 
 class SortingAgent():
