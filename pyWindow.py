@@ -35,9 +35,10 @@ class DragDropListWidget(QtWidgets.QListWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, location, amount, referenceNumber)
     self.app.saveData()
-    self.mainWindow.printUnhandledTransactions()
     # print the keywords of the updated category for debugging purposes
     print(c, self.app.getKeywordsByCategory(c))
+    self.mainWindow.tableWidget.removeRow(row)
+    self.mainWindow.updateCategoryListOfTransactions()
 
 
 class Ui_MainWindow(object):
@@ -260,24 +261,26 @@ class Ui_MainWindow(object):
 
     def printUnhandledTransactions(self):
         self.tableWidget.clear()
-        '''
-        self.unhandledTransactionsList.insertColumn(0)
-        self.unhandledTransactionsList.insertColumn(1)
-        self.unhandledTransactionsList.insertColumn(2)
-        '''
         for t in self.app.getUnhandledTransactions():
             rowPos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPos)
             self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
             self.tableWidget.setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
             self.tableWidget.setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
-            # self.unhandledTransactionsObjects = self.app.getUnhandledTransactions() 
+
 
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
+
+    
+
+    def updateCategoryListOfTransactions(self):
+        self.tab = self.categoryWidget.currentIndex()
+        self.index = self.app.getCategoryNamesList()[self.tab+1]
+        
 
 ##############################################################################################
                     # beginning of auto-generated code
