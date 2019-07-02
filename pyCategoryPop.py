@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'CategoryPop.ui'
+# Form implementation generated from reading ui file 'categoryPop.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.2
 #
@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from APIData import CategoryData
+
 
 
 class Ui_Dialog(object):
@@ -53,7 +54,7 @@ class Ui_Dialog(object):
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
-
+        # inlcude app argument in setupUi func
         self.app = App
 
 ##############################################################################################
