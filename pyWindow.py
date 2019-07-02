@@ -9,13 +9,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_Dialog
 
-class DragDropListWidget(QtWidgets.QListWidget):
+class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
   This class utilizes the concept of inheritance. It is
-  the child class of QListWidget, which means that it 
-  has all of the functionality of QListWidget, but has
+  the child class of QTableWidget, which means that it 
+  has all of the functionality of QTableWidget, but has
   the ability to implement its own extra methods that
-  QListWidget does not have, and re-implement QListWidget
+  QTableWidget does not have, and re-implement QTableWidget
   methods in its own specialized way. In our case,
   we are re-implementing the dropEvent() method so that
   it carries out our own specified functionality when called -
@@ -24,7 +24,7 @@ class DragDropListWidget(QtWidgets.QListWidget):
   def __init__(self, app, mainWindow, parent = None):
     self.app = app
     self.mainWindow = mainWindow
-    super(DragDropListWidget, self).__init__(parent)
+    super(DragDropTableWidget, self).__init__(parent)
 
   def dropEvent(self, event):
     event.accept()
@@ -38,7 +38,8 @@ class DragDropListWidget(QtWidgets.QListWidget):
     # print the keywords of the updated category for debugging purposes
     print(c, self.app.getKeywordsByCategory(c))
     self.mainWindow.tableWidget.removeRow(row)
-    self.mainWindow.updateCategoryListOfTransactions()
+    self.mainWindow.updateCategoryWidget()
+
 
 
 class Ui_MainWindow(object):
@@ -196,7 +197,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.filename = "../KevinVisaMay2019"
+        self.filename = "../CreditCard3"
         self.app.sortCompletedTransactions(self.filename)
         self.createCategoryWidget()
         self.printUnhandledTransactions()
@@ -249,14 +250,22 @@ class Ui_MainWindow(object):
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
-        self.categoryNamesList = self.app.getCategoryNamesList()
-        print(self.categoryNamesList)
-        for category in self.categoryNamesList:
+        for category in self.app.getCategoryNamesList():
             if category != "Unhandled":
-                self.tab = DragDropListWidget(self.app, self)
-                self.tab.setAcceptDrops(True)
-                self.categoryWidget.addTab(self.tab, category)
+                tab = DragDropTableWidget(self.app, self)
+                tab.setAcceptDrops(True)
+                self.categoryWidget.addTab(tab, category)
 
+
+                
+
+    def fillCategoryWidget(self):
+        for t in self.app.getCompletedTransactionsByCategory(category).values():
+            rowPos = self.categoryWidget.currentWidget().rowCount()
+            self.categoryWidget.currentWidget().insertRow(rowPos)
+            self.categoryWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
+            self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
+            self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
 
 
     def printUnhandledTransactions(self):
