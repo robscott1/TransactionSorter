@@ -20,14 +20,15 @@ class TransactionManager():
     if self.categories[t.category] != None:
       self.categories[t.category].registerTransaction(t)
 
-  def registerCompletedTransaction(self, categoryName, transLocation, transAmount):
+  def registerCompletedTransaction(self, categoryName, transLocation, transAmount, referenceNumber):
     # I do not plan for this to be the final implementation. I would like to 
     # streamline this process using the API Transaction Data interface and the
     # TransactionFactory
     ##########################################
-    t = Transaction
+    t = CompletedTransaction()
     t.location = transLocation
     t.amount = float(transAmount)
+    t.referenceNumber = referenceNumber
     ##########################################
 
     self.categories[categoryName].registerCompletedTransaction(t)
