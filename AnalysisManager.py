@@ -10,7 +10,7 @@ class AnalysisManager():
 
   # intitializes lower functioning tools within analysis manager
   def __init__(self):
-    self.completedTransactions = []
+    self.completedTransactions = dict()
     self.plannedTransactions = None
     self.categories = dict()
     self.sortingAgent = SortingAgent()
@@ -29,11 +29,12 @@ class AnalysisManager():
       parsedData.amount = amountList[index]
       parsedData.location = locationList[index]
       completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)
-      self.completedTransactions.append(completedTransaction)
+      self.completedTransactions[completedTransaction.referenceNumber] = completedTransaction
     
 
     self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
+    return self.completedTransactions
 
   def getAmountSpentByCategory(self, categoryName):
     c = self.categories[categoryName]

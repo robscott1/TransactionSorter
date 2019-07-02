@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.filename = "../CreditCard3"
+        self.filename = "../KevinVisaMay2019"
         self.app.sortCompletedTransactions(self.filename)
         self.createCategoryWidget()
         self.printUnhandledTransactions()
@@ -261,7 +261,7 @@ class Ui_MainWindow(object):
 
     def printUnhandledTransactions(self):
         self.tableWidget.clear()
-        for t in self.app.getUnhandledTransactions():
+        for t in self.app.getUnhandledTransactions().values():
             rowPos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPos)
             self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
@@ -278,8 +278,8 @@ class Ui_MainWindow(object):
     
 
     def updateCategoryListOfTransactions(self):
-        self.tab = self.categoryWidget.currentIndex()
-        self.index = self.app.getCategoryNamesList()[self.tab+1]
+        self.tab = self.categoryWidget.currentIndex() + 1
+        self.index = self.app.getCategoryNamesList()[self.tab]
         
 
 ##############################################################################################

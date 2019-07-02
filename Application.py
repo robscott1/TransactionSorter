@@ -27,7 +27,7 @@ class Application():
   # saves the location it was spent at and the amount spent
   # location name will allow for the categories to pick up relevant transactions
   def sortCompletedTransactions(self, fileName):
-    self.analysisManager.sortCompletedTransactions(fileName)
+    self.transactionManager.completedTransactions = self.analysisManager.sortCompletedTransactions(fileName)
 
   # writes both transactions and categories into xml files
   def saveData(self):
@@ -57,7 +57,7 @@ class Application():
   # Category that has yet to be created, or this transaction location
   # was not part of the idKeywords list for the respective category
   def getUnhandledTransactions(self):
-    return self.analysisManager.categories["Unhandled"].completedTransactions
+    return self.transactionManager.categories["Unhandled"].completedTransactions
 
   #called from GUI to create Category object
   def createNewCategory(self, data):
@@ -171,6 +171,15 @@ class Application():
     self.transactionManager.registerCompletedTransaction(categoryName, transLocation, transAmount, referenceNumber)
     self.analysisManager.categories = self.transactionManager.categories
 
+  def getCompletedTransactionByCategory(self, categoryName):
+    '''
+    @categoryName: Name of the category to query for 
+    completed transactions
+
+    @returns: A dictionary of completed transactions that
+    are registered to the specified category
+    '''
+    return self.transactionManager.categories[categoryName].completedTransactions
 
 
 

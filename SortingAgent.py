@@ -13,7 +13,7 @@ class SortingAgent():
   # put into unhandled category object
   # GUI will allow user to assign unhandled transactions
   def categorize(self, completedTransactions, categories):
-    for t in completedTransactions:
+    for t in completedTransactions.values():
       match = False
       for category in categories.values():
         if category.checkKeywords(t.location) == True:

@@ -7,7 +7,7 @@ class Category():
     self.keywords = keywords
     self.total = 0
     self.plannedTransactions = dict()
-    self.completedTransactions = []
+    self.completedTransactions = dict()
     self.monthlyAllotment = monthlyAllotment
 
   def addAmount(self, amt):
@@ -25,15 +25,18 @@ class Category():
   def registerTransaction(self, t):
     self.plannedTransactions[t.name] = t
 
+  def unregisterCompletedTransaction(self, t):
+    del self.completedTransactions[t.referenceNumber]
+
   def registerCompletedTransaction(self, t):
-    self.completedTransactions.append(t)
+    self.completedTransactions[t.referenceNumber] = t
     # update the keywords of the category to associate
     # with the location of the registered transaction
     self.keywords.append(t.location)
 
   def getTotalAmountSpent(self):
     amount = 0
-    for t in self.completedTransactions:
+    for t in self.completedTransactions.values():
       amount += float(t.amount)
 
     return amount

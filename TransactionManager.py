@@ -10,6 +10,7 @@ class TransactionManager():
     self.transactionFactory = TransactionFactory()
     self.categoryFactory = CategoryFactory()
     self.transactions = dict()
+    self.completedTransactions = dict()
     self.categories = dict()  
     self.categories["Unhandled"] = Category("Unhandled")
 
