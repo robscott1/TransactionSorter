@@ -31,8 +31,6 @@ class AnalysisManager():
       completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)
       self.completedTransactions[completedTransaction.referenceNumber] = completedTransaction
     
-
-    self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
 
   def getAmountSpentByCategory(self, categoryName):

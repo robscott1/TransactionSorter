@@ -22,11 +22,11 @@ class TransactionManager():
       self.categories[t.category].registerTransaction(t)
 
   def registerCompletedTransaction(self, categoryName, transRefNumber):
-    t = completedTransactions[transRefNumber]
+    t = self.completedTransactions[transRefNumber]
     self.categories[categoryName].registerCompletedTransaction(t)
 
   def unregisterCompletedTransaction(self, categoryName, transRefNumber):
-    t = completedTransactions[transRefNumber]
+    t = self.completedTransactions[transRefNumber]
     self.categories[categoryName].unregisterCompletedTransaction(t)
 
   def registerCategory(self, c):
