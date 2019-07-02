@@ -27,7 +27,8 @@ class Application():
   # saves the location it was spent at and the amount spent
   # location name will allow for the categories to pick up relevant transactions
   def sortCompletedTransactions(self, fileName):
-    self.transactionManager.completedTransactions = self.analysisManager.sortCompletedTransactions(fileName)
+    self.analysisManager.sortCompletedTransactions(fileName)
+    self.transactionManager.completedTransactions = self.analysisManager.completedTransactions
 
   # writes both transactions and categories into xml files
   def saveData(self):
@@ -159,19 +160,32 @@ class Application():
     self.transactionManager.deleteCategory(categoryName)
     self.analysisManager.categories = self.transactionManager.categories
 
-  def registerCompletedTransaction(self, categoryName, transLocation, transAmount, referenceNumber):
+  def registerCompletedTransaction(self, categoryName, transRefNumber):
     '''
     Registers a completed transaction with a category so that it can be 
     properly sorted next time.
 
     @categoryName: Name of the category that the 
     transaction will be registered with
-    @completedTransaction: Transaction object to be registered
+    @transRefNumber: Transaction reference number to be used
+    as a key by the TransactionManager to locate the Transaction
     '''
-    self.transactionManager.registerCompletedTransaction(categoryName, transLocation, transAmount, referenceNumber)
-    self.analysisManager.categories = self.transactionManager.categories
+    self.transactionManager.registerCompletedTransaction(categoryName, transRefNumber)
+    self.analysisManager.categories[categoryName] = self.transactionManager.categories[categoryName]
 
-  def getCompletedTransactionByCategory(self, categoryName):
+  def unregisterCompletedTransaction(self, categoryName, transRefNumber):
+    '''
+    Unregisters a completed transaction from a specified category.
+
+    @categoryName: Name of the category that the 
+    transaction will be registered with
+    @transRefNumber: Transaction reference number to be used
+    as a key by the TransactionManager to locate the Transaction
+    '''
+    self.transactionManager.unregisterCompletedTransaction(categoryName, transRefNumber)
+    self.analysisManager.categories[categoryName] = self.transactionManager.categories[categoryName]
+
+  def getCompletedTransactionsByCategory(self, categoryName):
     '''
     @categoryName: Name of the category to query for 
     completed transactions

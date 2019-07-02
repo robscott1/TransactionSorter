@@ -34,7 +34,6 @@ class AnalysisManager():
 
     self.categories["Unhandled"] = Category("Unhandled")
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
-    return self.completedTransactions
 
   def getAmountSpentByCategory(self, categoryName):
     c = self.categories[categoryName]
