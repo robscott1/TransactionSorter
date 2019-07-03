@@ -40,6 +40,18 @@ class TransactionManager():
     c = self.categoryFactory.createCategory(data)
     self.registerCategory(c)
 
+  def updateCategoryData(self, data):
+    '''
+    Adds/Updates any existing user-defined category
+
+    @data: Category object with additional input from user
+    '''
+
+    editedCategory = self.categories[data.name]
+    editedCategory.name = data.name
+    editedCategory.monthlyAllotment = data.monthlyAllotment
+    editedCategory.keywords = data.idKeywords
+
   def deleteCategory(self, name):
     '''
     Deletes a user-defined category. Protects against any 
