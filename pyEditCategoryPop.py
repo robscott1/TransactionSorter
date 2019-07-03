@@ -53,10 +53,12 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(150, 190, 71, 32))
         self.pushButton.setObjectName("pushButton")
 
+
+        self.app = App
+
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-        self.app = App
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -77,6 +79,7 @@ class Ui_Dialog(object):
         
         self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
         self.saveCategoryInfo.clicked.connect(self.updateCategoryInfo)
+        self.app.diagnosticDbg()
 
     def getExistingKeywords(self):
         self.keywordList = self.app.getKeywordsByCategory(self.newCategoryName.text())
@@ -97,11 +100,11 @@ class Ui_Dialog(object):
         editedCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
         editedCategory.idKeywords = []
         keywordList = [self.newCategoryKeywords.item(i).text() for i in range(self.newCategoryKeywords.count())]
-        print(keywordList)
         for item in keywordList:
             editedCategory.idKeywords.append(item)
         self.app.updateCategoryData(editedCategory)
         self.app.saveData()
+        self.app.diagnosticDbg()
 
 
 

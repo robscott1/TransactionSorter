@@ -96,6 +96,7 @@ class PersistentDataManager():
   def __init__(self):
     self.xmlAgent = xmlAgent()
     self.transactionList = None
+    self.categoryList = None
 
   def retrievePersistentData(self, transactionFilePath, categoryFilePath):
     transactionTree = et.parse(transactionFilePath)

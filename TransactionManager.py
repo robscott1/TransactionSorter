@@ -85,3 +85,8 @@ class TransactionManager():
     except KeyError:
       print("Key not found")
 
+  def categoryDbg(self):
+    for c in self.categories.values():
+      print("Category: " + c.name)
+      print("Keywords: " + str(c.keywords))
+

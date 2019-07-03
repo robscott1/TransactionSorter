@@ -199,6 +199,9 @@ class Application():
     '''
     return self.transactionManager.categories[categoryName].completedTransactions
 
+  def diagnosticDbg(self):
+    self.transactionManager.categoryDbg()
+
 
 
 if __name__ == "__main__":
