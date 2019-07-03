@@ -65,6 +65,10 @@ class Application():
     self.transactionManager.createCategory(data)
     self.analysisManager.categories = self.transactionManager.categories
 
+  def updateCategoryData(self, data):
+    self.transactionManager.updateCategoryData(data)
+    self.analysisManager.categories = self.transactionManager.categories
+
   def getCompletedTransactionsList(self):
     '''
     @returns: The list of completed transactions from the
