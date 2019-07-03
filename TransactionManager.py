@@ -46,11 +46,29 @@ class TransactionManager():
 
     @data: Category object with additional input from user
     '''
+    # Check if this data object contains a modified name
+    # which was entered by the user, in which case we 
+    # must locate the actual object using the previous name
+    # as the dictionary key
+    if data.nameModified == True:
+      dictKey = data.previousName
+    else:
+      dictKey = data.name
 
-    editedCategory = self.categories[data.name]
-    editedCategory.name = data.name
-    editedCategory.monthlyAllotment = data.monthlyAllotment
-    editedCategory.keywords = data.idKeywords
+    print(data.name)
+    print(data.previousName)
+    print(dictKey)
+    modifiedCategory = self.categories[dictKey]
+    modifiedCategory.name = data.name
+    modifiedCategory.monthlyAllotment = data.monthlyAllotment
+    modifiedCategory.keywords = data.idKeywords
+
+    # If the category name was modified by the user,
+    # associate the category with the new name as the key,
+    # and delete the old key-value pair.
+    if data.nameModified == True:
+      self.categories[modifiedCategory.name] = modifiedCategory
+      del self.categories[data.previousName]
 
   def deleteCategory(self, name):
     '''

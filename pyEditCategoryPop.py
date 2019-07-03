@@ -101,6 +101,7 @@ class Ui_Dialog(object):
         for item in keywordList:
             editedCategory.idKeywords.append(item)
         self.app.updateCategoryData(editedCategory)
+        self.app.saveData()
 
 
 

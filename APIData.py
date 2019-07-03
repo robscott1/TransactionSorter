@@ -14,6 +14,11 @@ class CategoryData():
 
   def __init__(self):
     self.name = None
+    # If the user changes the name of a category,
+    # we need to be able to locate it in the back-end
+    # using the previous name as the dictionary key
+    self.previousName = None
+    self.nameModified = False
     self.idKeywords = None
     self.monthlyAllotment = None
     self.amountSpent = None
