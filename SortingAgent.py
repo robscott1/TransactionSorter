@@ -17,7 +17,7 @@ class SortingAgent():
       match = False
       for category in categories.values():
         if category.checkKeywords(t.location) == True:
-          category.registerCompletedTransaction(t)
+          category.automatedSortTransaction(t)
           match = True
           break
 

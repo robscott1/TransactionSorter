@@ -29,10 +29,36 @@ class Category():
     del self.completedTransactions[t.referenceNumber]
 
   def registerCompletedTransaction(self, t):
+    '''
+    Used for manually sorted transactions. Called from TransactionManager to
+    sort after the user has dragged and dropped the item into the proper widget.
+    This appends the location to the keywords in order to add additional words 
+    for the sorting agent. It is used here because this transaction and any repeats
+    will now be picked up by the sorting agent and be transferred by automatedSortTransaction.
+
+    @t: transaction object to be added to completedTransactions dict and have .location
+    appended to category keywords
+    
+    '''
     self.completedTransactions[t.referenceNumber] = t
     # update the keywords of the category to associate
     # with the location of the registered transaction
     self.keywords.append(t.location)
+
+  def automatedSortTransaction(self, t):
+    '''
+    Since the program has automatically sorted a transaction into a particular category,
+    the keyword already exists in the keywords list for that respective category. 
+    This adds the transaction to the category, but does not append the keywords
+    associated like registerCompletedTransaction. This method is called when a 
+    transaction is automatically sorted; the above method does it when the user manaully
+    sorts
+
+    @t: transaction object with information to assign it into the completed
+    transactions dict
+
+    '''
+    self.completedTransactions[t.referenceNumber] = t
 
   def getTotalAmountSpent(self):
     amount = 0
