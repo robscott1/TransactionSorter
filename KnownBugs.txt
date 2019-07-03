@@ -13,3 +13,5 @@ when it pulled it from the csv. See the unhandledTransactions List Widget. Just 
 - unhandled transactions are made their own category when the app starts up. However, we dont want the GUI to make a category tab for unhandled transactions because they are printed in a seperate window. I have all of the tabs being automatically updated based on the categories that currently exist. We need unhandled to somehow not be counted in this
 
 - every time a new transaction is dragged and dropped to the new category, all of the existing keywords are repeated and duplicated onto the idKeywords again
+
+-if we delete a category, the transactions are gone forever. We will need to take those completed transactions and put them back in the unhandled category when we delete a user-made category
