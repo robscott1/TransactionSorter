@@ -88,19 +88,13 @@ class Ui_Dialog(object):
         self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
         self.keywordList.append(self.newCategoryKeywordField.text())
         self.newCategoryKeywordField.setText("")
-        
-      
-      
+
     def createNewCategory(self):
-        '''
-        Creates a category data object and assigns attributes based on 
-        the entries in the newCategoryPopup
-        '''
-        newCategory = CategoryData()
-        newCategory.name = str(self.newCategoryName.text())
-        newCategory.monthlyAllotment = float(self.newCategoryAllotment.text())
-        newCategory.idKeywords = self.keywordList
-        self.app.createNewCategory(newCategory)
+        category = CategoryData()
+        category.name = str(self.newCategoryName.text())
+        category.monthlyAllotment = float(self.newCategoryAllotment.text())
+        category.idKeywords = self.keywordList
+        self.app.createNewCategory(category)
 
 ##############################################################################################
                     # begin auto-generated code

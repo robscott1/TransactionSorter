@@ -8,6 +8,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_Dialog
+from pyEditCategoryPop import Ui_Dialog
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -32,13 +33,13 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     referenceNumber = int(self.mainWindow.tableWidget.item(row, 0).text())
     location = self.mainWindow.tableWidget.item(row, 1).text()
     amount = self.mainWindow.tableWidget.item(row, 2).text()
+    self.mainWindow.tableWidget.removeRow(row)
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
     # print the keywords of the updated category for debugging purposes
     print(c, self.app.getKeywordsByCategory(c))
-    self.mainWindow.tableWidget.removeRow(row)
-    self.mainWindow.updateCategoryWidget()
+    self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
 
 
@@ -229,22 +230,22 @@ class Ui_MainWindow(object):
         self.tab = self.categoryWidget.currentIndex()        
         self.index = self.app.getCategoryNamesList()[self.tab+1]
         self.Dialog = QtWidgets.QDialog()
-        self.ui = Ui_Dialog()
-        self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
+        self.editUi = Ui_Dialog()
+        self.editUi.setupUi(self.Dialog, self.app)
         self.Dialog.show()
 
-        self.ui.newCategoryName.setText(self.index)
-        self.ui.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
+        self.editUi.newCategoryName.setText(self.index)
+        self.editUi.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
 
         # First, check if there are any keywords to be added.
         # Add items only if an iterable list of keywords is returned.
         keywords = self.app.getKeywordsByCategory(self.index)
         if keywords != None:
-            self.ui.newCategoryKeywords.addItems(keywords)
+            self.editUi.newCategoryKeywords.addItems(keywords)
 
 
     def updateCategoryWidget(self):
+        # bugger
         self.app.saveData()
         self.createCategoryWidget()
 
@@ -255,11 +256,23 @@ class Ui_MainWindow(object):
                 tab = DragDropTableWidget(self.app, self)
                 tab.setAcceptDrops(True)
                 self.categoryWidget.addTab(tab, category)
+                self.categoryWidget.setCurrentWidget(tab)
+                for i in range(3):
+                    self.categoryWidget.currentWidget().insertColumn(i)
+                self.fillCategoryWidget(category)
+
+    def moveRowToDropDestination(self, referenceNumber, location, amount, category):
+        rowPos = self.categoryWidget.currentWidget().rowCount()
+        self.categoryWidget.currentWidget().insertRow(rowPos)
+        self.categoryWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(referenceNumber)))
+        self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(location))
+        self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(amount))
 
 
-                
+        
 
-    def fillCategoryWidget(self):
+    def fillCategoryWidget(self, category):
+        #self.categoryWidget.currentWidget().clear()
         for t in self.app.getCompletedTransactionsByCategory(category).values():
             rowPos = self.categoryWidget.currentWidget().rowCount()
             self.categoryWidget.currentWidget().insertRow(rowPos)
@@ -269,7 +282,6 @@ class Ui_MainWindow(object):
 
 
     def printUnhandledTransactions(self):
-        self.tableWidget.clear()
         for t in self.app.getUnhandledTransactions().values():
             rowPos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPos)
