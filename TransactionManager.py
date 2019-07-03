@@ -55,9 +55,6 @@ class TransactionManager():
     else:
       dictKey = data.name
 
-    print(data.name)
-    print(data.previousName)
-    print(dictKey)
     modifiedCategory = self.categories[dictKey]
     modifiedCategory.name = data.name
     modifiedCategory.monthlyAllotment = data.monthlyAllotment
