@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from APIData import CategoryData
 
 
-class Ui_Dialog(object):
+class Ui_editDialog(object):
     def setupUi(self, Dialog, App):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 300)

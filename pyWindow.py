@@ -7,8 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
-from pyCategoryPop import Ui_Dialog
-from pyEditCategoryPop import Ui_Dialog
+from pyCategoryPop import Ui_createDialog
+from pyEditCategoryPop import Ui_editDialog
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -216,7 +216,7 @@ class Ui_MainWindow(object):
         and a list of potential keywords
         '''
         self.Dialog = QtWidgets.QDialog()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_createDialog()
         self.ui.setupUi(self.Dialog, self.app)
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
         self.Dialog.show()
@@ -230,7 +230,7 @@ class Ui_MainWindow(object):
         self.tab = self.categoryWidget.currentIndex()        
         self.index = self.app.getCategoryNamesList()[self.tab+1]
         self.Dialog = QtWidgets.QDialog()
-        self.editUi = Ui_Dialog()
+        self.editUi = Ui_editDialog()
         self.editUi.setupUi(self.Dialog, self.app)
         self.Dialog.show()
 

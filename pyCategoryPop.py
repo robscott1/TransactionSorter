@@ -11,7 +11,7 @@ from APIData import CategoryData
 
 
 
-class Ui_Dialog(object):
+class Ui_createDialog(object):
     def setupUi(self, Dialog, App):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 300)
