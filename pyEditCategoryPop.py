@@ -89,6 +89,7 @@ class Ui_editDialog(object):
         Simultaneously adds keyword to idKeywords list for respective category
         and displays new words in list widget in pop up window
         '''
+
         self.keywordsList = self.getExistingKeywords()
         self.newCategoryKeywords.addItem(str(self.newCategoryKeywordField.text()))
         self.keywordList.append(self.newCategoryKeywordField.text())
@@ -102,9 +103,10 @@ class Ui_editDialog(object):
         keywordList = [self.newCategoryKeywords.item(i).text() for i in range(self.newCategoryKeywords.count())]
         for item in keywordList:
             editedCategory.idKeywords.append(item)
+
+        print(editedCategory.idKeywords)
         self.app.updateCategoryData(editedCategory)
         self.app.saveData()
-        self.app.diagnosticDbg()
 
 
 
