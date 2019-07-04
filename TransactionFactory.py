@@ -1,5 +1,6 @@
 from APIData import TransactionData
 from Transaction import CompletedTransaction
+from Transaction import PlannedTransaction
 
 class TransactionFactory():
 
@@ -8,7 +9,7 @@ class TransactionFactory():
 
 
   def createTransaction(self, data):
-    transaction = Transaction(data.name)
+    transaction = PlannedTransaction(data.name)
     transaction.initialize(date=data.date, category=data.category, amount=data.amount,
                            idKeywords=data.idKeywords, recurring=data.recurring, 
                            rateOfRecurrence=data.rateOfRecurrence)

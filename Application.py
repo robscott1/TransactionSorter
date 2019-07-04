@@ -199,6 +199,20 @@ class Application():
     '''
     return self.transactionManager.categories[categoryName].completedTransactions
 
+  def createPlannedTransaction(self, data):
+    '''
+    Calls mirror function in TransactionManager. Creates planned transaction within the
+    user defined category
+
+    @data: TransactionData API object with identifying members
+    '''
+    self.transactionManager.createTransaction(data)
+    self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
+
+
+
+
+
   def diagnosticDbg(self):
     self.transactionManager.categoryDbg()
 

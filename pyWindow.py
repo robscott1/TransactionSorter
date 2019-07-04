@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
+from APIData import TransactionData
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -281,7 +282,40 @@ class Ui_MainWindow(object):
         self.comboBox.hide()
         self.recurringBtn.toggled.connect(self.comboBox.show)
         self.singularBtn.toggled.connect(self.comboBox.hide)
+        self.createPlannedTransactionsWidget()
+        self.savePlannedT.clicked.connect(self.savePlannedTransaction)
 
+
+
+    def savePlannedTransaction(self):
+        transaction = TransactionData()
+        transaction.name = self.namePlannedT.text()
+        transaction.category = self.categoryPlannedT.text()
+        transaction.amount = float(self.amountPlannedT.text())
+        if self.recurringBtn.isChecked():
+            transaction.recurring = True
+            transaction.rateOfRecurrence = self.getToggledFrequency()[1]
+        else:
+            transaction.recurring = False
+        transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        self.app.createPlannedTransaction(transaction)
+
+    def getToggledFrequency(self):
+        if self.recurringBtn.isChecked():
+            return True, self.comboBox.currentText()
+        return False
+
+
+    def createPlannedTransactionsWidget(self):
+        self.tabWidget.clear()
+        for category in self.app.getCategoryNamesList():
+            if category != "Unhandled":
+                tab = DragDropTableWidget(self.app, self)
+                tab.setAcceptDrops(True)
+                self.tabWidget.addTab(tab, category)
+                self.tabWidget.setCurrentWidget(tab)
+                for i in range(3):
+                    self.tabWidget.currentWidget().insertColumn(i)
 
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
@@ -326,6 +360,7 @@ class Ui_MainWindow(object):
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
+        self.createPlannedTransactionsWidget()
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
