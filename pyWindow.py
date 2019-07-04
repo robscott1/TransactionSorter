@@ -285,7 +285,18 @@ class Ui_MainWindow(object):
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
 
-
+    def fillTransactionWidget(self):
+        plannedTransactions = self.app.getPlannedTransactions()
+        if plannedTransactions != None:
+            for t in plannedTransactions.values():
+                self.tabWidget.setCurrentIndex(self.app.getCategoryNamesList().index(t.category) - 1)
+                rowPos = self.tabWidget.currentWidget().rowCount()
+                self.tabWidget.currentWidget().insertRow(rowPos)
+                self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
+                self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem())
+                print(t.location)
+                self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
+                print(t.amount)
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
@@ -299,6 +310,7 @@ class Ui_MainWindow(object):
             transaction.recurring = False
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
         self.app.createPlannedTransaction(transaction)
+        self.createPlannedTransactionsWidget()
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
@@ -316,6 +328,7 @@ class Ui_MainWindow(object):
                 self.tabWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.tabWidget.currentWidget().insertColumn(i)
+        self.fillTransactionWidget()
 
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()

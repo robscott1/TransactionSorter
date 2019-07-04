@@ -209,7 +209,9 @@ class Application():
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
 
+  def getPlannedTransactions(self):
 
+    return self.transactionManager.transactions
 
 
 
