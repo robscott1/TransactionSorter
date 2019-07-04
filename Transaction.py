@@ -21,6 +21,9 @@ class PlannedTransaction():
       elif rateOfRecurrence == "bi-annually":
         self.recurring = recurring
         self.rateOfRecurrence = rateOfRecurrence
+      elif rateOfRecurrence == "quarterly":
+        self.recurring = recurring
+        self.rateOfRecurrence == rateOfRecurrence
       elif rateOfRecurrence == "monthly":
         self.recurring = recurring
         self.rateOfRecurrence = rateOfRecurrence
