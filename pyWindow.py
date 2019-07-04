@@ -270,18 +270,23 @@ class Ui_MainWindow(object):
         # it makes it easier for the backed to be passed into the popup windows
         # where several functions are called
         self.app = Application()
+        self.filename = self.newCatInput.text()
+        self.importCsvBtn.clicked.connect(self.saveCSVPath)
         self.app.initialize()
-        self.filename = "../CreditCard3"
-        self.app.sortCompletedTransactions(self.filename)
-        self.app.diagnosticDbg()
         self.createCategoryWidget()
         self.printUnhandledTransactions()
-    
-
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
         self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
+        self.comboBox.hide()
+        self.recurringBtn.toggled.connect(self.comboBox.show)
+        self.singularBtn.toggled.connect(self.comboBox.hide)
 
+
+    def saveCSVPath(self):
+        csvPath = self.newCatInput.text()
+        self.app.sortCompletedTransactions(csvPath)
+        self.printUnhandledTransactions()
 
     def openNewCatPop(self):
         '''
