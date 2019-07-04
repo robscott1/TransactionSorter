@@ -6,6 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 from Application import Application
 from pyCategoryPop import Ui_Dialog
 from pyEditCategoryPop import Ui_Dialog
@@ -198,16 +199,21 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.app.initialize()
-        self.filename = "../CreditCard3"
-        self.app.sortCompletedTransactions(self.filename)
+        # self.filename = "../KevinVisaMay2019"
+        # self.app.sortCompletedTransactions(self.filename)
         self.createCategoryWidget()
-        self.printUnhandledTransactions()
+        # self.printUnhandledTransactions()
     
 
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
         self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
+        self.importCsvBtn.clicked.connect(self.fileOpen)
 
+    def fileOpen(self):
+      filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+      self.app.sortCompletedTransactions(filePath)
+      self.printUnhandledTransactions()
 
     def openNewCatPop(self):
         '''
