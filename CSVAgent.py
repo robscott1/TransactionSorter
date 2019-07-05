@@ -3,7 +3,7 @@ import csv
 class CSVAgent():
 
   def parseFile(self, fileName):
-    f = open(fileName + ".csv")
+    f = open(fileName, 'r')
     lines = f.readlines()
     
     amountList = []

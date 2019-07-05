@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
@@ -272,10 +273,9 @@ class Ui_MainWindow(object):
         # where several functions are called
         self.app = Application()
         self.filename = self.newCatInput.text()
-        self.importCsvBtn.clicked.connect(self.saveCSVPath)
+        self.importCsvBtn.clicked.connect(self.fileOpen)
         self.app.initialize()
         self.createCategoryWidget()
-        self.printUnhandledTransactions()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
         self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
@@ -284,6 +284,11 @@ class Ui_MainWindow(object):
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
+
+    def fileOpen(self):
+        filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+        self.app.sortCompletedTransactions(filePath)
+        self.printUnhandledTransactions()
 
     def fillTransactionWidget(self):
         plannedTransactions = self.app.getPlannedTransactions()
