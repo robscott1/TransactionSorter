@@ -293,8 +293,8 @@ class Ui_MainWindow(object):
                 rowPos = self.tabWidget.currentWidget().rowCount()
                 self.tabWidget.currentWidget().insertRow(rowPos)
                 self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
-                self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem())
-                print(t.location)
+                self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
+                print(t.name)
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
                 print(t.amount)
 
@@ -311,6 +311,7 @@ class Ui_MainWindow(object):
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
         self.app.createPlannedTransaction(transaction)
         self.createPlannedTransactionsWidget()
+        self.app.saveData()
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
