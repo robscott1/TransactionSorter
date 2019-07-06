@@ -54,8 +54,8 @@ class AnalysisManager():
   # retrives total amount spent, used for categories
   def getTotalAmountSpent(self):
     total = 0
-    for t in self.completedTransactions:
-      total += t.amount
+    for t in self.completedTransactions.values():
+      total += float(t.amount)
 
     return total
 

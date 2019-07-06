@@ -18,8 +18,10 @@ class TransactionManager():
   # difference between registering and creating?
   def registerTransaction(self, t):
     self.transactions[t.name] = t
-    if self.categories[t.category] != None:
+    try: 
       self.categories[t.category].registerTransaction(t)
+    except KeyError:
+      print("That category does not exist.")
 
   def registerCompletedTransaction(self, categoryName, transRefNumber):
     t = self.completedTransactions[transRefNumber]

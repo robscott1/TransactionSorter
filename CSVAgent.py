@@ -18,5 +18,7 @@ class CSVAgent():
         location = location[:-1]
         locationList.append(location)
 
+    f.close()
+
     return amountList, locationList
     
