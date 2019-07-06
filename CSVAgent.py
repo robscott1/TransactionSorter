@@ -8,6 +8,7 @@ class CSVAgent():
     
     amountList = []
     locationList = []
+    dateList = []
 
     for line in lines:
         num_strs = line.split(',')
@@ -17,8 +18,11 @@ class CSVAgent():
         location = num_strs[4]
         location = location[:-1]
         locationList.append(location)
+        date = num_strs[0]
+        dateList.append(date)
+        print(date)
 
     f.close()
 
-    return amountList, locationList
+    return amountList, locationList, dateList
     
