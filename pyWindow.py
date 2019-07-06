@@ -8,6 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
+import numpy as np
+import matplotlib.pyplot as plt
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
@@ -274,6 +276,7 @@ class Ui_MainWindow(object):
         self.app = Application()
         self.filename = self.newCatInput.text()
         self.importCsvBtn.clicked.connect(self.fileOpen)
+        self.toolButton.clicked.connect(self.categoryBar)
         self.app.initialize()
         self.createCategoryWidget()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
@@ -285,6 +288,26 @@ class Ui_MainWindow(object):
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
 
+    def categoryBar(self):
+        print("Total spent: " + str(self.app.getTotalAmountSpent()))
+        barWidth = 0.35
+        catNames = self.app.getCategoryNamesList()
+        y_pos = np.arange(len(catNames))
+        amounts = []
+        allotted = []
+        for c in catNames:
+            amt = self.app.getAmountSpentByCategory(c)
+            allotment = self.app.getAmountAllottedByCategory(c)
+            amounts.append(abs(amt))
+            allotted.append(allotment)
+            print("Category: " + c + ", Amount: " + str(amt))
+
+        plt.bar(y_pos, amounts, barWidth, label="Spent")
+        plt.bar(y_pos + barWidth, allotted, barWidth, label="Allotted")
+        plt.xticks(y_pos, catNames)
+        plt.legend()
+        plt.show()
+
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
         self.app.sortCompletedTransactions(filePath)
@@ -294,14 +317,17 @@ class Ui_MainWindow(object):
         plannedTransactions = self.app.getPlannedTransactions()
         if plannedTransactions != None:
             for t in plannedTransactions.values():
-                self.tabWidget.setCurrentIndex(self.app.getCategoryNamesList().index(t.category) - 1)
-                rowPos = self.tabWidget.currentWidget().rowCount()
-                self.tabWidget.currentWidget().insertRow(rowPos)
-                self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
-                self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
-                print(t.name)
-                self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
-                print(t.amount)
+                try:
+                    self.tabWidget.setCurrentIndex(self.app.getCategoryNamesList().index(t.category) - 1)
+                    rowPos = self.tabWidget.currentWidget().rowCount()
+                    self.tabWidget.currentWidget().insertRow(rowPos)
+                    self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
+                    self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
+                    print(t.name)
+                    self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
+                    print(t.amount)
+                except ValueError:
+                    print("Exception occurred.")
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
