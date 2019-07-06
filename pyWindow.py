@@ -274,6 +274,7 @@ class Ui_MainWindow(object):
         self.filename = self.newCatInput.text()
         self.importCsvBtn.clicked.connect(self.saveCSVPath)
         self.app.initialize()
+
         self.createCategoryWidget()
         self.printUnhandledTransactions()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
@@ -294,9 +295,7 @@ class Ui_MainWindow(object):
                 self.tabWidget.currentWidget().insertRow(rowPos)
                 self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
-                print(t.name)
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
-                print(t.amount)
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
@@ -321,6 +320,7 @@ class Ui_MainWindow(object):
 
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
+        print(self.app.getCategoryNamesList())
         for category in self.app.getCategoryNamesList():
             if category != "Unhandled":
                 tab = DragDropTableWidget(self.app, self)
@@ -397,7 +397,6 @@ class Ui_MainWindow(object):
 
         
     def fillCategoryWidget(self, category):
-        #self.categoryWidget.currentWidget().clear()
         for t in self.app.getCompletedTransactionsByCategory(category).values():
             rowPos = self.categoryWidget.currentWidget().rowCount()
             self.categoryWidget.currentWidget().insertRow(rowPos)
