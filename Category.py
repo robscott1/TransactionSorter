@@ -61,6 +61,9 @@ class Category():
     '''
     self.completedTransactions[t.referenceNumber] = t
 
+  def getPlannedTransactions(self):
+    return self.plannedTransactions
+
   def getTotalAmountSpent(self):
     amount = 0
     for t in self.completedTransactions.values():

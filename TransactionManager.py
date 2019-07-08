@@ -40,6 +40,12 @@ class TransactionManager():
     c = self.categoryFactory.createCategory(data)
     self.registerCategory(c)
 
+  def getPlannedTransactions(self, category):
+    return self.categories[category].getPlannedTransactions().values()
+
+  def getCompletedTransactionsByCategory(self, category):
+    return self.categories[category].completedTransactions
+
   def updateCategoryData(self, data):
     '''
     Adds/Updates any existing user-defined category

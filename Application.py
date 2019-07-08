@@ -197,7 +197,7 @@ class Application():
     @returns: A dictionary of completed transactions that
     are registered to the specified category
     '''
-    return self.transactionManager.categories[categoryName].completedTransactions
+    return self.transactionManager.getCompletedTransactionsByCategory(categoryName)
 
   def createPlannedTransaction(self, data):
     '''
@@ -209,9 +209,9 @@ class Application():
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
 
-  def getPlannedTransactions(self):
+  def getPlannedTransactions(self, category):
 
-    return self.transactionManager.transactions
+    return self.transactionManager.getPlannedTransactions(category)
 
 
 

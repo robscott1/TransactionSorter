@@ -329,12 +329,13 @@ class Ui_MainWindow(object):
         self.printUnhandledTransactions()
         self.createCategoryWidget()
 
-    def fillTransactionWidget(self):
-        plannedTransactions = self.app.getPlannedTransactions()
+    def fillTransactionWidget(self, category):
+        plannedTransactions = self.app.getPlannedTransactions(category)
+        print(plannedTransactions)
         if plannedTransactions != None:
-            for t in plannedTransactions.values():
-                self.tabWidget.setCurrentIndex(self.app.getCategoryNamesList().index(t.category) - 1)
-                rowPos = self.tabWidget.currentWidget().rowCount()
+            for t in plannedTransactions:
+                print(self.tabWidget.currentIndex())
+                rowPos = self.tabWidget.currentWidget().rowCount()          
                 self.tabWidget.currentWidget().insertRow(rowPos)
                 self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
@@ -366,13 +367,14 @@ class Ui_MainWindow(object):
         print(self.app.getCategoryNamesList())
         for category in self.app.getCategoryNamesList():
             if category != "Unhandled":
-                tab = DragDropTableWidget(self.app, self)
-                tab.setAcceptDrops(True)
+                tab = QTableWidget()
                 self.tabWidget.addTab(tab, category)
                 self.tabWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.tabWidget.currentWidget().insertColumn(i)
-            self.fillTransactionWidget()
+                print(self.tabWidget.currentIndex())
+                print(self.tabWidget.currentWidget())
+            self.fillTransactionWidget(category)
 
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
