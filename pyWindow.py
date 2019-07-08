@@ -35,7 +35,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     row = self.mainWindow.tableWidget.currentRow()
     referenceNumber = int(self.mainWindow.tableWidget.item(row, 0).text())
     location = self.mainWindow.tableWidget.item(row, 1).text()
-    print(referenceNumber)
     amount = self.mainWindow.tableWidget.item(row, 2).text()
     self.mainWindow.tableWidget.removeRow(row)
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
@@ -43,6 +42,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.app.saveData()
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
+
 
 
 class Ui_MainWindow(object):
@@ -132,6 +132,9 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
+        self.undoSorting = QtWidgets.QPushButton(self.Categorize)
+        self.undoSorting.setGeometry(QtCore.QRect(460, 560, 113, 32))
+        self.undoSorting.setObjectName("undoSorting")
         self.importTab.addTab(self.Categorize, "")
         self.Planning = QtWidgets.QWidget()
         self.Planning.setObjectName("Planning")
@@ -213,7 +216,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.importTab.setCurrentIndex(2)
+        self.importTab.setCurrentIndex(1)
         self.categoryWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -239,6 +242,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Location"))
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Amount"))
+        self.undoSorting.setText(_translate("MainWindow", "Undo"))
         self.importTab.setTabText(self.importTab.indexOf(self.Categorize), _translate("MainWindow", "Categorize"))
         self.namePlannedT.setPlaceholderText(_translate("MainWindow", "Name"))
         self.amountPlannedT.setPlaceholderText(_translate("MainWindow", "Amount"))
@@ -263,7 +267,6 @@ class Ui_MainWindow(object):
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
-
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -284,21 +287,41 @@ class Ui_MainWindow(object):
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
+        self.undoSorting.clicked.connect(self.uncategorizeTransaction)
     
-    def transactionContextMenu(self):
-        contextMenu = QMenu(self)
-        undoAction = contextMenu.addAction("Undo")
+    def transactionContextMenu(self, event):
+        
+        self.contextMenu = QtGui.QMenu(self)
+        self.undoAction = contextMenu.addAction("Undo")
 
-        action = contextMenu.exec_(self.mapToGlobal(event.pos()))
+        self.action = contextMenu.exec_(self.mapToGlobal(event.pos()))
 
-        if action == undoAction:
+        self.contextMenu.popup(QtGui.QCursor.pos())
+
+        if self.action == self.undoAction:
             self.uncategorizeTransaction()
 
     def uncategorizeTransaction(self):
-        row = self.mainWindow.categoryWidget.currentWidget().currentRow()
-        referenceNumber = int(self.mainWindow.categoryWidget.currentWidget().item(row, 0).text())
-        location = self.mainWindow.categoryWidget.currentWidget().item(row, 1).text()
-        amount = self.mainWindow.categoryWidget.currentWidget().item(row, 2).text()
+        row = self.categoryWidget.currentWidget().currentRow()
+        location = self.categoryWidget.currentWidget().item(row, 1).text()
+        amount = self.categoryWidget.currentWidget().item(row, 2).text()
+        referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
+        c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
+        self.app.unregisterCompletedTransaction(c, referenceNumber)
+        self.app.registerCompletedTransaction("Unhandled", referenceNumber)
+        self.app.diagnosticDbg()
+        self.app.saveData()
+        self.returnTransactionToUnhandled(referenceNumber, location, amount)
+        self.categoryWidget.currentWidget().removeRow(row)
+
+    def returnTransactionToUnhandled(self, referenceNumber, location, amount):
+        row = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(row)
+        self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(referenceNumber)))
+        self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(location))
+        self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(amount))
+
+
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
@@ -452,7 +475,9 @@ class Ui_MainWindow(object):
 
 ##############################################################################################
                     # beginning of auto-generated code
-##########################################################################################
+################################################################################################
+
+
 
 if __name__ == "__main__":
     import sys

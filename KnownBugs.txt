@@ -16,3 +16,4 @@ when it pulled it from the csv. See the unhandledTransactions List Widget. Just 
 
 -if we delete a category, the transactions are gone forever. We will need to take those completed transactions and put them back in the unhandled category when we delete a user-made category
 
+-unregistering category also needs to delete keywords associated with the manual sorting actions, that location still resides in their previous category's idKeywords list
