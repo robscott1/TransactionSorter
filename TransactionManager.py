@@ -88,5 +88,7 @@ class TransactionManager():
   def categoryDbg(self):
     for c in self.categories.values():
       print("Category: " + c.name)
-      print("Keywords: " + str(c.keywords))
+      #print("Keywords: " + str(c.keywords))
+      for t in c.completedTransactions.values():
+        print(t.location)
 

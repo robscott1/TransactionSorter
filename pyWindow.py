@@ -275,7 +275,6 @@ class Ui_MainWindow(object):
         self.filename = self.newCatInput.text()
         self.importCsvBtn.clicked.connect(self.fileOpen)
         self.app.initialize()
-
         self.createCategoryWidget()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
@@ -285,11 +284,27 @@ class Ui_MainWindow(object):
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
+    
+    def transactionContextMenu(self):
+        contextMenu = QMenu(self)
+        undoAction = contextMenu.addAction("Undo")
+
+        action = contextMenu.exec_(self.mapToGlobal(event.pos()))
+
+        if action == undoAction:
+            self.uncategorizeTransaction()
+
+    def uncategorizeTransaction(self):
+        row = self.mainWindow.categoryWidget.currentWidget().currentRow()
+        referenceNumber = int(self.mainWindow.categoryWidget.currentWidget().item(row, 0).text())
+        location = self.mainWindow.categoryWidget.currentWidget().item(row, 1).text()
+        amount = self.mainWindow.categoryWidget.currentWidget().item(row, 2).text()
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
+        self.createCategoryWidget()
 
     def fillTransactionWidget(self):
         plannedTransactions = self.app.getPlannedTransactions()
@@ -334,12 +349,13 @@ class Ui_MainWindow(object):
                 self.tabWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.tabWidget.currentWidget().insertColumn(i)
-        self.fillTransactionWidget()
+            self.fillTransactionWidget()
 
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
         self.app.sortCompletedTransactions(csvPath)
         self.printUnhandledTransactions()
+        self.createCategoryWidget()
 
     def openNewCatPop(self):
         '''
@@ -428,8 +444,6 @@ class Ui_MainWindow(object):
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
-
-    
 
     def updateCategoryListOfTransactions(self):
         self.tab = self.categoryWidget.currentIndex() + 1
