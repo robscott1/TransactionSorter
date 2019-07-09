@@ -13,7 +13,6 @@ class CSVAgent():
         num_strs = line.split(',')
         amount = num_strs[1]
         amount = amount[1:-1]
-        amount = amount * -1
         amountList.append(amount)
         location = num_strs[4]
         location = location[:-1]
