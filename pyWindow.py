@@ -289,17 +289,6 @@ class Ui_MainWindow(object):
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
         self.undoSorting.clicked.connect(self.uncategorizeTransaction)
     
-    def transactionContextMenu(self, event):
-        
-        self.contextMenu = QtGui.QMenu(self)
-        self.undoAction = contextMenu.addAction("Undo")
-
-        self.action = contextMenu.exec_(self.mapToGlobal(event.pos()))
-
-        self.contextMenu.popup(QtGui.QCursor.pos())
-
-        if self.action == self.undoAction:
-            self.uncategorizeTransaction()
 
     def uncategorizeTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
