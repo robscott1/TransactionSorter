@@ -290,8 +290,20 @@ class Ui_MainWindow(object):
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
-        self.undoBtn.clicked.connect(self.uncategorizeTransaction)
+        self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
         self.updateFrequencyBox()
+        self.removeBtn.clicked.connect(self.removePlannedTransaction)
+
+    def removePlannedTransaction(self):
+        row = self.tabWidget.currentWidget().currentRow()
+        print(row)
+        index = self.tabWidget.currentIndex()
+        category = self.app.getCategoryNamesList()[index + 1]
+        name = self.tabWidget.currentWidget().item(row, 1).text()
+        self.app.removePlannedTransaction(category, name)
+        self.tabWidget.currentWidget().removeRow(row)
+        self.app.saveData()
+
 
     def updateFrequencyBox(self):
         categoryNamesList = self.app.getCategoryNamesList()
@@ -299,7 +311,7 @@ class Ui_MainWindow(object):
             if c != "Unhandled":
                 self.comboBox_2.addItem(c)
 
-    def uncategorizeTransaction(self):
+    def uncategorizeCompletedTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
         location = self.categoryWidget.currentWidget().item(row, 1).text()
         amount = self.categoryWidget.currentWidget().item(row, 2).text()
@@ -319,8 +331,6 @@ class Ui_MainWindow(object):
         self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(location))
         self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(amount))
 
-
-
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
         self.app.sortCompletedTransactions(filePath)
@@ -329,7 +339,6 @@ class Ui_MainWindow(object):
 
     def fillTransactionWidget(self, category):
         plannedTransactions = self.app.getPlannedTransactions(category)
-        print(plannedTransactions)
         if plannedTransactions != None:
             for t in plannedTransactions:
                 rowPos = self.tabWidget.currentWidget().rowCount()          

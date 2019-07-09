@@ -213,6 +213,8 @@ class Application():
 
     return self.transactionManager.getPlannedTransactions(category)
 
+  def removePlannedTransaction(self, category, name):
+    self.transactionManager.removePlannedTransaction(category, name)
 
 
   def diagnosticDbg(self):

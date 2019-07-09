@@ -61,6 +61,9 @@ class Category():
     '''
     self.completedTransactions[t.referenceNumber] = t
 
+  def removePlannedTransaction(self, name):
+    del self.plannedTransactions[name]
+
   def getPlannedTransactions(self):
     return self.plannedTransactions
 

@@ -14,8 +14,6 @@ class TransactionManager():
     self.categories = dict()  
     self.categories["Unhandled"] = Category("Unhandled")
 
-  # assigns dictionary key to the name of transaction in transaction dict
-  # difference between registering and creating?
   def registerTransaction(self, t):
     self.transactions[t.name] = t
     try: 
@@ -93,6 +91,10 @@ class TransactionManager():
     except KeyError:
       print("Key not found")
 
+  def removePlannedTransaction(self, category, name):
+    self.categories[category].removePlannedTransaction(name)
+    del self.transactions[name]
+
   def categoryDbg(self):
     for c in self.categories.values():
       print("Category: " + c.name)
@@ -100,3 +102,7 @@ class TransactionManager():
       for t in c.completedTransactions.values():
         print(t.location)
 
+  def plannedTDbg(self, category):
+    print("Debug")
+    for t in self.getPlannedTransactions(category):
+      print(t.name)
