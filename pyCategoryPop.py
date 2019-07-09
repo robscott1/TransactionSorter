@@ -95,7 +95,6 @@ class Ui_createDialog(object):
         category.monthlyAllotment = float(self.newCategoryAllotment.text())
         category.idKeywords = self.keywordList
         self.app.createNewCategory(category)
-        self.updateFrequencyBox()
 
 ##############################################################################################
                     # begin auto-generated code
