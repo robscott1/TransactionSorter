@@ -26,6 +26,7 @@ class Category():
     self.plannedTransactions[t.name] = t
 
   def unregisterCompletedTransaction(self, t):
+    self.keywords.remove(t.location)
     del self.completedTransactions[t.referenceNumber]
 
   def registerCompletedTransaction(self, t):
@@ -59,6 +60,9 @@ class Category():
 
     '''
     self.completedTransactions[t.referenceNumber] = t
+
+  def getPlannedTransactions(self):
+    return self.plannedTransactions
 
   def getTotalAmountSpent(self):
     amount = 0
