@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -44,7 +44,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -52,7 +51,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
-        self.importTab.setGeometry(QtCore.QRect(110, 80, 961, 641))
+        self.importTab.setGeometry(QtCore.QRect(90, 70, 961, 641))
         self.importTab.setAcceptDrops(True)
         self.importTab.setObjectName("importTab")
         self.Import = QtWidgets.QWidget()
@@ -121,7 +120,7 @@ class Ui_MainWindow(object):
         self.tab2.setObjectName("tab2")
         self.categoryWidget.addTab(self.tab2, "")
         self.tableWidget = QtWidgets.QTableWidget(self.Categorize)
-        self.tableWidget.setGeometry(QtCore.QRect(250, 80, 431, 191))
+        self.tableWidget.setGeometry(QtCore.QRect(30, 80, 871, 191))
         self.tableWidget.setDragEnabled(True)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(3)
@@ -132,9 +131,9 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
-        self.undoSorting = QtWidgets.QPushButton(self.Categorize)
-        self.undoSorting.setGeometry(QtCore.QRect(460, 560, 113, 32))
-        self.undoSorting.setObjectName("undoSorting")
+        self.undoBtn = QtWidgets.QPushButton(self.Categorize)
+        self.undoBtn.setGeometry(QtCore.QRect(460, 560, 121, 31))
+        self.undoBtn.setObjectName("undoBtn")
         self.importTab.addTab(self.Categorize, "")
         self.Planning = QtWidgets.QWidget()
         self.Planning.setObjectName("Planning")
@@ -162,9 +161,6 @@ class Ui_MainWindow(object):
         self.singularBtn = QtWidgets.QRadioButton(self.Planning)
         self.singularBtn.setGeometry(QtCore.QRect(140, 290, 100, 20))
         self.singularBtn.setObjectName("singularBtn")
-        self.categoryPlannedT = QtWidgets.QLineEdit(self.Planning)
-        self.categoryPlannedT.setGeometry(QtCore.QRect(130, 130, 141, 21))
-        self.categoryPlannedT.setObjectName("categoryPlannedT")
         self.calendarWidget = QtWidgets.QCalendarWidget(self.Planning)
         self.calendarWidget.setGeometry(QtCore.QRect(520, 80, 312, 173))
         self.calendarWidget.setObjectName("calendarWidget")
@@ -191,10 +187,16 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox_2 = QtWidgets.QComboBox(self.Planning)
+        self.comboBox_2.setGeometry(QtCore.QRect(130, 130, 141, 22))
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.removeBtn = QtWidgets.QPushButton(self.Planning)
+        self.removeBtn.setGeometry(QtCore.QRect(690, 360, 111, 28))
+        self.removeBtn.setObjectName("removeBtn")
         self.importTab.addTab(self.Planning, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 26))
         self.menubar.setObjectName("menubar")
         self.menuImport = QtWidgets.QMenu(self.menubar)
         self.menuImport.setObjectName("menuImport")
@@ -218,6 +220,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.importTab.setCurrentIndex(1)
         self.categoryWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -242,14 +245,13 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Location"))
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Amount"))
-        self.undoSorting.setText(_translate("MainWindow", "Undo"))
+        self.undoBtn.setText(_translate("MainWindow", "Undo"))
         self.importTab.setTabText(self.importTab.indexOf(self.Categorize), _translate("MainWindow", "Categorize"))
         self.namePlannedT.setPlaceholderText(_translate("MainWindow", "Name"))
         self.amountPlannedT.setPlaceholderText(_translate("MainWindow", "Amount"))
         self.frequencyLabel.setText(_translate("MainWindow", "Recurring or singular expenditure"))
         self.recurringBtn.setText(_translate("MainWindow", "Recurring"))
         self.singularBtn.setText(_translate("MainWindow", "Singular"))
-        self.categoryPlannedT.setPlaceholderText(_translate("MainWindow", "Category"))
         self.label_2.setText(_translate("MainWindow", "Categories with planned expenditures"))
         self.savePlannedT.setText(_translate("MainWindow", "Save"))
         self.label_3.setText(_translate("MainWindow", "Enter expenditure:"))
@@ -260,6 +262,7 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(4, _translate("MainWindow", "quarterly"))
         self.comboBox.setItemText(5, _translate("MainWindow", "bi-annually"))
         self.comboBox.setItemText(6, _translate("MainWindow", "annually"))
+        self.removeBtn.setText(_translate("MainWindow", "Remove"))
         self.importTab.setTabText(self.importTab.indexOf(self.Planning), _translate("MainWindow", "Planning"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -287,8 +290,14 @@ class Ui_MainWindow(object):
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
-        self.undoSorting.clicked.connect(self.uncategorizeTransaction)
-    
+        self.undoBtn.clicked.connect(self.uncategorizeTransaction)
+        self.updateFrequencyBox()
+
+    def updateFrequencyBox(self):
+        categoryNamesList = self.app.getCategoryNamesList()
+        for c in categoryNamesList:
+            if c != "Unhandled":
+                self.comboBox_2.addItem(c)
 
     def uncategorizeTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
@@ -323,7 +332,6 @@ class Ui_MainWindow(object):
         print(plannedTransactions)
         if plannedTransactions != None:
             for t in plannedTransactions:
-                print(self.tabWidget.currentIndex())
                 rowPos = self.tabWidget.currentWidget().rowCount()          
                 self.tabWidget.currentWidget().insertRow(rowPos)
                 self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
@@ -333,7 +341,7 @@ class Ui_MainWindow(object):
     def savePlannedTransaction(self):
         transaction = TransactionData()
         transaction.name = self.namePlannedT.text()
-        transaction.category = self.categoryPlannedT.text()
+        transaction.category = self.comboBox_2.currentText()
         transaction.amount = float(self.amountPlannedT.text())
         if self.recurringBtn.isChecked():
             transaction.recurring = True
@@ -353,7 +361,6 @@ class Ui_MainWindow(object):
 
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
-        print(self.app.getCategoryNamesList())
         for category in self.app.getCategoryNamesList():
             if category != "Unhandled":
                 tab = QTableWidget()
@@ -361,8 +368,6 @@ class Ui_MainWindow(object):
                 self.tabWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.tabWidget.currentWidget().insertColumn(i)
-                print(self.tabWidget.currentIndex())
-                print(self.tabWidget.currentWidget())
             self.fillTransactionWidget(category)
 
     def saveCSVPath(self):
@@ -466,9 +471,7 @@ class Ui_MainWindow(object):
 
 ##############################################################################################
                     # beginning of auto-generated code
-################################################################################################
-
-
+#################################################################################
 
 if __name__ == "__main__":
     import sys
@@ -478,3 +481,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
