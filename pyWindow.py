@@ -51,8 +51,9 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
-        self.importTab.setGeometry(QtCore.QRect(90, 70, 961, 641))
+        self.importTab.setGeometry(QtCore.QRect(80, 70, 961, 641))
         self.importTab.setAcceptDrops(True)
+        self.importTab.setAccessibleName("")
         self.importTab.setObjectName("importTab")
         self.Import = QtWidgets.QWidget()
         self.Import.setObjectName("Import")
@@ -194,6 +195,34 @@ class Ui_MainWindow(object):
         self.removeBtn.setGeometry(QtCore.QRect(690, 360, 111, 28))
         self.removeBtn.setObjectName("removeBtn")
         self.importTab.addTab(self.Planning, "")
+        self.Analysis = QtWidgets.QWidget()
+        self.Analysis.setObjectName("Analysis")
+        self.categoryAnalysisTable = QtWidgets.QTableWidget(self.Analysis)
+        self.categoryAnalysisTable.setGeometry(QtCore.QRect(80, 90, 801, 221))
+        self.categoryAnalysisTable.setAutoFillBackground(False)
+        self.categoryAnalysisTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.categoryAnalysisTable.setTextElideMode(QtCore.Qt.ElideRight)
+        self.categoryAnalysisTable.setObjectName("categoryAnalysisTable")
+        self.categoryAnalysisTable.setColumnCount(5)
+        self.categoryAnalysisTable.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.categoryAnalysisTable.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.categoryAnalysisTable.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.categoryAnalysisTable.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.categoryAnalysisTable.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.categoryAnalysisTable.setHorizontalHeaderItem(4, item)
+        self.spendingLabel = QtWidgets.QLabel(self.Analysis)
+        self.spendingLabel.setGeometry(QtCore.QRect(340, 20, 281, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.spendingLabel.setFont(font)
+        self.spendingLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.spendingLabel.setObjectName("spendingLabel")
+        self.importTab.addTab(self.Analysis, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 26))
@@ -218,7 +247,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.importTab.setCurrentIndex(1)
+        self.importTab.setCurrentIndex(3)
         self.categoryWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -264,11 +293,24 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(6, _translate("MainWindow", "annually"))
         self.removeBtn.setText(_translate("MainWindow", "Remove"))
         self.importTab.setTabText(self.importTab.indexOf(self.Planning), _translate("MainWindow", "Planning"))
+        item = self.categoryAnalysisTable.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Category"))
+        item = self.categoryAnalysisTable.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "$ Allotted"))
+        item = self.categoryAnalysisTable.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "$ Spent"))
+        item = self.categoryAnalysisTable.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "$ Planned"))
+        item = self.categoryAnalysisTable.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Balance"))
+        self.spendingLabel.setText(_translate("MainWindow", "Spending Analysis"))
+        self.importTab.setTabText(self.importTab.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
         self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
+
 
 ##############################################################################################
                     # end of auto-generated code
@@ -291,8 +333,33 @@ class Ui_MainWindow(object):
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
         self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
-        self.updateFrequencyBox()
+        self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
+
+    def fillAnalysisTable(self):
+        categories = self.app.getCategoryNamesList()
+        for c in categories:
+            if c != "Unhandled": 
+                row = self.categoryAnalysisTable.currentRow()
+                if row == -1:
+                    self.categoryAnalysisTable.insertRow(0)
+                    row = 0
+                else:
+                    self.categoryAnalysisTable.insertRow(row)
+                self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
+                print("anyone home")
+                self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
+                print(str(self.app.getAmountAllottedByCategory("anotha")))
+                self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
+                self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
+                self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
+        # resizing
+        header = self.categoryAnalysisTable.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)    
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
+
 
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
@@ -305,7 +372,8 @@ class Ui_MainWindow(object):
         self.app.saveData()
 
 
-    def updateFrequencyBox(self):
+    def updateCategoryBox(self):
+        self.comboBox_2.clear()
         categoryNamesList = self.app.getCategoryNamesList()
         for c in categoryNamesList:
             if c != "Unhandled":
@@ -336,6 +404,7 @@ class Ui_MainWindow(object):
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
+        self.fillAnalysisTable()
 
     def fillTransactionWidget(self, category):
         plannedTransactions = self.app.getPlannedTransactions(category)
@@ -361,6 +430,7 @@ class Ui_MainWindow(object):
         self.app.createPlannedTransaction(transaction)
         self.createPlannedTransactionsWidget()
         self.app.saveData()
+
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
@@ -424,6 +494,7 @@ class Ui_MainWindow(object):
         self.app.saveData()
         self.createCategoryWidget()
         self.createPlannedTransactionsWidget()
+        self.updateCategoryBox()
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
@@ -466,13 +537,14 @@ class Ui_MainWindow(object):
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+
             
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
-
+        
     def updateCategoryListOfTransactions(self):
         self.tab = self.categoryWidget.currentIndex() + 1
         self.index = self.app.getCategoryNamesList()[self.tab]
@@ -481,7 +553,6 @@ class Ui_MainWindow(object):
 ##############################################################################################
                     # beginning of auto-generated code
 #################################################################################
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
