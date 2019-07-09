@@ -94,7 +94,8 @@ class Application():
     @returns: The sum of all transactions that have been
     associated with that category
     '''
-    return self.analysisManager.getAmountSpentByCategory(categoryName)
+
+    return round(self.analysisManager.getAmountSpentByCategory(categoryName), 2)
 
   def getDeltaByCategory(self, categoryName):
     '''
@@ -107,7 +108,7 @@ class Application():
     @returns: The difference between the amount that was
     allotted and the amount that was spent for a given category
     '''
-    return self.analysisManager.getDeltaByCategory(categoryName)
+    return round(self.analysisManager.getDeltaByCategory(categoryName), 2)
 
 
   def getAmountAllottedByCategory(self, categoryName):
