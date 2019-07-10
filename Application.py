@@ -75,7 +75,7 @@ class Application():
     @returns: The total amount spent from all the transactions
     in the most recently imported csv file
     '''
-    return self.analysisManager.getTotalAmountSpent()
+    return abs(self.analysisManager.getTotalAmountSpent())
 
   def getAmountSpentByCategory(self, categoryName):
     '''
@@ -89,7 +89,7 @@ class Application():
     associated with that category
     '''
 
-    return round(self.analysisManager.getAmountSpentByCategory(categoryName), 2)
+    return abs(round(self.analysisManager.getAmountSpentByCategory(categoryName), 2))
 
   def getDeltaByCategory(self, categoryName):
     '''
