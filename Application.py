@@ -35,12 +35,6 @@ class Application():
     self.pdm.stashPersistentData("transactionData.xml", "categoryData.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
-  # allows totals to be tracked through each category
-  # transactions are picked up and put in Category objects
-  # in the form of a list
-  def getAmountSpentByCategory(self, category):
-    return self.analysisManager.getAmountSpentByCategory(category)
-
   def getCategoryNamesList(self):
     '''
     This method can be used to get the keys
