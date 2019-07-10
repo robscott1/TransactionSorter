@@ -336,6 +336,8 @@ class Ui_MainWindow(object):
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
+    
+
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
@@ -347,18 +349,33 @@ class Ui_MainWindow(object):
                 else:
                     self.categoryAnalysisTable.insertRow(row)
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
-                print("anyone home")
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
-                print(str(self.app.getAmountAllottedByCategory("anotha")))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
+                self.flagCategory(row)
+
         # resizing
         header = self.categoryAnalysisTable.horizontalHeader()
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)    
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
+
+
+    def flagCategory(self, row):
+        if (float(self.categoryAnalysisTable.item(row, 2).text()) + \
+            float(self.categoryAnalysisTable.item(row, 3).text()) > float(self.categoryAnalysisTable.item(row, 1).text())):
+                
+            self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 240, 5))
+
+
+
+        if float(self.categoryAnalysisTable.item(row, 2).text()) > float(self.categoryAnalysisTable.item(row, 1).text()):
+            self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
+
+
+
 
 
     def removePlannedTransaction(self):
