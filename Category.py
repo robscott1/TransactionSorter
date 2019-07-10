@@ -79,3 +79,11 @@ class Category():
 
   def getDelta(self):
     return self.getTotalAmountAllotted() - self.getTotalAmountSpent()
+
+  def getAmountSpentByMonth(self, month):
+    amount = 0
+    for t in self.completedTransactions.values():
+      if t.month == month:
+        amount += t.amount
+
+    return amount

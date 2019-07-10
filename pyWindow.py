@@ -276,7 +276,7 @@ class Ui_MainWindow(object):
         self.app = Application()
         self.filename = self.newCatInput.text()
         self.importCsvBtn.clicked.connect(self.fileOpen)
-        self.toolButton.clicked.connect(self.categoryBar)
+        self.toolButton.clicked.connect(self.categoryLine)
         self.app.initialize()
         self.createCategoryWidget()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
@@ -306,6 +306,25 @@ class Ui_MainWindow(object):
         plt.bar(y_pos + barWidth, allotted, barWidth, label="Allotted")
         plt.xticks(y_pos, catNames)
         plt.legend()
+        plt.show()
+
+    def categoryLine(self):
+        amounts = []
+        days = []
+        months = []
+        completedTransactions = self.app.getCompletedTransactionsByCategory("Restaurants").values()
+        categories = self.app.getCategoryNamesList()
+        for c in categories:
+          if c != "Unhandled":
+            for month in range(4):
+              amt = self.app.getAmountSpentByCategoryByMonth(c, month+3)
+              amounts.append(abs(amt))
+              months.append(month+3)
+
+        plt.plot(months, amounts)
+        plt.xticks(months)
+        plt.xlabel("Month")
+        plt.ylabel("Amount Spent")
         plt.show()
 
     def fileOpen(self):
@@ -443,7 +462,7 @@ class Ui_MainWindow(object):
             self.tableWidget.insertRow(rowPos)
             self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
             self.tableWidget.setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
-            self.tableWidget.setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
+            self.tableWidget.setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
             # resizing the columns
             header = self.tableWidget.horizontalHeader()       
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)

@@ -19,8 +19,8 @@ class CSVAgent():
         location = location[:-1]
         locationList.append(location)
         date = num_strs[0]
+        date = date[1:-1]
         dateList.append(date)
-        print(date)
 
     f.close()
 

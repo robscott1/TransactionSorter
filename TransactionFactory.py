@@ -16,6 +16,8 @@ class TransactionFactory():
     return transaction
 
   def createCompletedTransaction(self, data):
-    transaction = CompletedTransaction(location=data.location, amount=data.amount, referenceNumber=self.completedTransactionIndex)
+    transaction = CompletedTransaction(location=data.location, amount=data.amount, 
+                                       referenceNumber=self.completedTransactionIndex, 
+                                       date=data.date)
     self.completedTransactionIndex += 1
     return transaction

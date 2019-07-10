@@ -210,8 +210,10 @@ class Application():
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
 
   def getPlannedTransactions(self):
-
     return self.transactionManager.transactions
+
+  def getAmountSpentByCategoryByMonth(self, categoryName, month):
+    return self.analysisManager.getAmountSpentByCategoryByMonth(categoryName, month)
 
 
 

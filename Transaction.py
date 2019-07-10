@@ -9,6 +9,15 @@ class PlannedTransaction():
     self.initialized = True
     #for planned, not for completed
     self.date = date
+    try:
+      splitDate = date.split('/')
+      self.month = int(splitDate[0])
+      self.day = int(splitDate[1])
+      self.year = int(splitDate[2])
+      print("Month: " + self.month + ", Day: " + self.day + ", Year: " + self.year)
+    except:
+      print("Exception occurred.")
+
     self.category = category
     self.amount = amount
     self.location = location
@@ -44,6 +53,7 @@ class PlannedTransaction():
       self.recurring = False
       self.rateOfRecurrence = None
 
+
   def printData(self):
     print("Name: " + self.name)
     print("Category: " + self.category)
@@ -51,7 +61,13 @@ class PlannedTransaction():
 
 class CompletedTransaction():
   
-  def __init__(self, location=None, amount=None, referenceNumber=None):
+  def __init__(self, location=None, amount=None, referenceNumber=None, date=None):
     self.location = location
-    self.amount = amount
+    self.amount = float(amount)
     self.referenceNumber = referenceNumber
+    self.date = date
+    splitDate = date.split('/')
+    self.month = int(splitDate[0])
+    self.day = int(splitDate[1])
+    self.year = int(splitDate[2])
+    

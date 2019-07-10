@@ -28,6 +28,7 @@ class AnalysisManager():
       parsedData = TransactionData()
       parsedData.amount = amountList[index]
       parsedData.location = locationList[index]
+      parsedData.date = dateList[index]
       completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)
       self.completedTransactions[completedTransaction.referenceNumber] = completedTransaction
     
@@ -61,4 +62,7 @@ class AnalysisManager():
 
   def getKeywordsByCategory(self, categoryName):
     return self.categories[categoryName].keywords
+
+  def getAmountSpentByCategoryByMonth(self, categoryName, month):
+    return self.categories[categoryName].getAmountSpentByMonth(month)
 
