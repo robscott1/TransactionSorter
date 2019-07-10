@@ -57,7 +57,7 @@ class AnalysisManager():
     for t in self.completedTransactions.values():
       total += float(t.amount)
 
-    return total
+    return total * -1
 
   def getKeywordsByCategory(self, categoryName):
     return self.categories[categoryName].keywords
