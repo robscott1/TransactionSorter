@@ -40,6 +40,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
+    self.mainWindow.updateAnalysisTable(c)
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
@@ -336,24 +337,32 @@ class Ui_MainWindow(object):
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
-    
+    def updateAnalysisTable(self, category):
+        row = self.app.getCategoryNamesList().index(category)
+        print(self.categoryAnalysisTable.rowCount())
+        print(row)
+        print(self.app.getAmountSpentByCategory(category))
+        self.categoryAnalysisTable.removeRow(row - 1)
+        self.categoryAnalysisTable.insertRow(row)
+        self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(category))
+        print(self.categoryAnalysisTable.item(row, 0))
+        self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(self.app.getAmountAllottedByCategory(category)))
+        self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(self.app.getAmountSpentByCategory(category)))
+        self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(self.app.getAmountPlannedByCategory(category)))
+        self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(self.app.getDeltaByCategory(category)))
+        #self.flagCategory(category)
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
             if c != "Unhandled": 
-                row = self.categoryAnalysisTable.currentRow()
-                if row == -1:
-                    self.categoryAnalysisTable.insertRow(0)
-                    row = 0
-                else:
-                    self.categoryAnalysisTable.insertRow(row)
+                row = self.categoryAnalysisTable.rowCount()
+                self.categoryAnalysisTable.insertRow(row)
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
-                self.flagCategory(row)
 
         # resizing
         header = self.categoryAnalysisTable.horizontalHeader()
@@ -362,31 +371,27 @@ class Ui_MainWindow(object):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
 
+    def flagCategory(self, category):
+    
+        row = self.app.getCategoryNamesList().index(category)
+        print(row)
 
-    def flagCategory(self, row):
-        if (float(self.categoryAnalysisTable.item(row, 2).text()) + \
-            float(self.categoryAnalysisTable.item(row, 3).text()) > float(self.categoryAnalysisTable.item(row, 1).text())):
-                
+        if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category) + self.app.getAmountPlannedByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 240, 5))
 
-
-
-        if float(self.categoryAnalysisTable.item(row, 2).text()) > float(self.categoryAnalysisTable.item(row, 1).text()):
+        if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
-
-
-
 
 
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
-        print(row)
         index = self.tabWidget.currentIndex()
         category = self.app.getCategoryNamesList()[index + 1]
         name = self.tabWidget.currentWidget().item(row, 1).text()
         self.app.removePlannedTransaction(category, name)
         self.tabWidget.currentWidget().removeRow(row)
         self.app.saveData()
+
 
 
     def updateCategoryBox(self):
@@ -408,6 +413,7 @@ class Ui_MainWindow(object):
         self.app.saveData()
         self.returnTransactionToUnhandled(referenceNumber, location, amount)
         self.categoryWidget.currentWidget().removeRow(row)
+        self.updateAnalysisTable(c)
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
         row = self.tableWidget.rowCount()
@@ -447,13 +453,13 @@ class Ui_MainWindow(object):
         self.app.createPlannedTransaction(transaction)
         self.createPlannedTransactionsWidget()
         self.app.saveData()
+        self.updateAnalysisTable(transaction.category)
 
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
             return True, self.comboBox.currentText()
         return False
-
 
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
@@ -464,7 +470,7 @@ class Ui_MainWindow(object):
                 self.tabWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.tabWidget.currentWidget().insertColumn(i)
-            self.fillTransactionWidget(category)
+                self.fillTransactionWidget(category)
 
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
