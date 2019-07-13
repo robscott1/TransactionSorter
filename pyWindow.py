@@ -338,19 +338,13 @@ class Ui_MainWindow(object):
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
     def updateAnalysisTable(self, category):
-        row = self.app.getCategoryNamesList().index(category)
-        print(self.categoryAnalysisTable.rowCount())
-        print(row)
-        print(self.app.getAmountSpentByCategory(category))
-        self.categoryAnalysisTable.removeRow(row - 1)
-        self.categoryAnalysisTable.insertRow(row)
-        self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(category))
-        print(self.categoryAnalysisTable.item(row, 0))
-        self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(self.app.getAmountAllottedByCategory(category)))
-        self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(self.app.getAmountSpentByCategory(category)))
-        self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(self.app.getAmountPlannedByCategory(category)))
-        self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(self.app.getDeltaByCategory(category)))
-        #self.flagCategory(category)
+        row = self.app.getCategoryNamesList().index(category) - 1
+        self.categoryAnalysisTable.item(row, 0).setText(category)
+        self.categoryAnalysisTable.item(row, 1).setText(str(self.app.getAmountAllottedByCategory(category)))
+        self.categoryAnalysisTable.item(row, 2).setText(str(self.app.getAmountSpentByCategory(category)))
+        self.categoryAnalysisTable.item(row, 3).setText(str(self.app.getAmountPlannedByCategory(category)))
+        self.categoryAnalysisTable.item(row, 4).setText(str(self.app.getDeltaByCategory(category)))
+        self.flagCategory(category)
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
@@ -373,7 +367,7 @@ class Ui_MainWindow(object):
 
     def flagCategory(self, category):
     
-        row = self.app.getCategoryNamesList().index(category)
+        row = self.app.getCategoryNamesList().index(category) - 1
         print(row)
 
         if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category) + self.app.getAmountPlannedByCategory(category):
