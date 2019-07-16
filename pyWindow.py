@@ -5,12 +5,14 @@
 # Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
+from embeddedMatplotlib import Window
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -42,6 +44,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -239,6 +242,9 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.percentageSpentLabel.setFont(font)
         self.percentageSpentLabel.setObjectName("percentageSpentLabel")
+        self.plotWindow = QtWidgets.QPushButton(self.Analysis)
+        self.plotWindow.setGeometry(QtCore.QRect(80, 380, 93, 28))
+        self.plotWindow.setObjectName("plotWindow")
         self.importTab.addTab(self.Analysis, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -325,6 +331,7 @@ class Ui_MainWindow(object):
         self.amountSpentLabel.setText(_translate("MainWindow", "TextLabel"))
         self.label_6.setText(_translate("MainWindow", "Percentage of Monthly Budget:"))
         self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
+        self.plotWindow.setText(_translate("MainWindow", "Plot"))
         self.importTab.setTabText(self.importTab.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -355,6 +362,13 @@ class Ui_MainWindow(object):
         self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
+        self.plotWindow.clicked.connect(self.openPlottingWindow)
+
+
+
+    def openPlottingWindow(self):
+        plotWindow = Window()
+        plotWindow.show()
 
     def updateSpendingLabels(self):
         categories = self.app.getCategoryNamesList()
@@ -614,7 +628,6 @@ class Ui_MainWindow(object):
 ##############################################################################################
                     # beginning of auto-generated code
 #################################################################################
-
 
 if __name__ == "__main__":
     import sys
