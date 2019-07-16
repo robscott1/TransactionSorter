@@ -5,7 +5,6 @@
 # Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
@@ -43,7 +42,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -223,6 +221,24 @@ class Ui_MainWindow(object):
         self.spendingLabel.setFont(font)
         self.spendingLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.spendingLabel.setObjectName("spendingLabel")
+        self.label_5 = QtWidgets.QLabel(self.Analysis)
+        self.label_5.setGeometry(QtCore.QRect(640, 330, 121, 31))
+        self.label_5.setObjectName("label_5")
+        self.amountSpentLabel = QtWidgets.QLabel(self.Analysis)
+        self.amountSpentLabel.setGeometry(QtCore.QRect(770, 330, 91, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.amountSpentLabel.setFont(font)
+        self.amountSpentLabel.setObjectName("amountSpentLabel")
+        self.label_6 = QtWidgets.QLabel(self.Analysis)
+        self.label_6.setGeometry(QtCore.QRect(580, 360, 181, 20))
+        self.label_6.setObjectName("label_6")
+        self.percentageSpentLabel = QtWidgets.QLabel(self.Analysis)
+        self.percentageSpentLabel.setGeometry(QtCore.QRect(770, 360, 91, 16))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.percentageSpentLabel.setFont(font)
+        self.percentageSpentLabel.setObjectName("percentageSpentLabel")
         self.importTab.addTab(self.Analysis, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -305,6 +321,10 @@ class Ui_MainWindow(object):
         item = self.categoryAnalysisTable.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Balance"))
         self.spendingLabel.setText(_translate("MainWindow", "Spending Analysis"))
+        self.label_5.setText(_translate("MainWindow", "Total Amount Spent:"))
+        self.amountSpentLabel.setText(_translate("MainWindow", "TextLabel"))
+        self.label_6.setText(_translate("MainWindow", "Percentage of Monthly Budget:"))
+        self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
         self.importTab.setTabText(self.importTab.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -312,12 +332,11 @@ class Ui_MainWindow(object):
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
-
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
-        
-        # placed here to instantiate the backend in the GUI at the start, 
+
+# placed here to instantiate the backend in the GUI at the start, 
         # it makes it easier for the backed to be passed into the popup windows
         # where several functions are called
         self.app = Application()
@@ -337,6 +356,30 @@ class Ui_MainWindow(object):
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
+    def updateSpendingLabels(self):
+        categories = self.app.getCategoryNamesList()
+        totalSpent = 0
+        totalAllotted = 0
+        for c in categories:
+            if c != "Unhandled":
+                totalSpent += self.app.getAmountSpentByCategory(c)
+                totalAllotted += self.app.getAmountAllottedByCategory(c)
+                print(totalSpent)
+                print(totalAllotted)
+        pctSpent = round(totalSpent / totalAllotted, 1) * 100
+        self.amountSpentLabel.setText(str(totalSpent))
+        self.percentageSpentLabel.setText(str(pctSpent))
+
+        if pctSpent <= 65:
+            self.percentageSpentLabel.setStyleSheet("color: green;")
+        elif 65 < pctSpent < 90:
+            self.percentageSpentLabel.setStyleSheet("color: rgb(255, 200, 0);")
+        else:
+            self.percentageSpentLabel.setStyleSheet("color: red;")
+
+
+
+
     def updateAnalysisTable(self, category):
         row = self.app.getCategoryNamesList().index(category) - 1
         self.categoryAnalysisTable.item(row, 0).setText(category)
@@ -345,6 +388,7 @@ class Ui_MainWindow(object):
         self.categoryAnalysisTable.item(row, 3).setText(str(self.app.getAmountPlannedByCategory(category)))
         self.categoryAnalysisTable.item(row, 4).setText(str(self.app.getDeltaByCategory(category)))
         self.flagCategory(category)
+        self.updateSpendingLabels()
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
@@ -570,6 +614,8 @@ class Ui_MainWindow(object):
 ##############################################################################################
                     # beginning of auto-generated code
 #################################################################################
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
