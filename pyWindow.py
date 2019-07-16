@@ -367,7 +367,7 @@ class Ui_MainWindow(object):
 
 
     def openPlottingWindow(self):
-        plotWindow = Window()
+        plotWindow = Window(self.app)
         plotWindow.show()
 
     def updateSpendingLabels(self):

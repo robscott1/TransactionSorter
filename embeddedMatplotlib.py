@@ -10,10 +10,10 @@ import random
 from Application import Application
 
 class Window(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, App, parent=None):
         super(Window, self).__init__(parent)
 
-        self.app = Application()
+        self.app = App
 
         # a figure instance to plot on
         self.figure = plt.figure()
@@ -38,7 +38,7 @@ class Window(QDialog):
         self.setLayout(layout)
 
     def plot(self):
-        cats = self.app.getCategoryNamesList()
+        cats = self.app.g
         print(cats)
         data = [random.random() for i in range(10)]
 
