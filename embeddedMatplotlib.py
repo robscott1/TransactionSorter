@@ -28,7 +28,7 @@ class Window(QDialog):
 
         # Just some button connected to `plot` method
         self.button = QPushButton('Plot')
-        self.button.clicked.connect(self.plot)
+        self.button.clicked.connect(self.plotPie)
 
         # set the layout
         layout = QVBoxLayout()
@@ -37,25 +37,23 @@ class Window(QDialog):
         layout.addWidget(self.button)
         self.setLayout(layout)
 
-    def plot(self):
-        cats = self.app.g
-        print(cats)
-        data = [random.random() for i in range(10)]
+    def plotPie(self):
+        cats = self.app.getCategoryNamesList()[1:]
+        data = [self.app.getAmountSpentByCategory(c) for c in cats]
 
-        # instead of ax.hold(False)
         self.figure.clear()
 
-        # create an axis
-        ax = self.figure.add_subplot(111)
+        self.ax = self.figure.add_subplot(111)
 
-        # discards the old graph
-        # ax.hold(False) # deprecated, see above
+        self.ax.clear()
 
-        # plot data
-        ax.plot(data, '*-')
+        self.ax.pie(data, labels=cats)
+        self.ax.set_title("Spending by Category")
 
-        # refresh canvas
         self.canvas.draw()
+
+
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
