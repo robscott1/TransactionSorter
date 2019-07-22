@@ -336,18 +336,34 @@ class Ui_MainWindow(object):
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
-    
+
+    # Analysis Table Funcs
+
+    def deleteCategoryFromAnalysis(self, index):
+        self.categoryAnalysisTable.removeRow(index)
+
+    def addNewRowToAnalysis(self, c):
+        row = self.categoryAnalysisTable.rowCount()
+        print(row)
+        self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
+        self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
+        self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
+        self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
+        self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
+        self.flagCategory(row)
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
             if c != "Unhandled": 
                 row = self.categoryAnalysisTable.currentRow()
+                
                 if row == -1:
                     self.categoryAnalysisTable.insertRow(0)
                     row = 0
                 else:
                     self.categoryAnalysisTable.insertRow(row)
+                
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
@@ -376,7 +392,7 @@ class Ui_MainWindow(object):
 
 
 
-
+    # Planned Transaction Tab Funcs
 
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
@@ -388,6 +404,25 @@ class Ui_MainWindow(object):
         self.tabWidget.currentWidget().removeRow(row)
         self.app.saveData()
 
+    def savePlannedTransaction(self):
+        transaction = TransactionData()
+        transaction.name = self.namePlannedT.text()
+        transaction.category = self.comboBox_2.currentText()
+        transaction.amount = float(self.amountPlannedT.text())
+        if self.recurringBtn.isChecked():
+            transaction.recurring = True
+            transaction.rateOfRecurrence = self.getToggledFrequency()[1]
+        else:
+            transaction.recurring = False
+        transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        self.app.createPlannedTransaction(transaction)
+        self.createPlannedTransactionsWidget()
+        self.app.saveData()
+
+    def getToggledFrequency(self):
+        if self.recurringBtn.isChecked():
+            return True, self.comboBox.currentText()
+        return False
 
     def updateCategoryBox(self):
         self.comboBox_2.clear()
@@ -395,6 +430,20 @@ class Ui_MainWindow(object):
         for c in categoryNamesList:
             if c != "Unhandled":
                 self.comboBox_2.addItem(c)
+
+     def createPlannedTransactionsWidget(self):
+        self.tabWidget.clear()
+        for category in self.app.getCategoryNamesList():
+            if category != "Unhandled":
+                tab = QTableWidget()
+                self.tabWidget.addTab(tab, category)
+                self.tabWidget.setCurrentWidget(tab)
+                for i in range(3):
+                    self.tabWidget.currentWidget().insertColumn(i)
+            self.fillTransactionWidget(category)
+
+    # Categorize Transactions Funcs
+    ################################################################################
 
     def uncategorizeCompletedTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
@@ -416,13 +465,6 @@ class Ui_MainWindow(object):
         self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(location))
         self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(amount))
 
-    def fileOpen(self):
-        filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
-        self.app.sortCompletedTransactions(filePath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
-        self.fillAnalysisTable()
-
     def fillTransactionWidget(self, category):
         plannedTransactions = self.app.getPlannedTransactions(category)
         if plannedTransactions != None:
@@ -432,80 +474,6 @@ class Ui_MainWindow(object):
                 self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
-
-    def savePlannedTransaction(self):
-        transaction = TransactionData()
-        transaction.name = self.namePlannedT.text()
-        transaction.category = self.comboBox_2.currentText()
-        transaction.amount = float(self.amountPlannedT.text())
-        if self.recurringBtn.isChecked():
-            transaction.recurring = True
-            transaction.rateOfRecurrence = self.getToggledFrequency()[1]
-        else:
-            transaction.recurring = False
-        transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-        self.app.createPlannedTransaction(transaction)
-        self.createPlannedTransactionsWidget()
-        self.app.saveData()
-
-
-    def getToggledFrequency(self):
-        if self.recurringBtn.isChecked():
-            return True, self.comboBox.currentText()
-        return False
-
-
-    def createPlannedTransactionsWidget(self):
-        self.tabWidget.clear()
-        for category in self.app.getCategoryNamesList():
-            if category != "Unhandled":
-                tab = QTableWidget()
-                self.tabWidget.addTab(tab, category)
-                self.tabWidget.setCurrentWidget(tab)
-                for i in range(3):
-                    self.tabWidget.currentWidget().insertColumn(i)
-            self.fillTransactionWidget(category)
-
-    def saveCSVPath(self):
-        csvPath = self.newCatInput.text()
-        self.app.sortCompletedTransactions(csvPath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
-
-    def openNewCatPop(self):
-        '''
-        when newCategory button is pushed on categorize tab, this will
-        prompt a popup that allows user to enter a new category, monthly allotment
-        and a list of potential keywords
-        '''
-        self.Dialog = QtWidgets.QDialog()
-        self.ui = Ui_createDialog()
-        self.ui.setupUi(self.Dialog, self.app)
-        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
-        self.Dialog.show()
-
-    def openEditCatPop(self):
-        '''
-        Opens same window as openNewCatPop but autofills the 
-        information and allows it to be edited
-        '''
-
-        self.tab = self.categoryWidget.currentIndex()        
-        self.index = self.app.getCategoryNamesList()[self.tab+1]
-        self.Dialog = QtWidgets.QDialog()
-        self.editUi = Ui_editDialog()
-        self.editUi.setupUi(self.Dialog, self.app)
-        self.Dialog.show()
-
-        self.editUi.newCategoryName.setText(self.index)
-        self.editUi.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
-
-        # First, check if there are any keywords to be added.
-        # Add items only if an iterable list of keywords is returned.
-        keywords = self.app.getKeywordsByCategory(self.index)
-        if keywords != None:
-            self.editUi.newCategoryKeywords.addItems(keywords)
-
 
     def updateCategoryWidget(self):
         self.app.saveData()
@@ -561,10 +529,64 @@ class Ui_MainWindow(object):
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
+        self.deleteCategoryFromAnalysis(self.tab)
         
     def updateCategoryListOfTransactions(self):
         self.tab = self.categoryWidget.currentIndex() + 1
         self.index = self.app.getCategoryNamesList()[self.tab]
+
+
+    # Open Dialog Window Funcs 
+    ##############################################################################################
+    def openEditCatPop(self):
+        '''
+        Opens same window as openNewCatPop but autofills the 
+        information and allows it to be edited
+        '''
+
+        self.tab = self.categoryWidget.currentIndex()        
+        self.index = self.app.getCategoryNamesList()[self.tab+1]
+        self.Dialog = QtWidgets.QDialog()
+        self.editUi = Ui_editDialog()
+        self.editUi.setupUi(self.Dialog, self.app)
+        self.Dialog.show()
+
+        self.editUi.newCategoryName.setText(self.index)
+        self.editUi.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
+
+        # First, check if there are any keywords to be added.
+        # Add items only if an iterable list of keywords is returned.
+        keywords = self.app.getKeywordsByCategory(self.index)
+        if keywords != None:
+            self.editUi.newCategoryKeywords.addItems(keywords)
+
+    def openNewCatPop(self):
+        '''
+        when newCategory button is pushed on categorize tab, this will
+        prompt a popup that allows user to enter a new category, monthly allotment
+        and a list of potential keywords
+        '''
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_createDialog()
+        self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
+        self.Dialog.show()
+
+    # Other Funcs
+    ###################################################################################
+    def saveCSVPath(self):
+        csvPath = self.newCatInput.text()
+        self.app.sortCompletedTransactions(csvPath)
+        self.printUnhandledTransactions()
+        self.createCategoryWidget()
+
+    def fileOpen(self):
+        filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+        self.app.sortCompletedTransactions(filePath)
+        self.printUnhandledTransactions()
+        self.createCategoryWidget()
+        self.fillAnalysisTable()
+
         
 
 ##############################################################################################
