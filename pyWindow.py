@@ -395,8 +395,23 @@ class Ui_MainWindow(object):
     # Analysis Table Funcs
     ################################################################################################
 
-    def deleteCategoryFromAnalysis(self, index):
-        self.categoryAnalysisTable.removeRow(index)
+    def createAnalysisTable(self):
+        self.categoryAnalysisTable.setRowCount(0)
+        categories = self.app.getCategoryNamesList()
+        for c in categories:
+            if c != "Unhandled":
+                row = self.categoryAnalysisTable.rowCount()
+                self.categoryAnalysisTable.insertRow(row)
+                print(row)
+                self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
+                self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
+                self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
+                self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
+                self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
+                if row != 0:
+                    print(row)
+                    self.flagCategory(c)
+
 
     def addNewRowToAnalysis(self, c):
         row = self.categoryAnalysisTable.rowCount()
@@ -423,14 +438,6 @@ class Ui_MainWindow(object):
         categories = self.app.getCategoryNamesList()
         for c in categories:
             if c != "Unhandled": 
-
-                row = self.categoryAnalysisTable.currentRow()
-                
-                if row == -1:
-                    self.categoryAnalysisTable.insertRow(0)
-                    row = 0
-                else:
-                    self.categoryAnalysisTable.insertRow(row)
 
                 row = self.categoryAnalysisTable.rowCount()
                 self.categoryAnalysisTable.insertRow(row)
@@ -642,6 +649,7 @@ class Ui_MainWindow(object):
         self.createCategoryWidget()
         self.createPlannedTransactionsWidget()
         self.updateCategoryBox()
+        self.createAnalysisTable()
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
@@ -693,9 +701,6 @@ class Ui_MainWindow(object):
         self.updateCategoryWidget()
         self.deleteCategoryFromAnalysis(self.tab)
         
-    def updateCategoryListOfTransactions(self):
-        self.tab = self.categoryWidget.currentIndex() + 1
-        self.index = self.app.getCategoryNamesList()[self.tab]
 
    
     ##############################################################################################
@@ -751,7 +756,7 @@ class Ui_MainWindow(object):
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
-        self.fillAnalysisTable()
+        self.createAnalysisTable()
 
         
 
