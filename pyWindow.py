@@ -12,6 +12,10 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
+from analysisTableFuncs import *
+from plannedTransactionFuncs import *
+from categorizeFuncs import *
+
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -337,7 +341,10 @@ class Ui_MainWindow(object):
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
 
+
+    ################################################################################################
     # Analysis Table Funcs
+    ################################################################################################
 
     def deleteCategoryFromAnalysis(self, index):
         self.categoryAnalysisTable.removeRow(index)
@@ -392,7 +399,17 @@ class Ui_MainWindow(object):
 
 
 
-    # Planned Transaction Tab Funcs
+
+    def createPlannedTransactionsWidget(self):
+        self.tabWidget.clear()
+        for category in self.app.getCategoryNamesList():
+            if category != "Unhandled":
+                tab = QTableWidget()
+                self.tabWidget.addTab(tab, category)
+                self.tabWidget.setCurrentWidget(tab)
+                for i in range(3):
+                    self.tabWidget.currentWidget().insertColumn(i)
+            self.fillTransactionWidget(category)
 
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
@@ -431,32 +448,26 @@ class Ui_MainWindow(object):
             if c != "Unhandled":
                 self.comboBox_2.addItem(c)
 
-     def createPlannedTransactionsWidget(self):
-        self.tabWidget.clear()
-        for category in self.app.getCategoryNamesList():
-            if category != "Unhandled":
-                tab = QTableWidget()
-                self.tabWidget.addTab(tab, category)
-                self.tabWidget.setCurrentWidget(tab)
-                for i in range(3):
-                    self.tabWidget.currentWidget().insertColumn(i)
-            self.fillTransactionWidget(category)
 
+   
+    ################################################################################
     # Categorize Transactions Funcs
     ################################################################################
 
+
     def uncategorizeCompletedTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
-        location = self.categoryWidget.currentWidget().item(row, 1).text()
-        amount = self.categoryWidget.currentWidget().item(row, 2).text()
-        referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
-        c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
-        self.app.unregisterCompletedTransaction(c, referenceNumber)
-        self.app.registerCompletedTransaction("Unhandled", referenceNumber)
-        self.app.diagnosticDbg()
-        self.app.saveData()
-        self.returnTransactionToUnhandled(referenceNumber, location, amount)
-        self.categoryWidget.currentWidget().removeRow(row)
+        if type(self.categoryWidget.currentWidget().item(row, 0)) == QTableWidgetItem:
+            location = self.categoryWidget.currentWidget().item(row, 1).text()
+            amount = self.categoryWidget.currentWidget().item(row, 2).text()
+            referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
+            c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
+            self.app.unregisterCompletedTransaction(c, referenceNumber)
+            self.app.registerCompletedTransaction("Unhandled", referenceNumber)
+            self.app.diagnosticDbg()
+            self.app.saveData()
+            self.returnTransactionToUnhandled(referenceNumber, location, amount)
+            self.categoryWidget.currentWidget().removeRow(row)
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
         row = self.tableWidget.rowCount()
@@ -535,9 +546,11 @@ class Ui_MainWindow(object):
         self.tab = self.categoryWidget.currentIndex() + 1
         self.index = self.app.getCategoryNamesList()[self.tab]
 
-
+   
+    ##############################################################################################
     # Open Dialog Window Funcs 
     ##############################################################################################
+
     def openEditCatPop(self):
         '''
         Opens same window as openNewCatPop but autofills the 
@@ -572,6 +585,8 @@ class Ui_MainWindow(object):
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
         self.Dialog.show()
 
+
+    ###################################################################################
     # Other Funcs
     ###################################################################################
     def saveCSVPath(self):
