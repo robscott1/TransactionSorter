@@ -12,14 +12,7 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-<<<<<<< HEAD
-from analysisTableFuncs import *
-from plannedTransactionFuncs import *
-from categorizeFuncs import *
-
-=======
 from embeddedMatplotlib import Window
->>>>>>> AnalysisTableUpdating
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -398,9 +391,6 @@ class Ui_MainWindow(object):
         else:
             self.percentageSpentLabel.setStyleSheet("color: red;")
 
-
-
-<<<<<<< HEAD
     ################################################################################################
     # Analysis Table Funcs
     ################################################################################################
@@ -417,7 +407,7 @@ class Ui_MainWindow(object):
         self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
         self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
         self.flagCategory(row)
-=======
+
 
     def updateAnalysisTable(self, category):
         row = self.app.getCategoryNamesList().index(category) - 1
@@ -428,13 +418,12 @@ class Ui_MainWindow(object):
         self.categoryAnalysisTable.item(row, 4).setText(str(self.app.getDeltaByCategory(category)))
         self.flagCategory(category)
         self.updateSpendingLabels()
->>>>>>> AnalysisTableUpdating
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
             if c != "Unhandled": 
-<<<<<<< HEAD
+
                 row = self.categoryAnalysisTable.currentRow()
                 
                 if row == -1:
@@ -442,11 +431,10 @@ class Ui_MainWindow(object):
                     row = 0
                 else:
                     self.categoryAnalysisTable.insertRow(row)
-                
-=======
+
                 row = self.categoryAnalysisTable.rowCount()
                 self.categoryAnalysisTable.insertRow(row)
->>>>>>> AnalysisTableUpdating
+
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
@@ -472,8 +460,6 @@ class Ui_MainWindow(object):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
 
 
-<<<<<<< HEAD
-
 
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
@@ -486,8 +472,6 @@ class Ui_MainWindow(object):
                     self.tabWidget.currentWidget().insertColumn(i)
             self.fillTransactionWidget(category)
 
-=======
->>>>>>> AnalysisTableUpdating
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
         index = self.tabWidget.currentIndex()
@@ -534,7 +518,7 @@ class Ui_MainWindow(object):
 
     def uncategorizeCompletedTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
-<<<<<<< HEAD
+
         if type(self.categoryWidget.currentWidget().item(row, 0)) == QTableWidgetItem:
             location = self.categoryWidget.currentWidget().item(row, 1).text()
             amount = self.categoryWidget.currentWidget().item(row, 2).text()
@@ -546,7 +530,7 @@ class Ui_MainWindow(object):
             self.app.saveData()
             self.returnTransactionToUnhandled(referenceNumber, location, amount)
             self.categoryWidget.currentWidget().removeRow(row)
-=======
+
         location = self.categoryWidget.currentWidget().item(row, 1).text()
         amount = self.categoryWidget.currentWidget().item(row, 2).text()
         referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
@@ -558,7 +542,7 @@ class Ui_MainWindow(object):
         self.returnTransactionToUnhandled(referenceNumber, location, amount)
         self.categoryWidget.currentWidget().removeRow(row)
         self.updateAnalysisTable(c)
->>>>>>> AnalysisTableUpdating
+
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
         row = self.tableWidget.rowCount()
@@ -577,8 +561,7 @@ class Ui_MainWindow(object):
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
 
-<<<<<<< HEAD
-=======
+
     def savePlannedTransaction(self):
         transaction = TransactionData()
         transaction.name = self.namePlannedT.text()
@@ -653,7 +636,7 @@ class Ui_MainWindow(object):
             self.editUi.newCategoryKeywords.addItems(keywords)
 
 
->>>>>>> AnalysisTableUpdating
+
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
