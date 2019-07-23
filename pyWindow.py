@@ -12,10 +12,14 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
+<<<<<<< HEAD
 from analysisTableFuncs import *
 from plannedTransactionFuncs import *
 from categorizeFuncs import *
 
+=======
+from embeddedMatplotlib import Window
+>>>>>>> AnalysisTableUpdating
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -44,6 +48,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
+    self.mainWindow.updateAnalysisTable(c)
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
