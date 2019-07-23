@@ -12,10 +12,14 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
+<<<<<<< HEAD
 from analysisTableFuncs import *
 from plannedTransactionFuncs import *
 from categorizeFuncs import *
 
+=======
+from embeddedMatplotlib import Window
+>>>>>>> AnalysisTableUpdating
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -44,6 +48,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
+    self.mainWindow.updateAnalysisTable(c)
     # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
@@ -226,6 +231,27 @@ class Ui_MainWindow(object):
         self.spendingLabel.setFont(font)
         self.spendingLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.spendingLabel.setObjectName("spendingLabel")
+        self.label_5 = QtWidgets.QLabel(self.Analysis)
+        self.label_5.setGeometry(QtCore.QRect(640, 330, 121, 31))
+        self.label_5.setObjectName("label_5")
+        self.amountSpentLabel = QtWidgets.QLabel(self.Analysis)
+        self.amountSpentLabel.setGeometry(QtCore.QRect(770, 330, 91, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.amountSpentLabel.setFont(font)
+        self.amountSpentLabel.setObjectName("amountSpentLabel")
+        self.label_6 = QtWidgets.QLabel(self.Analysis)
+        self.label_6.setGeometry(QtCore.QRect(580, 360, 181, 20))
+        self.label_6.setObjectName("label_6")
+        self.percentageSpentLabel = QtWidgets.QLabel(self.Analysis)
+        self.percentageSpentLabel.setGeometry(QtCore.QRect(770, 360, 91, 16))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.percentageSpentLabel.setFont(font)
+        self.percentageSpentLabel.setObjectName("percentageSpentLabel")
+        self.plotWindow = QtWidgets.QPushButton(self.Analysis)
+        self.plotWindow.setGeometry(QtCore.QRect(80, 380, 93, 28))
+        self.plotWindow.setObjectName("plotWindow")
         self.importTab.addTab(self.Analysis, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -308,6 +334,11 @@ class Ui_MainWindow(object):
         item = self.categoryAnalysisTable.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Balance"))
         self.spendingLabel.setText(_translate("MainWindow", "Spending Analysis"))
+        self.label_5.setText(_translate("MainWindow", "Total Amount Spent:"))
+        self.amountSpentLabel.setText(_translate("MainWindow", "TextLabel"))
+        self.label_6.setText(_translate("MainWindow", "Percentage of Monthly Budget:"))
+        self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
+        self.plotWindow.setText(_translate("MainWindow", "Plot"))
         self.importTab.setTabText(self.importTab.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -315,12 +346,11 @@ class Ui_MainWindow(object):
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
-
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
-        
-        # placed here to instantiate the backend in the GUI at the start, 
+
+# placed here to instantiate the backend in the GUI at the start, 
         # it makes it easier for the backed to be passed into the popup windows
         # where several functions are called
         self.app = Application()
@@ -339,9 +369,38 @@ class Ui_MainWindow(object):
         self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
+        self.plotWindow.clicked.connect(self.openPlottingWindow)
 
 
 
+    def openPlottingWindow(self):
+        plotWindow = Window(self.app)
+        plotWindow.show()
+
+    def updateSpendingLabels(self):
+        categories = self.app.getCategoryNamesList()
+        totalSpent = 0
+        totalAllotted = 0
+        for c in categories:
+            if c != "Unhandled":
+                totalSpent += self.app.getAmountSpentByCategory(c)
+                totalAllotted += self.app.getAmountAllottedByCategory(c)
+                print(totalSpent)
+                print(totalAllotted)
+        pctSpent = round(totalSpent / totalAllotted, 1) * 100
+        self.amountSpentLabel.setText(str(totalSpent))
+        self.percentageSpentLabel.setText(str(pctSpent))
+
+        if pctSpent <= 65:
+            self.percentageSpentLabel.setStyleSheet("color: green;")
+        elif 65 < pctSpent < 90:
+            self.percentageSpentLabel.setStyleSheet("color: rgb(255, 200, 0);")
+        else:
+            self.percentageSpentLabel.setStyleSheet("color: red;")
+
+
+
+<<<<<<< HEAD
     ################################################################################################
     # Analysis Table Funcs
     ################################################################################################
@@ -358,11 +417,24 @@ class Ui_MainWindow(object):
         self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
         self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
         self.flagCategory(row)
+=======
+
+    def updateAnalysisTable(self, category):
+        row = self.app.getCategoryNamesList().index(category) - 1
+        self.categoryAnalysisTable.item(row, 0).setText(category)
+        self.categoryAnalysisTable.item(row, 1).setText(str(self.app.getAmountAllottedByCategory(category)))
+        self.categoryAnalysisTable.item(row, 2).setText(str(self.app.getAmountSpentByCategory(category)))
+        self.categoryAnalysisTable.item(row, 3).setText(str(self.app.getAmountPlannedByCategory(category)))
+        self.categoryAnalysisTable.item(row, 4).setText(str(self.app.getDeltaByCategory(category)))
+        self.flagCategory(category)
+        self.updateSpendingLabels()
+>>>>>>> AnalysisTableUpdating
 
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
             if c != "Unhandled": 
+<<<<<<< HEAD
                 row = self.categoryAnalysisTable.currentRow()
                 
                 if row == -1:
@@ -371,12 +443,15 @@ class Ui_MainWindow(object):
                 else:
                     self.categoryAnalysisTable.insertRow(row)
                 
+=======
+                row = self.categoryAnalysisTable.rowCount()
+                self.categoryAnalysisTable.insertRow(row)
+>>>>>>> AnalysisTableUpdating
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
-                self.flagCategory(row)
 
         # resizing
         header = self.categoryAnalysisTable.horizontalHeader()
@@ -385,19 +460,19 @@ class Ui_MainWindow(object):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
 
+    def flagCategory(self, category):
+    
+        row = self.app.getCategoryNamesList().index(category) - 1
+        print(row)
 
-    def flagCategory(self, row):
-        if (float(self.categoryAnalysisTable.item(row, 2).text()) + \
-            float(self.categoryAnalysisTable.item(row, 3).text()) > float(self.categoryAnalysisTable.item(row, 1).text())):
-                
+        if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category) + self.app.getAmountPlannedByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 240, 5))
 
-
-
-        if float(self.categoryAnalysisTable.item(row, 2).text()) > float(self.categoryAnalysisTable.item(row, 1).text()):
+        if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
 
 
+<<<<<<< HEAD
 
 
     def createPlannedTransactionsWidget(self):
@@ -411,9 +486,10 @@ class Ui_MainWindow(object):
                     self.tabWidget.currentWidget().insertColumn(i)
             self.fillTransactionWidget(category)
 
+=======
+>>>>>>> AnalysisTableUpdating
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
-        print(row)
         index = self.tabWidget.currentIndex()
         category = self.app.getCategoryNamesList()[index + 1]
         name = self.tabWidget.currentWidget().item(row, 1).text()
@@ -441,6 +517,7 @@ class Ui_MainWindow(object):
             return True, self.comboBox.currentText()
         return False
 
+
     def updateCategoryBox(self):
         self.comboBox_2.clear()
         categoryNamesList = self.app.getCategoryNamesList()
@@ -457,6 +534,7 @@ class Ui_MainWindow(object):
 
     def uncategorizeCompletedTransaction(self):
         row = self.categoryWidget.currentWidget().currentRow()
+<<<<<<< HEAD
         if type(self.categoryWidget.currentWidget().item(row, 0)) == QTableWidgetItem:
             location = self.categoryWidget.currentWidget().item(row, 1).text()
             amount = self.categoryWidget.currentWidget().item(row, 2).text()
@@ -468,6 +546,19 @@ class Ui_MainWindow(object):
             self.app.saveData()
             self.returnTransactionToUnhandled(referenceNumber, location, amount)
             self.categoryWidget.currentWidget().removeRow(row)
+=======
+        location = self.categoryWidget.currentWidget().item(row, 1).text()
+        amount = self.categoryWidget.currentWidget().item(row, 2).text()
+        referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
+        c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
+        self.app.unregisterCompletedTransaction(c, referenceNumber)
+        self.app.registerCompletedTransaction("Unhandled", referenceNumber)
+        self.app.diagnosticDbg()
+        self.app.saveData()
+        self.returnTransactionToUnhandled(referenceNumber, location, amount)
+        self.categoryWidget.currentWidget().removeRow(row)
+        self.updateAnalysisTable(c)
+>>>>>>> AnalysisTableUpdating
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
         row = self.tableWidget.rowCount()
@@ -486,6 +577,83 @@ class Ui_MainWindow(object):
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
 
+<<<<<<< HEAD
+=======
+    def savePlannedTransaction(self):
+        transaction = TransactionData()
+        transaction.name = self.namePlannedT.text()
+        transaction.category = self.comboBox_2.currentText()
+        transaction.amount = float(self.amountPlannedT.text())
+        if self.recurringBtn.isChecked():
+            transaction.recurring = True
+            transaction.rateOfRecurrence = self.getToggledFrequency()[1]
+        else:
+            transaction.recurring = False
+        transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        self.app.createPlannedTransaction(transaction)
+        self.createPlannedTransactionsWidget()
+        self.app.saveData()
+        self.updateAnalysisTable(transaction.category)
+
+
+    def getToggledFrequency(self):
+        if self.recurringBtn.isChecked():
+            return True, self.comboBox.currentText()
+        return False
+
+    def createPlannedTransactionsWidget(self):
+        self.tabWidget.clear()
+        for category in self.app.getCategoryNamesList():
+            if category != "Unhandled":
+                tab = QTableWidget()
+                self.tabWidget.addTab(tab, category)
+                self.tabWidget.setCurrentWidget(tab)
+                for i in range(3):
+                    self.tabWidget.currentWidget().insertColumn(i)
+                self.fillTransactionWidget(category)
+
+    def saveCSVPath(self):
+        csvPath = self.newCatInput.text()
+        self.app.sortCompletedTransactions(csvPath)
+        self.printUnhandledTransactions()
+        self.createCategoryWidget()
+
+    def openNewCatPop(self):
+        '''
+        when newCategory button is pushed on categorize tab, this will
+        prompt a popup that allows user to enter a new category, monthly allotment
+        and a list of potential keywords
+        '''
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_createDialog()
+        self.ui.setupUi(self.Dialog, self.app)
+        self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
+        self.Dialog.show()
+
+    def openEditCatPop(self):
+        '''
+        Opens same window as openNewCatPop but autofills the 
+        information and allows it to be edited
+        '''
+
+        self.tab = self.categoryWidget.currentIndex()        
+        self.index = self.app.getCategoryNamesList()[self.tab+1]
+        self.Dialog = QtWidgets.QDialog()
+        self.editUi = Ui_editDialog()
+        self.editUi.setupUi(self.Dialog, self.app)
+        self.Dialog.show()
+
+        self.editUi.newCategoryName.setText(self.index)
+        self.editUi.newCategoryAllotment.setText(str(self.app.getAmountAllottedByCategory(self.index)))
+
+        # First, check if there are any keywords to be added.
+        # Add items only if an iterable list of keywords is returned.
+        keywords = self.app.getKeywordsByCategory(self.index)
+        if keywords != None:
+            self.editUi.newCategoryKeywords.addItems(keywords)
+
+
+>>>>>>> AnalysisTableUpdating
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
@@ -607,6 +775,7 @@ class Ui_MainWindow(object):
 ##############################################################################################
                     # beginning of auto-generated code
 #################################################################################
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
