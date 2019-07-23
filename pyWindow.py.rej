@@ -1,0 +1,16 @@
+diff a/pyWindow.py b/pyWindow.py	(rejected hunks)
+@@ -12,10 +12,14 @@
+ from pyCategoryPop import Ui_createDialog
+ from pyEditCategoryPop import Ui_editDialog
+ from APIData import TransactionData
++<<<<<<< HEAD
+ from analysisTableFuncs import *
+ from plannedTransactionFuncs import *
+ from categorizeFuncs import *
+ 
++=======
++from embeddedMatplotlib import Window
++>>>>>>> AnalysisTableUpdating
+ 
+ class DragDropTableWidget(QtWidgets.QTableWidget):
+   '''
