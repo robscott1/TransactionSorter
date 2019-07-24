@@ -370,26 +370,7 @@ class Ui_MainWindow(object):
         plotWindow = Window(self.app)
         plotWindow.show()
 
-    def updateSpendingLabels(self):
-        categories = self.app.getCategoryNamesList()
-        totalSpent = 0
-        totalAllotted = 0
-        for c in categories:
-            if c != "Unhandled":
-                totalSpent += self.app.getAmountSpentByCategory(c)
-                totalAllotted += self.app.getAmountAllottedByCategory(c)
-                print(totalSpent)
-                print(totalAllotted)
-        pctSpent = round(totalSpent / totalAllotted, 1) * 100
-        self.amountSpentLabel.setText(str(totalSpent))
-        self.percentageSpentLabel.setText(str(pctSpent))
 
-        if pctSpent <= 65:
-            self.percentageSpentLabel.setStyleSheet("color: green;")
-        elif 65 < pctSpent < 90:
-            self.percentageSpentLabel.setStyleSheet("color: rgb(255, 200, 0);")
-        else:
-            self.percentageSpentLabel.setStyleSheet("color: red;")
 
     ################################################################################################
     # Analysis Table Funcs
@@ -411,6 +392,7 @@ class Ui_MainWindow(object):
                 if row != 0:
                     print(row)
                     self.flagCategory(c)
+                self.updateSpendingLabels()
 
 
     def addNewRowToAnalysis(self, c):
@@ -515,6 +497,27 @@ class Ui_MainWindow(object):
         for c in categoryNamesList:
             if c != "Unhandled":
                 self.comboBox_2.addItem(c)
+
+    def updateSpendingLabels(self):
+        categories = self.app.getCategoryNamesList()
+        totalSpent = 0
+        totalAllotted = 0
+        for c in categories:
+            if c != "Unhandled":
+                totalSpent += self.app.getAmountSpentByCategory(c)
+                totalAllotted += self.app.getAmountAllottedByCategory(c)
+                print(totalSpent)
+                print(totalAllotted)
+        pctSpent = round(totalSpent / totalAllotted, 1) * 100
+        self.amountSpentLabel.setText(str(totalSpent))
+        self.percentageSpentLabel.setText(str(pctSpent))
+
+        if pctSpent <= 65:
+            self.percentageSpentLabel.setStyleSheet("color: green;")
+        elif 65 < pctSpent < 90:
+            self.percentageSpentLabel.setStyleSheet("color: rgb(255, 200, 0);")
+        else:
+            self.percentageSpentLabel.setStyleSheet("color: red;")
 
 
    
