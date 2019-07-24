@@ -72,7 +72,7 @@ class Category():
     for t in self.completedTransactions.values():
       amount += float(t.amount)
 
-    return amount
+    return abs(amount)
 
   def getTotalAmountAllotted(self):
     return self.monthlyAllotment
