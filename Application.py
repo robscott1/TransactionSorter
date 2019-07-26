@@ -215,6 +215,9 @@ class Application():
   def diagnosticDbg(self):
     self.transactionManager.categoryDbg()
 
+  def getPlannedTransactionDatesByCategory(self, category):
+    self.transactionManager.getPlannedTransactionDatesByCategory(category)
+
 
 
 if __name__ == "__main__":

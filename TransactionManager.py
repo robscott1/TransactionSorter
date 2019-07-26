@@ -106,3 +106,7 @@ class TransactionManager():
     print("Debug")
     for t in self.getPlannedTransactions(category):
       print(t.name)
+
+  def getPlannedTransactionDatesByCategory(self, category):
+    for t in self.getPlannedTransactions(category):
+      print(t.date)
