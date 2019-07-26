@@ -579,6 +579,11 @@ class Ui_MainWindow(object):
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
 
+            header = self.tabWidget.currentWidget().horizontalHeader()
+            header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)    
+            header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
