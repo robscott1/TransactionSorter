@@ -653,8 +653,6 @@ class Ui_MainWindow(object):
         if keywords != None:
             self.editUi.newCategoryKeywords.addItems(keywords)
 
-
-
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
@@ -696,7 +694,6 @@ class Ui_MainWindow(object):
             self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
             self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
 
-
     def printUnhandledTransactions(self):
         for t in self.app.getUnhandledTransactions().values():
             rowPos = self.tableWidget.rowCount()
@@ -709,8 +706,7 @@ class Ui_MainWindow(object):
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
-
-            
+ 
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]

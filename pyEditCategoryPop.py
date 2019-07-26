@@ -79,7 +79,6 @@ class Ui_editDialog(object):
         
         self.addNewCategoryKeyword.clicked.connect(self.appendKeyword)
         self.saveCategoryInfo.clicked.connect(self.updateCategoryInfo)
-        self.app.diagnosticDbg()
 
     def getExistingKeywords(self):
         self.keywordList = self.app.getKeywordsByCategory(self.newCategoryName.text())
@@ -104,7 +103,9 @@ class Ui_editDialog(object):
         for item in keywordList:
             editedCategory.idKeywords.append(item)
 
-        print(editedCategory.idKeywords)
+        self.newCategoryName.setText("")
+        self.newCategoryAllotment.setText("")
+        self.newCategoryKeywords.clear()
         self.app.updateCategoryData(editedCategory)
         self.app.saveData()
 

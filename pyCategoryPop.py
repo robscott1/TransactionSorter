@@ -94,6 +94,9 @@ class Ui_createDialog(object):
         category.name = str(self.newCategoryName.text())
         category.monthlyAllotment = float(self.newCategoryAllotment.text())
         category.idKeywords = self.keywordList
+        self.newCategoryName.setText("")
+        self.newCategoryAllotment.setText("")
+        self.newCategoryKeywords.clear()
         self.app.createNewCategory(category)
 
 ##############################################################################################
