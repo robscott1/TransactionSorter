@@ -66,6 +66,7 @@ class Window(QDialog):
         # data to plot
         cats = self.app.getCategoryNamesList()[1:]
         n_groups = len(cats)
+        
         amountSpent = [self.app.getAmountSpentByCategory(c) for c in cats]
         amountAllotted = [self.app.getAmountAllottedByCategory(c) for c in cats]
 

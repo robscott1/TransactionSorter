@@ -394,6 +394,14 @@ class Ui_MainWindow(object):
                     self.flagCategory(c)
                 self.updateSpendingLabels()
 
+        header = self.categoryAnalysisTable.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)    
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
+
+
+
 
     def addNewRowToAnalysis(self, c):
         row = self.categoryAnalysisTable.rowCount()
@@ -448,7 +456,7 @@ class Ui_MainWindow(object):
         if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
 
-
+        self.app.getPlannedTransactionDatesByCategory(category)
 
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
@@ -509,8 +517,8 @@ class Ui_MainWindow(object):
                 print(totalSpent)
                 print(totalAllotted)
         pctSpent = round(totalSpent / totalAllotted, 1) * 100
-        self.amountSpentLabel.setText(str(totalSpent))
-        self.percentageSpentLabel.setText(str(pctSpent))
+        self.amountSpentLabel.setText("$" + str(totalSpent))
+        self.percentageSpentLabel.setText(str(pctSpent) + "%")
 
         if pctSpent <= 65:
             self.percentageSpentLabel.setStyleSheet("color: green;")
@@ -702,7 +710,7 @@ class Ui_MainWindow(object):
         self.index = self.app.getCategoryNamesList()[self.tab]
         self.app.deleteCategory(self.index)
         self.updateCategoryWidget()
-        self.deleteCategoryFromAnalysis(self.tab)
+        self.createAnalysisTable()
         
 
    
