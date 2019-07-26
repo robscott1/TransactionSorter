@@ -672,7 +672,13 @@ class Ui_MainWindow(object):
                 self.categoryWidget.setCurrentWidget(tab)
                 for i in range(3):
                     self.categoryWidget.currentWidget().insertColumn(i)
+
                 self.fillCategoryWidget(category)
+
+                header = self.categoryWidget.currentWidget().horizontalHeader()
+                header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)    
+                header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+                header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
     def moveRowToDropDestination(self, referenceNumber, location, amount, category):
         rowPos = self.categoryWidget.currentWidget().rowCount()
