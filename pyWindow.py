@@ -42,11 +42,11 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
     self.mainWindow.updateAnalysisTable(c)
-    # print the keywords of the updated category for debugging purposes
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1224, 947)
@@ -343,38 +343,38 @@ class Ui_MainWindow(object):
                     # end of auto-generated code
 ##############################################################################################
 
-# placed here to instantiate the backend in the GUI at the start, 
-        # it makes it easier for the backed to be passed into the popup windows
-        # where several functions are called
+
         self.app = Application()
-        self.filename = self.newCatInput.text()
-        self.importCsvBtn.clicked.connect(self.fileOpen)
+
+        # Import Tab
         self.app.initialize()
+        self.importCsvBtn.clicked.connect(self.fileOpen)
+
+        # Categorize Tab
         self.createCategoryWidget()
         self.openCatPopUp.clicked.connect(self.openNewCatPop)
         self.editCategory.clicked.connect(self.openEditCatPop)
         self.deleteCategory.clicked.connect(self.deleteSelectedCategory)
+        self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
+
+        # Planning Tab
         self.comboBox.hide()
         self.recurringBtn.toggled.connect(self.comboBox.show)
         self.singularBtn.toggled.connect(self.comboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
-        self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
         self.updateCategoryBox()
         self.removeBtn.clicked.connect(self.removePlannedTransaction)
+
+        # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
+    '''
 
-
-    def openPlottingWindow(self):
-        plotWindow = Window(self.app)
-        plotWindow.show()
-
-
-
-    ################################################################################################
-    # Analysis Table Funcs
-    ################################################################################################
+    Analysis Table Funcs - handles all functions that deal with the analysis tab and analysis
+    QTableWidget; pulls data from API and updates concurrently with categorization method calls.
+    
+    '''
 
     def createAnalysisTable(self):
         self.categoryAnalysisTable.setRowCount(0)
@@ -395,12 +395,10 @@ class Ui_MainWindow(object):
                 self.updateSpendingLabels()
 
         header = self.categoryAnalysisTable.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)    
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
-
-
 
 
     def addNewRowToAnalysis(self, c):
@@ -424,6 +422,7 @@ class Ui_MainWindow(object):
         self.flagCategory(category)
         self.updateSpendingLabels()
 
+
     def fillAnalysisTable(self):
         categories = self.app.getCategoryNamesList()
         for c in categories:
@@ -445,6 +444,7 @@ class Ui_MainWindow(object):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
 
+
     def flagCategory(self, category):
     
         row = self.app.getCategoryNamesList().index(category) - 1
@@ -458,6 +458,7 @@ class Ui_MainWindow(object):
 
         self.app.getPlannedTransactionDatesByCategory(category)
 
+
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
         for category in self.app.getCategoryNamesList():
@@ -469,6 +470,7 @@ class Ui_MainWindow(object):
                     self.tabWidget.currentWidget().insertColumn(i)
             self.fillTransactionWidget(category)
 
+
     def removePlannedTransaction(self):
         row = self.tabWidget.currentWidget().currentRow()
         index = self.tabWidget.currentIndex()
@@ -477,6 +479,7 @@ class Ui_MainWindow(object):
         self.app.removePlannedTransaction(category, name)
         self.tabWidget.currentWidget().removeRow(row)
         self.app.saveData()
+
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
@@ -493,6 +496,7 @@ class Ui_MainWindow(object):
         self.createPlannedTransactionsWidget()
         self.app.saveData()
 
+
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
             return True, self.comboBox.currentText()
@@ -505,6 +509,7 @@ class Ui_MainWindow(object):
         for c in categoryNamesList:
             if c != "Unhandled":
                 self.comboBox_2.addItem(c)
+
 
     def updateSpendingLabels(self):
         categories = self.app.getCategoryNamesList()
@@ -529,9 +534,12 @@ class Ui_MainWindow(object):
 
 
    
-    ################################################################################
-    # Categorize Transactions Funcs
-    ################################################################################
+    '''
+
+    Categorize Transactions Funcs - uses the DragAndDropTableWidget Object to categorize 
+    transaction objects into user-defined categories which are then used for analysis
+   
+    '''
 
 
     def uncategorizeCompletedTransaction(self):
@@ -549,18 +557,6 @@ class Ui_MainWindow(object):
             self.returnTransactionToUnhandled(referenceNumber, location, amount)
             self.categoryWidget.currentWidget().removeRow(row)
 
-        location = self.categoryWidget.currentWidget().item(row, 1).text()
-        amount = self.categoryWidget.currentWidget().item(row, 2).text()
-        referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
-        c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
-        self.app.unregisterCompletedTransaction(c, referenceNumber)
-        self.app.registerCompletedTransaction("Unhandled", referenceNumber)
-        self.app.diagnosticDbg()
-        self.app.saveData()
-        self.returnTransactionToUnhandled(referenceNumber, location, amount)
-        self.categoryWidget.currentWidget().removeRow(row)
-        self.updateAnalysisTable(c)
-
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
         row = self.tableWidget.rowCount()
@@ -568,6 +564,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(referenceNumber)))
         self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(location))
         self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(amount))
+
 
     def fillTransactionWidget(self, category):
         plannedTransactions = self.app.getPlannedTransactions(category)
@@ -607,6 +604,7 @@ class Ui_MainWindow(object):
             return True, self.comboBox.currentText()
         return False
 
+
     def createPlannedTransactionsWidget(self):
         self.tabWidget.clear()
         for category in self.app.getCategoryNamesList():
@@ -618,11 +616,13 @@ class Ui_MainWindow(object):
                     self.tabWidget.currentWidget().insertColumn(i)
                 self.fillTransactionWidget(category)
 
+
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
         self.app.sortCompletedTransactions(csvPath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
+
 
     def openNewCatPop(self):
         '''
@@ -635,6 +635,7 @@ class Ui_MainWindow(object):
         self.ui.setupUi(self.Dialog, self.app)
         self.ui.saveCategoryInfo.clicked.connect(self.updateCategoryWidget)
         self.Dialog.show()
+
 
     def openEditCatPop(self):
         '''
@@ -658,12 +659,14 @@ class Ui_MainWindow(object):
         if keywords != None:
             self.editUi.newCategoryKeywords.addItems(keywords)
 
+
     def updateCategoryWidget(self):
         self.app.saveData()
         self.createCategoryWidget()
         self.createPlannedTransactionsWidget()
         self.updateCategoryBox()
         self.createAnalysisTable()
+
 
     def createCategoryWidget(self):
         self.categoryWidget.clear()
@@ -683,6 +686,7 @@ class Ui_MainWindow(object):
                 header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
                 header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
+
     def moveRowToDropDestination(self, referenceNumber, location, amount, category):
         rowPos = self.categoryWidget.currentWidget().rowCount()
         self.categoryWidget.currentWidget().insertRow(rowPos)
@@ -699,6 +703,7 @@ class Ui_MainWindow(object):
             self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
             self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
 
+
     def printUnhandledTransactions(self):
         for t in self.app.getUnhandledTransactions().values():
             rowPos = self.tableWidget.rowCount()
@@ -712,6 +717,7 @@ class Ui_MainWindow(object):
             header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
  
+
     def deleteSelectedCategory(self):
         self.tab = self.categoryWidget.currentIndex() + 1        
         self.index = self.app.getCategoryNamesList()[self.tab]
@@ -721,11 +727,19 @@ class Ui_MainWindow(object):
         
 
    
-    ##############################################################################################
-    # Open Dialog Window Funcs 
-    ##############################################################################################
+    '''
+
+    Open Dialog Window Funcs - Opens all popup windows for analytics and user input
+    
+    '''
+
+    def openPlottingWindow(self):
+        plotWindow = Window(self.app)
+        plotWindow.show()
+
 
     def openEditCatPop(self):
+
         '''
         Opens same window as openNewCatPop but autofills the 
         information and allows it to be edited
@@ -747,6 +761,7 @@ class Ui_MainWindow(object):
         if keywords != None:
             self.editUi.newCategoryKeywords.addItems(keywords)
 
+
     def openNewCatPop(self):
         '''
         when newCategory button is pushed on categorize tab, this will
@@ -760,14 +775,18 @@ class Ui_MainWindow(object):
         self.Dialog.show()
 
 
-    ###################################################################################
-    # Other Funcs
-    ###################################################################################
+    '''
+
+    Other Funcs - Miscellaneous Supporting Funcs
+
+    '''
+
     def saveCSVPath(self):
         csvPath = self.newCatInput.text()
         self.app.sortCompletedTransactions(csvPath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
+
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
