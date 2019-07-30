@@ -51,11 +51,12 @@ class TransactionManager():
     Adds/Updates any existing user-defined category
 
     @data: Category object with additional input from user
+    
+    Check if this data object contains a modified name
+    which was entered by the user, in which case we 
+    must locate the actual object using the previous name
+    as the dictionary key
     '''
-    # Check if this data object contains a modified name
-    # which was entered by the user, in which case we 
-    # must locate the actual object using the previous name
-    # as the dictionary key
     if data.nameModified == True:
       dictKey = data.previousName
     else:

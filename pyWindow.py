@@ -1,18 +1,10 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'window.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-from embeddedMatplotlib import Window
+#from embeddedMatplotlib import Window
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -44,16 +36,14 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, location, amount, c)
 
-
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1224, 947)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.importTab = QtWidgets.QTabWidget(self.centralwidget)
-        self.importTab.setGeometry(QtCore.QRect(80, 70, 961, 641))
+        self.importTab.setGeometry(QtCore.QRect(80, 90, 961, 641))
         self.importTab.setAcceptDrops(True)
         self.importTab.setAccessibleName("")
         self.importTab.setObjectName("importTab")
@@ -180,19 +170,19 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.Planning)
         self.label_3.setGeometry(QtCore.QRect(130, 60, 141, 16))
         self.label_3.setObjectName("label_3")
-        self.comboBox = QtWidgets.QComboBox(self.Planning)
-        self.comboBox.setGeometry(QtCore.QRect(270, 250, 104, 26))
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox_2 = QtWidgets.QComboBox(self.Planning)
-        self.comboBox_2.setGeometry(QtCore.QRect(130, 130, 141, 22))
-        self.comboBox_2.setObjectName("comboBox_2")
+        self.recurrenceComboBox = QtWidgets.QComboBox(self.Planning)
+        self.recurrenceComboBox.setGeometry(QtCore.QRect(270, 250, 104, 26))
+        self.recurrenceComboBox.setObjectName("recurrenceComboBox")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.recurrenceComboBox.addItem("")
+        self.categoryComboBox = QtWidgets.QComboBox(self.Planning)
+        self.categoryComboBox.setGeometry(QtCore.QRect(130, 130, 141, 22))
+        self.categoryComboBox.setObjectName("categoryComboBox")
         self.removeBtn = QtWidgets.QPushButton(self.Planning)
         self.removeBtn.setGeometry(QtCore.QRect(690, 360, 111, 28))
         self.removeBtn.setObjectName("removeBtn")
@@ -225,26 +215,51 @@ class Ui_MainWindow(object):
         self.spendingLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.spendingLabel.setObjectName("spendingLabel")
         self.label_5 = QtWidgets.QLabel(self.Analysis)
-        self.label_5.setGeometry(QtCore.QRect(640, 330, 121, 31))
+        self.label_5.setGeometry(QtCore.QRect(440, 320, 171, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.amountSpentLabel = QtWidgets.QLabel(self.Analysis)
-        self.amountSpentLabel.setGeometry(QtCore.QRect(770, 330, 91, 21))
+        self.amountSpentLabel.setGeometry(QtCore.QRect(610, 330, 91, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.amountSpentLabel.setFont(font)
         self.amountSpentLabel.setObjectName("amountSpentLabel")
         self.label_6 = QtWidgets.QLabel(self.Analysis)
-        self.label_6.setGeometry(QtCore.QRect(580, 360, 181, 20))
+        self.label_6.setGeometry(QtCore.QRect(80, 330, 241, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.percentageSpentLabel = QtWidgets.QLabel(self.Analysis)
-        self.percentageSpentLabel.setGeometry(QtCore.QRect(770, 360, 91, 16))
+        self.percentageSpentLabel.setGeometry(QtCore.QRect(320, 330, 91, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.percentageSpentLabel.setFont(font)
         self.percentageSpentLabel.setObjectName("percentageSpentLabel")
         self.plotWindow = QtWidgets.QPushButton(self.Analysis)
-        self.plotWindow.setGeometry(QtCore.QRect(80, 380, 93, 28))
+        self.plotWindow.setGeometry(QtCore.QRect(80, 40, 93, 28))
         self.plotWindow.setObjectName("plotWindow")
+        self.leftVisualBtn = QtWidgets.QPushButton(self.Analysis)
+        self.leftVisualBtn.setGeometry(QtCore.QRect(20, 550, 41, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.leftVisualBtn.setFont(font)
+        self.leftVisualBtn.setObjectName("leftVisualBtn")
+        self.rightVisualBtn = QtWidgets.QPushButton(self.Analysis)
+        self.rightVisualBtn.setGeometry(QtCore.QRect(900, 550, 41, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.rightVisualBtn.setFont(font)
+        self.rightVisualBtn.setObjectName("rightVisualBtn")
+        self.analysisGraphicsWidget = QtWidgets.QWidget(self.Analysis)
+        self.analysisGraphicsWidget.setGeometry(QtCore.QRect(80, 360, 811, 221))
+        self.analysisGraphicsWidget.setObjectName("analysisGraphicsWidget")
         self.importTab.addTab(self.Analysis, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -270,7 +285,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.importTab.setCurrentIndex(3)
+        self.importTab.setCurrentIndex(1)
         self.categoryWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -307,13 +322,13 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Categories with planned expenditures"))
         self.savePlannedT.setText(_translate("MainWindow", "Save"))
         self.label_3.setText(_translate("MainWindow", "Enter expenditure:"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "daily"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "weekly"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "bi-Weekly"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "monthly"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "quarterly"))
-        self.comboBox.setItemText(5, _translate("MainWindow", "bi-annually"))
-        self.comboBox.setItemText(6, _translate("MainWindow", "annually"))
+        self.recurrenceComboBox.setItemText(0, _translate("MainWindow", "daily"))
+        self.recurrenceComboBox.setItemText(1, _translate("MainWindow", "weekly"))
+        self.recurrenceComboBox.setItemText(2, _translate("MainWindow", "bi-Weekly"))
+        self.recurrenceComboBox.setItemText(3, _translate("MainWindow", "monthly"))
+        self.recurrenceComboBox.setItemText(4, _translate("MainWindow", "quarterly"))
+        self.recurrenceComboBox.setItemText(5, _translate("MainWindow", "bi-annually"))
+        self.recurrenceComboBox.setItemText(6, _translate("MainWindow", "annually"))
         self.removeBtn.setText(_translate("MainWindow", "Remove"))
         self.importTab.setTabText(self.importTab.indexOf(self.Planning), _translate("MainWindow", "Planning"))
         item = self.categoryAnalysisTable.horizontalHeaderItem(0)
@@ -332,6 +347,8 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Percentage of Monthly Budget:"))
         self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
         self.plotWindow.setText(_translate("MainWindow", "Plot"))
+        self.leftVisualBtn.setText(_translate("MainWindow", ">"))
+        self.rightVisualBtn.setText(_translate("MainWindow", ">"))
         self.importTab.setTabText(self.importTab.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
@@ -358,9 +375,9 @@ class Ui_MainWindow(object):
         self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
 
         # Planning Tab
-        self.comboBox.hide()
-        self.recurringBtn.toggled.connect(self.comboBox.show)
-        self.singularBtn.toggled.connect(self.comboBox.hide)
+        self.recurrenceComboBox.hide()
+        self.recurringBtn.toggled.connect(self.recurrenceComboBox.show)
+        self.singularBtn.toggled.connect(self.recurrenceComboBox.hide)
         self.createPlannedTransactionsWidget()
         self.savePlannedT.clicked.connect(self.savePlannedTransaction)
         self.updateCategoryBox()
@@ -368,6 +385,8 @@ class Ui_MainWindow(object):
 
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
+        #self.analysisGraphicsWidget = plottingWindow()
+
 
     '''
 
@@ -448,15 +467,20 @@ class Ui_MainWindow(object):
     def flagCategory(self, category):
     
         row = self.app.getCategoryNamesList().index(category) - 1
-        print(row)
-
+    
+        '''
+        Turns QTableWidgetItem yellow to alert user that the sum their planned transactions 
+        and completed Transactions for a given category exceed the allotted amount
+        '''
         if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category) + self.app.getAmountPlannedByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 240, 5))
 
+        '''
+        Turns QTableWidgetItem red to alert user that the sum their 
+        completed Transactions for a given category exceed the allotted amount
+        '''
         if self.app.getAmountAllottedByCategory(category) < self.app.getAmountSpentByCategory(category):
             self.categoryAnalysisTable.item(row, 0).setBackground(QtGui.QColor(240, 5, 5))
-
-        self.app.getPlannedTransactionDatesByCategory(category)
 
 
     def createPlannedTransactionsWidget(self):
@@ -484,7 +508,7 @@ class Ui_MainWindow(object):
     def savePlannedTransaction(self):
         transaction = TransactionData()
         transaction.name = self.namePlannedT.text()
-        transaction.category = self.comboBox_2.currentText()
+        transaction.category = self.categoryComboBox.currentText()
         transaction.amount = float(self.amountPlannedT.text())
         if self.recurringBtn.isChecked():
             transaction.recurring = True
@@ -499,16 +523,16 @@ class Ui_MainWindow(object):
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
-            return True, self.comboBox.currentText()
+            return True, self.recurrenceComboBox.currentText()
         return False
 
 
     def updateCategoryBox(self):
-        self.comboBox_2.clear()
+        self.categoryComboBox.clear()
         categoryNamesList = self.app.getCategoryNamesList()
         for c in categoryNamesList:
             if c != "Unhandled":
-                self.comboBox_2.addItem(c)
+                self.categoryComboBox.addItem(c)
 
 
     def updateSpendingLabels(self):
@@ -585,7 +609,7 @@ class Ui_MainWindow(object):
     def savePlannedTransaction(self):
         transaction = TransactionData()
         transaction.name = self.namePlannedT.text()
-        transaction.category = self.comboBox_2.currentText()
+        transaction.category = self.categoryComboBox.currentText()
         transaction.amount = float(self.amountPlannedT.text())
         if self.recurringBtn.isChecked():
             transaction.recurring = True
@@ -601,7 +625,7 @@ class Ui_MainWindow(object):
 
     def getToggledFrequency(self):
         if self.recurringBtn.isChecked():
-            return True, self.comboBox.currentText()
+            return True, self.recurrenceComboBox.currentText()
         return False
 
 
@@ -799,7 +823,7 @@ class Ui_MainWindow(object):
 
 ##############################################################################################
                     # beginning of auto-generated code
-#################################################################################
+##############################################################################################
 
 if __name__ == "__main__":
     import sys
