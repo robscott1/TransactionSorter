@@ -4,7 +4,7 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-#from embeddedMatplotlib import Window
+from embeddedMatplotlib import Window
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
