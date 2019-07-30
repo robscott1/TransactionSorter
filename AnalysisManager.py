@@ -23,9 +23,10 @@ class AnalysisManager():
   # createCompletedTransaction uses the TransactionData object
   # to get all of the necessary information to store it
   def sortCompletedTransactions(self, fileName):
-    amountList, locationList = self.csvAgent.parseFile(fileName)
+    dateList, amountList, locationList = self.csvAgent.parseFile(fileName)
     for index in range(len(amountList)):
       parsedData = TransactionData()
+      parsedData.date = dateList[index]
       parsedData.amount = amountList[index]
       parsedData.location = locationList[index]
       completedTransaction = self.transactionFactory.createCompletedTransaction(parsedData)

@@ -431,7 +431,6 @@ class Ui_MainWindow(object):
 
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
-        #self.analysisGraphicsWidget = plottingWindow()
 
 
     '''
@@ -626,6 +625,7 @@ class Ui_MainWindow(object):
             self.app.saveData()
             self.returnTransactionToUnhandled(referenceNumber, location, amount)
             self.categoryWidget.currentWidget().removeRow(row)
+            self.updateCategorySummary(c)
 
 
     def returnTransactionToUnhandled(self, referenceNumber, location, amount):
@@ -782,7 +782,7 @@ class Ui_MainWindow(object):
         for t in self.app.getCompletedTransactionsByCategory(category).values():
             rowPos = self.categoryWidget.currentWidget().rowCount()
             self.categoryWidget.currentWidget().insertRow(rowPos)
-            self.categoryWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
+            self.categoryWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.date)))
             self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
             self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
 
@@ -791,7 +791,7 @@ class Ui_MainWindow(object):
         for t in self.app.getUnhandledTransactions().values():
             rowPos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPos)
-            self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.referenceNumber)))
+            self.tableWidget.setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.date)))
             self.tableWidget.setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.location))
             self.tableWidget.setItem(rowPos, 2, QtWidgets.QTableWidgetItem(t.amount))
             # resizing the columns

@@ -51,7 +51,8 @@ class PlannedTransaction():
 
 class CompletedTransaction():
   
-  def __init__(self, location=None, amount=None, referenceNumber=None):
+  def __init__(self, date=None, location=None, amount=None, referenceNumber=None):
+    self.date = date
     self.location = location
     self.amount = amount
     self.referenceNumber = referenceNumber

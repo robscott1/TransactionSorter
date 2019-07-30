@@ -6,11 +6,15 @@ class CSVAgent():
     f = open(fileName, 'r')
     lines = f.readlines()
     
+    dateList = []
     amountList = []
     locationList = []
 
     for line in lines:
         num_strs = line.split(',')
+        date = num_strs[0]
+        date = date[1:-1]
+        dateList.append(date)
         amount = num_strs[1]
         amount = amount[1:-1]
         amountList.append(amount)
@@ -20,5 +24,6 @@ class CSVAgent():
 
     f.close()
 
-    return amountList, locationList
+    print(dateList)
+    return dateList, amountList, locationList
     
