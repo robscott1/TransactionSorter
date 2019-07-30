@@ -1,0 +1,13 @@
+- categorize tab: 
+  - populate each category with all of the auto-sorted transactions
+  - list the amount spent, amount planned and amount allotted for each category
+  - list the date that each transaction occurred
+
+- add a way to enter your current bank account balance
+  - I want to be able to specify if a planned transaction will be applied to a credit card or a bank account
+    - This way you can add transactions such as rent and paying off your credit card bill
+  - I want a line graph (balance vs time) that will show your projected bank account statement over time based on your current account balance and your planned recurring transactions. 
+    - You should be able to specify the time frame of the graph
+    - If you specify a start date that is in the past, all of your actual transaction history should appear on the graph as applicable
+
+- add a way to save what your bank account balance was on any given date for history tracking purposes
