@@ -63,3 +63,9 @@ class AnalysisManager():
   def getKeywordsByCategory(self, categoryName):
     return self.categories[categoryName].keywords
 
+  def getCompletedTransactionsInOrder(self):
+    # Must include the list() because Python 3 doesnt actually return a list
+    # of values. Rather, it returns a psuedo-list dict-value object
+    transactions = list(self.completedTransactions.values())
+    transactionsInOrder = [transactions[x] for x in range(len(transactions) - 1, -1, -1)]
+    
