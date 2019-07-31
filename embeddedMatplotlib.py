@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QGr
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+import datetime
 
 import random
 
@@ -11,9 +12,9 @@ from Application import Application
 
 import numpy as np
 
-class Window(QDialog):
+class plottingWindow(QDialog):
     def __init__(self, App, parent=None):
-        super(Window, self).__init__(parent)
+        super(plottingWindow, self).__init__(parent)
 
         self.app = App
 
@@ -101,13 +102,17 @@ class Window(QDialog):
 
         self.canvas.draw()
 
+    def plotTimeSeries(self):
+        cats = self.app.getCategoryNamesList()[1:]
+
+
 
         
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    plotWindow = Window()
+    plotWindow = plottingWindow()
     plotWindow.show()
 
     sys.exit(app.exec_())
