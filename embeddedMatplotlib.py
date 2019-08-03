@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QHBoxLayout
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -11,6 +11,8 @@ import random
 from Application import Application
 
 import numpy as np
+
+import pandas as pd
 
 class plottingWindow(QDialog):
     def __init__(self, App, parent=None):
@@ -36,15 +38,19 @@ class plottingWindow(QDialog):
         self.plotBarBtn = QPushButton('Bar Graph')
         self.plotBarBtn.clicked.connect(self.plotBar)
 
+        self.plotTimeSeriesBtn = QPushButton('Time Series')
+        self.plotTimeSeriesBtn.clicked.connect(self.plotTimeSeries)
+
         # set the layout
         layout = QVBoxLayout()
         layout.addWidget(self.toolbar)
         layout.addWidget(self.canvas)
-        btnLayout = QGridLayout()
+        btnLayout = QHBoxLayout()
         layout.addLayout(btnLayout)
 
-        btnLayout.addWidget(self.plotPieBtn, 0, 0)
-        btnLayout.addWidget(self.plotBarBtn, 0, 1)
+        btnLayout.addWidget(self.plotPieBtn)
+        btnLayout.addWidget(self.plotBarBtn)
+        btnLayout.addWidget(self.plotTimeSeriesBtn)
 
         self.setLayout(layout)
 
@@ -103,11 +109,69 @@ class plottingWindow(QDialog):
         self.canvas.draw()
 
     def plotTimeSeries(self):
-        cats = self.app.getCategoryNamesList()[1:]
 
+        self.figure.clear()
 
+        self.ax = self.figure.add_subplot(111)
 
+        self.ax.clear()
+
+        transactions = (r'C:\Users\rober\Downloads\July23Statement.csv')
+        df = pd.read_csv(transactions, sep=',', header = None)
+        df.columns = ['date', 'amount', 'bye', 'felicia', 'location']
+        del df['bye']
+        del df['felicia']
+
+        #reverse the order to get df chronologically correct
+        df1 = df[::-1]
+        # Getting the items to plot
+        trans = df1.loc[:,'date':'amount']
+
+        previousDate = trans.date[len(trans) - 1]
+        spendingByDay = []
+        dailyTotal = 0
+        for index, row in trans.iterrows():
+            if previousDate == row.date:
+                dailyTotal += row.amount
+                previousDate = row.date
+            else:
+                spendingByDay.append(abs(round(dailyTotal, 0)))
+                ts = pd.to_datetime(row.date)
+                dailyTotal += row.amount
+                previousDate = row.date
+
+        # Check
+        print(spendingByDay)
+
+        listOfDates = []
+        #listOfDates.append(trans.date[len(trans) - 1])
+        previousDate = trans.date[len(trans) - 1]
+        print(previousDate)
+        for index, row in trans.iterrows():
+            print(previousDate != row.date)      
+            if previousDate != row.date:
+                date = row.date.split('/')
+                date.pop(-1)
+                date = '/'.join(date)
+                listOfDates.append(date)
+                previousDate = row.date
+
+        # Check
+        print(listOfDates)
+        for date in listOfDates:
+            date = date.split('/')
+            date.pop(-1)
+            date = '/'.join(date)
+
+        plt.xlabel('Time')
+        plt.ylabel('Total Spending')
+        plt.title('Charges Over Time')
+        plt.tight_layout()
+        # Plot
+        plt.plot(listOfDates, spendingByDay)
+        plt.xticks(rotation=60)
         
+        self.canvas.draw()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
