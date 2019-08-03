@@ -459,14 +459,12 @@ class Ui_MainWindow(object):
             if c != "Unhandled":
                 row = self.categoryAnalysisTable.rowCount()
                 self.categoryAnalysisTable.insertRow(row)
-                print(row)
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
                 if row != 0:
-                    print(row)
                     self.flagCategory(c)
                 self.updateSpendingLabels()
 
@@ -479,7 +477,6 @@ class Ui_MainWindow(object):
 
     def addNewRowToAnalysis(self, c):
         row = self.categoryAnalysisTable.rowCount()
-        print(row)
         self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
         self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
         self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
@@ -600,8 +597,6 @@ class Ui_MainWindow(object):
             if c != "Unhandled":
                 totalSpent += self.app.getAmountSpentByCategory(c)
                 totalAllotted += self.app.getAmountAllottedByCategory(c)
-                print(totalSpent)
-                print(totalAllotted)
         pctSpent = round(totalSpent / totalAllotted, 1) * 100
         self.amountSpentLabel.setText("$" + str(totalSpent))
         self.percentageSpentLabel.setText(str(pctSpent) + "%")
