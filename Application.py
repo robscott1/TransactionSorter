@@ -218,8 +218,7 @@ class Application():
   def getPlannedTransactionDatesByCategory(self, category):
     self.transactionManager.getPlannedTransactionDatesByCategory(category)
 
-  def getCompletedTransactionsInOrder(self):
-    self.analysisManager.getCompletedTransactionsInOrder()
+
 
 if __name__ == "__main__":
   app = Application()
