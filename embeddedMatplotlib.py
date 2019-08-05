@@ -115,8 +115,8 @@ class plottingWindow(QDialog):
         self.ax = self.figure.add_subplot(111)
 
         self.ax.clear()
-
-        transactions = (r'C:\Users\rober\Downloads\July23Statement.csv')
+        
+        '''
         df = pd.read_csv(transactions, sep=',', header = None)
         df.columns = ['date', 'amount', 'bye', 'felicia', 'location']
         del df['bye']
@@ -126,7 +126,7 @@ class plottingWindow(QDialog):
         df1 = df[::-1]
         # Getting the items to plot
         trans = df1.loc[:,'date':'amount']
-
+        
         previousDate = trans.date[len(trans) - 1]
         spendingByDay = []
         dailyTotal = 0
@@ -155,13 +155,9 @@ class plottingWindow(QDialog):
                 date = '/'.join(date)
                 listOfDates.append(date)
                 previousDate = row.date
+        '''
 
-        # Check
-        print(listOfDates)
-        for date in listOfDates:
-            date = date.split('/')
-            date.pop(-1)
-            date = '/'.join(date)
+        spendingByDay, listOfDates = self.app.getTimeSeriesData()
 
         plt.xlabel('Time')
         plt.ylabel('Total Spending')

@@ -218,6 +218,11 @@ class Application():
   def getPlannedTransactionDatesByCategory(self, category):
     self.transactionManager.getPlannedTransactionDatesByCategory(category)
 
+  def getTimeSeriesData(self):
+    return self.analysisManager.getTimeSeriesData()
+
+  def saveFileName(self, fileName):
+    return fileName
 
 
 if __name__ == "__main__":

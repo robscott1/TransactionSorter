@@ -5,6 +5,7 @@ from Category import Category
 from CSVAgent import CSVAgent
 from APIData import TransactionData
 from TransactionFactory import TransactionFactory
+from pandasModuleAgent import PandasModuleAgent
 
 class AnalysisManager():
 
@@ -17,6 +18,8 @@ class AnalysisManager():
     self.excelManager = ExcelManager()
     self.csvAgent = CSVAgent()
     self.transactionFactory = TransactionFactory()
+    self.pandasModuleAgent = PandasModuleAgent()
+    self.completedTransactionsDataFrame = None
 
   # takes parsed data from CSV agent and records amount and
   # location of transaction
@@ -63,3 +66,6 @@ class AnalysisManager():
   def getKeywordsByCategory(self, categoryName):
     return self.categories[categoryName].keywords
     
+  def getTimeSeriesData(self):
+    return self.pandasModuleAgent.getTimeSeriesData()
+
