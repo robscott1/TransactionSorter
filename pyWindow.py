@@ -444,7 +444,6 @@ class Ui_MainWindow(object):
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
-
     '''
 
     Analysis Table Funcs - handles all functions that deal with the analysis tab and analysis
@@ -598,7 +597,7 @@ class Ui_MainWindow(object):
                 totalSpent += self.app.getAmountSpentByCategory(c)
                 totalAllotted += self.app.getAmountAllottedByCategory(c)
         pctSpent = round(totalSpent / totalAllotted, 1) * 100
-        self.amountSpentLabel.setText("$" + str(totalSpent))
+        self.amountSpentLabel.setText("$" + str(round(totalSpent, 2)))
         self.percentageSpentLabel.setText(str(pctSpent) + "%")
 
         if pctSpent <= 65:
@@ -695,12 +694,6 @@ class Ui_MainWindow(object):
                     self.tabWidget.currentWidget().insertColumn(i)
                 self.fillTransactionWidget(category)
 
-
-    def saveCSVPath(self):
-        csvPath = self.newCatInput.text()
-        self.app.sortCompletedTransactions(csvPath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
 
 
     def openNewCatPop(self):
@@ -878,12 +871,6 @@ class Ui_MainWindow(object):
 
     '''
 
-    def saveCSVPath(self):
-        csvPath = self.newCatInput.text()
-        self.app.sortCompletedTransactions(csvPath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
-
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
@@ -891,6 +878,10 @@ class Ui_MainWindow(object):
         self.printUnhandledTransactions()
         self.createCategoryWidget()
         self.createAnalysisTable()
+
+        return filePath
+
+
 
         
 
