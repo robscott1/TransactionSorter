@@ -41,21 +41,50 @@ class AnalysisManager():
     c = self.categories[categoryName]
     return c.getTotalAmountSpent()
 
-  # finds difference between amount allotted and amount spent
   def getDeltaByCategory(self, categoryName):
+    '''
+    Finds difference between amount allotted and amount spent
+
+    @categoryName: string used to reference the name of 
+    Category object in dictionary
+
+    @returns: Integer value of difference between
+    amount spent and amount allotted
+
+    '''
     c = self.categories[categoryName]
     return c.getDelta()
 
-  # retrieves amount alloted
+  
   def getAmountAllottedByCategory(self, categoryName):
+    '''
+    Gets amount allotted for particular category
+
+    @categoryName: string used to reference the name of 
+    Category object in dictionary
+
+    @returns: Integer value money allotted for
+    category of interest
+
+    '''
     c = self.categories[categoryName]
     return c.getTotalAmountAllotted()
 
   def getAmountPlannedByCategory(self, categoryName):
+    '''
+    Gets sum of PlannedTransactions for 
+    particular category
+
+    @categoryName: string used to reference the name of 
+    Category object in dictionary
+
+    @returns: Sum of all PlannedTransactions for 
+    that category
+
+    '''
     c = self.categories[categoryName]
     return c.getPlannedTransactionAmount()
 
-  # retrives total amount spent, used for categories
   def getTotalAmountSpent(self):
     total = 0
     for t in self.completedTransactions.values():
@@ -64,8 +93,22 @@ class AnalysisManager():
     return total * -1
 
   def getKeywordsByCategory(self, categoryName):
+    '''
+    Gets list of category keywords
+
+    @categoryName: string used to reference the name of 
+    Category object in dictionary
+
+    @returns: List of keywords associated with
+    category of interest
+
+    '''
     return self.categories[categoryName].keywords
     
   def getTimeSeriesData(self):
+    '''
+    Equivalent call to PandasModuleAgent that prepares
+    dates and total expenditures to plot in plottingWindow.py
+    '''
     return self.pandasModuleAgent.getTimeSeriesData()
 
