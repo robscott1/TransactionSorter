@@ -9,7 +9,7 @@ from pandasModuleAgent import PandasModuleAgent
 
 class AnalysisManager():
 
-  # intitializes lower functioning tools within analysis manager
+
   def __init__(self):
     self.completedTransactions = dict()
     self.plannedTransactions = None
@@ -21,11 +21,15 @@ class AnalysisManager():
     self.pandasModuleAgent = PandasModuleAgent()
     self.completedTransactionsDataFrame = None
 
-  # takes parsed data from CSV agent and records amount and
-  # location of transaction
-  # createCompletedTransaction uses the TransactionData object
-  # to get all of the necessary information to store it
+  
   def sortCompletedTransactions(self, fileName):
+    '''
+    Takes parsed data from CSV agent and records 
+    amount and location of transaction. Uses APIData
+    object to pass transaction details to TransactionFactory
+    
+    @fileName: path to CSV file
+    '''
     dateList, amountList, locationList = self.csvAgent.parseFile(fileName)
     for index in range(len(amountList)):
       parsedData = TransactionData()
