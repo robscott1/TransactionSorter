@@ -20,10 +20,10 @@ class plottingWindow(QDialog):
 
         self.app = App
 
-        # a figure instance to plot on
+        # A figure instance to plot on
         self.figure = plt.figure()
 
-        # this is the Canvas Widget that displays the `figure`
+        # This is the Canvas Widget that displays the `figure`
         # it takes the `figure` instance as a parameter to __init__
         self.canvas = FigureCanvas(self.figure)
 
@@ -31,20 +31,25 @@ class plottingWindow(QDialog):
         # it takes the Canvas widget and a parent
         self.toolbar = NavigationToolbar(self.canvas, self)
 
-        # Just some button connected to `plot` method
+        # Plot pie chart button
         self.plotPieBtn = QPushButton('Pie Chart')
         self.plotPieBtn.clicked.connect(self.plotPie)
 
+        # Plot bar graph button
         self.plotBarBtn = QPushButton('Bar Graph')
         self.plotBarBtn.clicked.connect(self.plotBar)
 
+        # Plot time series button
         self.plotTimeSeriesBtn = QPushButton('Time Series')
         self.plotTimeSeriesBtn.clicked.connect(self.plotTimeSeries)
 
-        # set the layout
+        # Set the plottingWindow layout
         layout = QVBoxLayout()
         layout.addWidget(self.toolbar)
         layout.addWidget(self.canvas)
+
+        # Within the layout, create horizontal
+        # layout for various plotting functionality
         btnLayout = QHBoxLayout()
         layout.addLayout(btnLayout)
 
@@ -55,38 +60,33 @@ class plottingWindow(QDialog):
         self.setLayout(layout)
 
     def plotPie(self):
+        # Get data to plot
         cats = self.app.getCategoryNamesList()[1:]
         data = [self.app.getAmountSpentByCategory(c) for c in cats]
-
+        
         self.figure.clear()
-
         self.ax = self.figure.add_subplot(111)
-
         self.ax.clear()
-
+        
         self.ax.pie(data, labels=cats)
         self.ax.set_title("Spending by Category")
-
         self.canvas.draw()
 
     def plotBar(self):
-        # data to plot
+        # Get data to plot
         cats = self.app.getCategoryNamesList()[1:]
         n_groups = len(cats)
-        
         amountSpent = [self.app.getAmountSpentByCategory(c) for c in cats]
         amountAllotted = [self.app.getAmountAllottedByCategory(c) for c in cats]
-
+        
         self.figure.clear()
-        # create plot
         self.ax = self.figure.add_subplot(111)
-
-        self.ax.clear()
-
+        self.ax.clear()\
+        
+        # Format preparation
         index = np.arange(n_groups)
         bar_width = 0.35
         opacity = 0.8
-
         rects1 = plt.bar(index, amountAllotted, bar_width,
         alpha=opacity,
         color='b',
@@ -104,69 +104,23 @@ class plottingWindow(QDialog):
         plt.legend()
 
         plt.tight_layout()
-        #plt.show()
-
         self.canvas.draw()
 
     def plotTimeSeries(self):
-
-        self.figure.clear()
-
-        self.ax = self.figure.add_subplot(111)
-
-        self.ax.clear()
-        
-        '''
-        df = pd.read_csv(transactions, sep=',', header = None)
-        df.columns = ['date', 'amount', 'bye', 'felicia', 'location']
-        del df['bye']
-        del df['felicia']
-
-        #reverse the order to get df chronologically correct
-        df1 = df[::-1]
-        # Getting the items to plot
-        trans = df1.loc[:,'date':'amount']
-        
-        previousDate = trans.date[len(trans) - 1]
-        spendingByDay = []
-        dailyTotal = 0
-        for index, row in trans.iterrows():
-            if previousDate == row.date:
-                dailyTotal += row.amount
-                previousDate = row.date
-            else:
-                spendingByDay.append(abs(round(dailyTotal, 0)))
-                ts = pd.to_datetime(row.date)
-                dailyTotal += row.amount
-                previousDate = row.date
-
-        # Check
-        print(spendingByDay)
-
-        listOfDates = []
-        #listOfDates.append(trans.date[len(trans) - 1])
-        previousDate = trans.date[len(trans) - 1]
-        print(previousDate)
-        for index, row in trans.iterrows():
-            print(previousDate != row.date)      
-            if previousDate != row.date:
-                date = row.date.split('/')
-                date.pop(-1)
-                date = '/'.join(date)
-                listOfDates.append(date)
-                previousDate = row.date
-        '''
-
+        # Get data to plot
         spendingByDay, listOfDates = self.app.getTimeSeriesData()
-
+        
+        # Prepare figure
+        self.figure.clear()
+        self.ax = self.figure.add_subplot(111)
+        self.ax.clear()
         plt.xlabel('Time')
         plt.ylabel('Total Spending')
         plt.title('Charges Over Time')
         plt.tight_layout()
-        # Plot
-        plt.plot(listOfDates, spendingByDay)
         plt.xticks(rotation=60)
         
+        plt.plot(listOfDates, spendingByDay)
         self.canvas.draw()
 
 if __name__ == '__main__':

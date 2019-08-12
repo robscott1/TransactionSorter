@@ -23,15 +23,33 @@ class Application():
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
 
-  # takes in data that is already parsed and 
-  # saves the location it was spent at and the amount spent
-  # location name will allow for the categories to pick up relevant transactions
+  
   def sortCompletedTransactions(self, fileName):
+    '''
+    Wrapper function for AnalysisManager's equivalent
+    call.
+
+    @filename: Path to CSV file that will be parsed
+    and used to create completedTransaction objects
+    '''
     self.analysisManager.sortCompletedTransactions(fileName)
     self.transactionManager.completedTransactions = self.analysisManager.completedTransactions
 
-  # writes both transactions and categories into xml files
+  
   def saveData(self):
+    '''
+    Calls function in PersistentDataManager that writes
+    planned transactions and category info to an .xml file
+
+    @transactionData.xml, categoryData.xml: files on which
+    planned transactions and category info are stored
+
+    @self.transactionManager.transactions.values(): names
+    of plannedTransaction objects
+
+    @self.transactionManager.categories.values(): names
+    of Category objects
+    '''
     self.pdm.stashPersistentData("transactionData.xml", "categoryData.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
@@ -46,20 +64,37 @@ class Application():
     '''
     return list(self.analysisManager.categories.keys())
 
-  # retrieves the list of transactions that were not picked up
-  # by Category objects
-  # this will happen because these transactions belong to a new 
-  # Category that has yet to be created, or this transaction location
-  # was not part of the idKeywords list for the respective category
+  
   def getUnhandledTransactions(self):
+    '''
+    Gets all completedTransaction objects in the 
+    "Unhandled" category
+
+    @returns: CompletedTransaction objects that 
+    have not been categorized
+    '''
     return self.transactionManager.categories["Unhandled"].completedTransactions
 
-  #called from GUI to create Category object
+  
   def createNewCategory(self, data):
+    '''
+    pyCategoryPop.py GUI window sends APIData object through here
+    to TransactionManager where new Category object is made
+
+    @data: APIData object with name, allotted amount, and keywords
+    to make new Category object in back end
+    '''
     self.transactionManager.createCategory(data)
     self.analysisManager.categories = self.transactionManager.categories
 
   def updateCategoryData(self, data):
+    '''
+    Same functionality as createNewCategory, but firsr
+    checks if the name of existing category was changed
+
+    @data: APIData object with name, allotted amount, and keywords
+    to make new Category object in back end
+    '''
     self.transactionManager.updateCategoryData(data)
     self.analysisManager.categories = self.transactionManager.categories
 
@@ -205,24 +240,25 @@ class Application():
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
 
   def getPlannedTransactions(self, category):
+    '''
+    Wrapper function for TransactionManager's
+    equivalent
 
+    @category: Name of category of interest
+
+    @returns: All PlannedTransaction objects in
+    respective category
+    '''
     return self.transactionManager.getPlannedTransactions(category)
 
   def removePlannedTransaction(self, category, name):
     self.transactionManager.removePlannedTransaction(category, name)
 
-
   def diagnosticDbg(self):
     self.transactionManager.categoryDbg()
 
-  def getPlannedTransactionDatesByCategory(self, category):
-    self.transactionManager.getPlannedTransactionDatesByCategory(category)
-
   def getTimeSeriesData(self):
     return self.analysisManager.getTimeSeriesData()
-
-  def saveFileName(self, fileName):
-    return fileName
 
 
 if __name__ == "__main__":
