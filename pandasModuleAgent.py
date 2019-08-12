@@ -38,35 +38,3 @@ class PandasModuleAgent():
 
 		return spendingByDay, listOfDates
 
-
-'''
-	def getSpendingByDay(self, trans):
-		previousDate = self.trans.date[len(trans) - 1]
-		spendingByDay = []
-		dailyTotal = 0
-		for index, row in trans.iterrows():
-		    if previousDate == row.date:
-		        dailyTotal += row.amount
-		        previousDate = row.date
-		    else:
-		        spendingByDay.append(abs(round(dailyTotal, 0)))
-		        ts = pd.to_datetime(row.date)
-		        dailyTotal += row.amount
-		        previousDate = row.date
-
-		return spendingByDay
-
-
-	def getListOfDates(self, trans):
-		listOfDates = []
-		previousDate = trans.date[len(trans) - 1]
-		for index, row in trans.iterrows():    
-		    if previousDate != row.date:
-		        date = row.date.split('/')
-		        date.pop(-1)
-		        date = '/'.join(date)
-		        listOfDates.append(date)
-		        previousDate = row.date
-
-		return listOfDates
-'''
