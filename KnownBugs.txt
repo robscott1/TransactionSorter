@@ -10,10 +10,8 @@
 - parser has random quotation marks when it collects the info on transactions, its from the quotations
 when it pulled it from the csv. See the unhandledTransactions List Widget. Just need cleaner extraction of the good stuff 
 
-- unhandled transactions are made their own category when the app starts up. However, we dont want the GUI to make a category tab for unhandled transactions because they are printed in a seperate window. I have all of the tabs being automatically updated based on the categories that currently exist. We need unhandled to somehow not be counted in this
 
 - every time a new transaction is dragged and dropped to the new category, all of the existing keywords are repeated and duplicated onto the idKeywords again
 
--if we delete a category, the transactions are gone forever. We will need to take those completed transactions and put them back in the unhandled category when we delete a user-made category
 
--unregistering category also needs to delete keywords associated with the manual sorting actions, that location still resides in their previous category's idKeywords list
+- if there are multiple transactions at a certain place but for different categories, they will be sorted to the same place. Then you cant undo categorizations because once you undo one transaction the keyword is removed as well. program will crash because the keyword does not exist in the list after the first transaction is undone
