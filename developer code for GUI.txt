@@ -4,7 +4,7 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-from embeddedMatplotlib import Window
+from embeddedMatplotlib import plottingWindow
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -69,7 +69,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
-
     '''
 
     Analysis Table Funcs - handles all functions that deal with the analysis tab and analysis
@@ -84,14 +83,12 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
             if c != "Unhandled":
                 row = self.categoryAnalysisTable.rowCount()
                 self.categoryAnalysisTable.insertRow(row)
-                print(row)
                 self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
                 self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(c))))
                 self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(c))))
                 if row != 0:
-                    print(row)
                     self.flagCategory(c)
                 self.updateSpendingLabels()
 
@@ -104,7 +101,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
     def addNewRowToAnalysis(self, c):
         row = self.categoryAnalysisTable.rowCount()
-        print(row)
         self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(c))
         self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(c))))
         self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(c))))
@@ -225,10 +221,8 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
             if c != "Unhandled":
                 totalSpent += self.app.getAmountSpentByCategory(c)
                 totalAllotted += self.app.getAmountAllottedByCategory(c)
-                print(totalSpent)
-                print(totalAllotted)
         pctSpent = round(totalSpent / totalAllotted, 1) * 100
-        self.amountSpentLabel.setText("$" + str(totalSpent))
+        self.amountSpentLabel.setText("$" + str(round(totalSpent, 2)))
         self.percentageSpentLabel.setText(str(pctSpent) + "%")
 
         if pctSpent <= 65:
@@ -252,25 +246,27 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
         row = self.categoryWidget.currentWidget().currentRow()
 
         if type(self.categoryWidget.currentWidget().item(row, 0)) == QTableWidgetItem:
-            location = self.categoryWidget.currentWidget().item(row, 1).text()
-            amount = self.categoryWidget.currentWidget().item(row, 2).text()
+            date = self.categoryWidget.currentWidget().item(row, 1).text()
             referenceNumber = int(self.categoryWidget.currentWidget().item(row, 0).text())
+            location = self.categoryWidget.currentWidget().item(row, 2).text()
+            amount = self.categoryWidget.currentWidget().item(row, 3).text()
             c = self.app.getCategoryNamesList()[self.categoryWidget.currentIndex() + 1]
             self.app.unregisterCompletedTransaction(c, referenceNumber)
             self.app.registerCompletedTransaction("Unhandled", referenceNumber)
             self.app.diagnosticDbg()
             self.app.saveData()
-            self.returnTransactionToUnhandled(referenceNumber, location, amount)
+            self.returnTransactionToUnhandled(referenceNumber, date, location, amount)
             self.categoryWidget.currentWidget().removeRow(row)
             self.updateCategorySummary(c)
 
 
-    def returnTransactionToUnhandled(self, referenceNumber, location, amount):
+    def returnTransactionToUnhandled(self, referenceNumber, date, location, amount):
         row = self.tableWidget.rowCount()
         self.tableWidget.insertRow(row)
         self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(referenceNumber)))
-        self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(location))
-        self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(amount))
+        self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(date))
+        self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(location))
+        self.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(amount))
 
 
     def fillTransactionWidget(self, category):
@@ -323,12 +319,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
                     self.tabWidget.currentWidget().insertColumn(i)
                 self.fillTransactionWidget(category)
 
-
-    def saveCSVPath(self):
-        csvPath = self.newCatInput.text()
-        self.app.sortCompletedTransactions(csvPath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
 
 
     def openNewCatPop(self):
@@ -383,7 +373,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
                 tab.setAcceptDrops(True)
                 self.categoryWidget.addTab(tab, category)
                 self.categoryWidget.setCurrentWidget(tab)
-                for i in range(3):
+                for i in range(4):
                     self.categoryWidget.currentWidget().insertColumn(i)
 
                 self.fillCategoryWidget(category)
@@ -399,9 +389,9 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
         rowPos = self.categoryWidget.currentWidget().rowCount()
         self.categoryWidget.currentWidget().insertRow(rowPos)
         self.categoryWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(referenceNumber)))
-        self.categoryWudget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(date))
-        self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(location))
-        self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(amount))
+        self.categoryWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(date))
+        self.categoryWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(location))
+        self.categoryWidget.currentWidget().setItem(rowPos, 3, QtWidgets.QTableWidgetItem(amount))
         self.updateCategorySummary(category)
 
 
@@ -459,7 +449,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     '''
 
     def openPlottingWindow(self):
-        plotWindow = Window(self.app)
+        plotWindow = plottingWindow(self.app)
         plotWindow.show()
 
 
@@ -506,12 +496,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
     '''
 
-    def saveCSVPath(self):
-        csvPath = self.newCatInput.text()
-        self.app.sortCompletedTransactions(csvPath)
-        self.printUnhandledTransactions()
-        self.createCategoryWidget()
-
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
@@ -519,6 +503,10 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
         self.printUnhandledTransactions()
         self.createCategoryWidget()
         self.createAnalysisTable()
+
+        return filePath
+
+
 
         
 
