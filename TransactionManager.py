@@ -30,6 +30,13 @@ class TransactionManager():
     self.categories[categoryName].unregisterCompletedTransaction(t)
 
   def registerCategory(self, c):
+    '''
+    Takes new Category object and adds it to categories dictionary
+
+    Name of the category is used as the dicionary key
+
+    @c: Category object being placed in dictionary
+    '''
     self.categories[c.name] = c
 
   def createTransaction(self, data):
@@ -44,6 +51,15 @@ class TransactionManager():
     return self.categories[category].getPlannedTransactions().values()
 
   def getCompletedTransactionsByCategory(self, category):
+    '''
+    References category object within categories dictionary and
+    and returns dict of completedTransactions
+
+    @category: String to reference dictionary key with respective
+    category name
+
+    @returns: dict of completedTransactions from respective category
+    '''
     return self.categories[category].completedTransactions
 
   def updateCategoryData(self, data):
