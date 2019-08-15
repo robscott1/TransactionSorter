@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'realwindow.ui'
+#
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
@@ -37,6 +41,8 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
 
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -55,47 +61,61 @@ class Ui_MainWindow(object):
         self.Setup.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.Setup.setObjectName("Setup")
         self.label_9 = QtWidgets.QLabel(self.Setup)
-        self.label_9.setGeometry(QtCore.QRect(90, 70, 141, 16))
+        self.label_9.setGeometry(QtCore.QRect(70, 470, 141, 16))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
         self.incomeAmount = QtWidgets.QLineEdit(self.Setup)
-        self.incomeAmount.setGeometry(QtCore.QRect(240, 70, 113, 22))
+        self.incomeAmount.setGeometry(QtCore.QRect(260, 470, 113, 22))
         self.incomeAmount.setObjectName("incomeAmount")
         self.payDayFreq = QtWidgets.QComboBox(self.Setup)
-        self.payDayFreq.setGeometry(QtCore.QRect(240, 110, 111, 22))
+        self.payDayFreq.setGeometry(QtCore.QRect(260, 510, 111, 22))
         self.payDayFreq.setObjectName("payDayFreq")
         self.label_12 = QtWidgets.QLabel(self.Setup)
-        self.label_12.setGeometry(QtCore.QRect(60, 110, 171, 20))
+        self.label_12.setGeometry(QtCore.QRect(70, 510, 171, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
         self.payDayCalendar = QtWidgets.QPushButton(self.Setup)
-        self.payDayCalendar.setGeometry(QtCore.QRect(240, 150, 111, 28))
+        self.payDayCalendar.setGeometry(QtCore.QRect(260, 550, 111, 28))
         self.payDayCalendar.setObjectName("payDayCalendar")
         self.label_13 = QtWidgets.QLabel(self.Setup)
-        self.label_13.setGeometry(QtCore.QRect(110, 150, 111, 20))
+        self.label_13.setGeometry(QtCore.QRect(70, 550, 111, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_13.setFont(font)
         self.label_13.setObjectName("label_13")
         self.creditCardPaymentDay = QtWidgets.QPushButton(self.Setup)
-        self.creditCardPaymentDay.setGeometry(QtCore.QRect(880, 70, 121, 28))
+        self.creditCardPaymentDay.setGeometry(QtCore.QRect(360, 700, 121, 28))
         self.creditCardPaymentDay.setObjectName("creditCardPaymentDay")
         self.label_14 = QtWidgets.QLabel(self.Setup)
-        self.label_14.setGeometry(QtCore.QRect(580, 70, 291, 31))
+        self.label_14.setGeometry(QtCore.QRect(60, 700, 291, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_14.setFont(font)
         self.label_14.setObjectName("label_14")
-        self.plottingWidget = QtWidgets.QWidget(self.Setup)
-        self.plottingWidget.setGeometry(QtCore.QRect(40, 340, 1021, 401))
-        self.plottingWidget.setObjectName("plottingWidget")
-        self.importCsvBtn = QtWidgets.QPushButton(self.Setup)
-        self.importCsvBtn.setGeometry(QtCore.QRect(50, 220, 121, 28))
-        self.importCsvBtn.setObjectName("importCsvBtn")
+        self.importCSVBtn = QtWidgets.QPushButton(self.Setup)
+        self.importCSVBtn.setGeometry(QtCore.QRect(840, 700, 121, 28))
+        self.importCSVBtn.setObjectName("importCSVBtn")
+        self.label_15 = QtWidgets.QLabel(self.Setup)
+        self.label_15.setGeometry(QtCore.QRect(60, 630, 271, 31))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        self.label_15.setFont(font)
+        self.label_15.setObjectName("label_15")
+        self.payDaySavedLabel = QtWidgets.QLabel(self.Setup)
+        self.payDaySavedLabel.setGeometry(QtCore.QRect(400, 550, 91, 31))
+        self.payDaySavedLabel.setText("")
+        self.payDaySavedLabel.setObjectName("payDaySavedLabel")
+        self.creditSavedLabel = QtWidgets.QLabel(self.Setup)
+        self.creditSavedLabel.setGeometry(QtCore.QRect(500, 700, 101, 31))
+        self.creditSavedLabel.setText("")
+        self.creditSavedLabel.setObjectName("creditSavedLabel")
+        self.label_16 = QtWidgets.QLabel(self.Setup)
+        self.label_16.setGeometry(QtCore.QRect(580, 650, 391, 41))
+        self.label_16.setObjectName("label_16")
         self.TabWidget.addTab(self.Setup, "")
         self.Planning = QtWidgets.QWidget()
         self.Planning.setObjectName("Planning")
@@ -351,7 +371,7 @@ class Ui_MainWindow(object):
         self.label_7.setGeometry(QtCore.QRect(40, 50, 158, 16))
         self.label_7.setObjectName("label_7")
         self.TabWidget.addTab(self.Projection, "")
-        self.gridLayout.addWidget(self.TabWidget, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.TabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1224, 26))
@@ -390,7 +410,9 @@ class Ui_MainWindow(object):
         self.label_13.setText(_translate("MainWindow", "Next Pay Day"))
         self.creditCardPaymentDay.setText(_translate("MainWindow", "Select Date"))
         self.label_14.setText(_translate("MainWindow", "When do you pay your credit card bill?"))
-        self.importCsvBtn.setText(_translate("MainWindow", "Import CSV"))
+        self.importCSVBtn.setText(_translate("MainWindow", "Get Started"))
+        self.label_15.setText(_translate("MainWindow", "Credit Card Details:"))
+        self.label_16.setText(_translate("MainWindow", "By getting started, you will save this information and import a CSV"))
         self.TabWidget.setTabText(self.TabWidget.indexOf(self.Setup), _translate("MainWindow", "Setup"))
         self.namePlannedT.setPlaceholderText(_translate("MainWindow", "Name"))
         self.amountPlannedT.setPlaceholderText(_translate("MainWindow", "Amount"))
@@ -468,7 +490,7 @@ class Ui_MainWindow(object):
 
         # Import Tab
         self.app.initialize()
-        self.importCsvBtn.clicked.connect(self.fileOpen)
+        self.importCSVBtn.clicked.connect(self.fileOpen)
 
         # Categorize Tab
         self.createCategoryWidget()
@@ -489,6 +511,11 @@ class Ui_MainWindow(object):
 
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
+
+
+    '''
+    Setup Tab Functions
+    '''
 
     '''
 
