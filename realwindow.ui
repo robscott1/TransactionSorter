@@ -157,16 +157,6 @@
          <string>When do you pay your credit card bill?</string>
         </property>
        </widget>
-       <widget class="QWidget" name="plottingWidget" native="true">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>340</y>
-          <width>1021</width>
-          <height>401</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QPushButton" name="importCSVBtn">
         <property name="geometry">
          <rect>
