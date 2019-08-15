@@ -30,7 +30,7 @@
        <attribute name="title">
         <string>Setup</string>
        </attribute>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="importCSVBtn">
         <property name="geometry">
          <rect>
           <x>900</x>
@@ -192,7 +192,7 @@
          <string>mm/dd/yyyy</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="nextCCPayment">
+       <widget class="QLineEdit" name="nextCreditPayment">
         <property name="geometry">
          <rect>
           <x>280</x>
