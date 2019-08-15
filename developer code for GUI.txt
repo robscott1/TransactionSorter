@@ -4,7 +4,8 @@ from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-from embeddedMatplotlib import plottingWindow
+from embeddedMatplotlib import PlottingWindow
+from embeddedMatplotlib import ProjectionWidget
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -37,7 +38,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
 
-
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -47,7 +47,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
         # Import Tab
         self.app.initialize()
-        self.importCsvBtn.clicked.connect(self.fileOpen)
+        self.importCSVBtn.clicked.connect(self.fileOpen)
 
         # Categorize Tab
         self.createCategoryWidget()
@@ -68,6 +68,27 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
+
+        # Projection Tab
+        self.projectionWidget =  ProjectionWidget(self.app)
+        self.predictionWidget.addWidget.
+
+
+    '''
+    Setup Tab Functions - uses basic information mainly for predictive analysis.
+    Put it all in one tab to consolidate arbitrary user input.
+
+    '''
+
+
+    def saveStartInfo(self):
+        self.checkingAccBalance = int(self.checkingAccBal.text())
+        self.incomeAmt = int(self.incomeAmount.text())
+        self.payDayFreq = self.freqPayDay.currentText()
+        self.payDay = self.nextPayDay.text()
+        self.payCreditDate = self.nextCCPayment.text()
+        print(self.payDayFreq)
+        print(self.payCreditDate)
 
     '''
 
@@ -449,7 +470,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     '''
 
     def openPlottingWindow(self):
-        plotWindow = plottingWindow(self.app)
+        plotWindow = PlottingWindow(self.app)
         plotWindow.show()
 
 
@@ -499,6 +520,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+        self.saveStartInfo()
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
