@@ -4,7 +4,6 @@ class PandasModuleAgent():
 
 
 	def getTimeSeriesData(self, fileName):
-		#fileName = (r'C:\Users\rober\Downloads\July23Statement.csv')
 		self.df = pd.read_csv(fileName, sep=',', header = None)
 		self.df.columns = ['date', 'amount', 'bye', 'felicia', 'location']
 		del self.df['bye']
