@@ -109,10 +109,10 @@ class AnalysisManager():
     '''
     return self.categories[categoryName].keywords
     
-  def getTimeSeriesData(self):
+  def getTimeSeriesData(self, fileName):
     '''
     Equivalent call to PandasModuleAgent that prepares
     dates and total expenditures to plot in plottingWindow.py
     '''
-    return self.pandasModuleAgent.getTimeSeriesData()
+    return self.pandasModuleAgent.getTimeSeriesData(fileName)
 

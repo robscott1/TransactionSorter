@@ -32,6 +32,7 @@ class Application():
     @filename: Path to CSV file that will be parsed
     and used to create completedTransaction objects
     '''
+    self.fileName = fileName
     self.analysisManager.sortCompletedTransactions(fileName)
     self.transactionManager.completedTransactions = self.analysisManager.completedTransactions
 
@@ -258,7 +259,7 @@ class Application():
     self.transactionManager.categoryDbg()
 
   def getTimeSeriesData(self):
-    return self.analysisManager.getTimeSeriesData()
+    return self.analysisManager.getTimeSeriesData(self.fileName)
 
 
 if __name__ == "__main__":

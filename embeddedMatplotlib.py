@@ -101,6 +101,7 @@ class plottingWindow(QDialog):
         plt.ylabel('Category')
         plt.title('Allotment and Spending')
         plt.xticks(index + bar_width, [x for x in self.app.getCategoryNamesList()[1:]])
+        plt.xticks(rotation=40)
         plt.legend()
 
         plt.tight_layout()
