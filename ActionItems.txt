@@ -1,7 +1,3 @@
-- categorize tab: 
-  - populate each category with all of the auto-sorted transactions
-  - list the amount spent, amount planned and amount allotted for each category
-  - list the date that each transaction occurred
 
 - add a way to enter your current bank account balance
   - I want to be able to specify if a planned transaction will be applied to a credit card or a bank account
