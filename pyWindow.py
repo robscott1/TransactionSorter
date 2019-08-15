@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
 from pyCategoryPop import Ui_createDialog
 from pyEditCategoryPop import Ui_editDialog
 from APIData import TransactionData
-from embeddedMatplotlib import plottingWindow
+from embeddedMatplotlib import PlottingWindow
+from embeddedMatplotlib import ProjectionWidget
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -38,7 +37,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.app.saveData()
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -353,18 +351,20 @@ class Ui_MainWindow(object):
         self.TabWidget.addTab(self.Analysis, "")
         self.Projection = QtWidgets.QWidget()
         self.Projection.setObjectName("Projection")
-        self.predictionWidget = QtWidgets.QWidget(self.Projection)
-        self.predictionWidget.setGeometry(QtCore.QRect(50, 260, 871, 321))
-        self.predictionWidget.setObjectName("predictionWidget")
-        self.label_11 = QtWidgets.QLabel(self.Projection)
-        self.label_11.setGeometry(QtCore.QRect(390, 210, 191, 31))
+        self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.Projection)
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(40, 50, 991, 681))
+        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+        self.projectionLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.projectionLayout.setContentsMargins(0, 0, 0, 0)
+        self.projectionLayout.setObjectName("projectionLayout")
+        self.label_7 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
         font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_11.setFont(font)
-        self.label_11.setObjectName("label_11")
-        self.label_7 = QtWidgets.QLabel(self.Projection)
-        self.label_7.setGeometry(QtCore.QRect(40, 50, 158, 16))
+        font.setPointSize(36)
+        self.label_7.setFont(font)
+        self.label_7.setTextFormat(QtCore.Qt.PlainText)
+        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
         self.label_7.setObjectName("label_7")
+        self.projectionLayout.addWidget(self.label_7)
         self.TabWidget.addTab(self.Projection, "")
         self.gridLayout.addWidget(self.TabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -391,7 +391,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.TabWidget.setCurrentIndex(0)
+        self.TabWidget.setCurrentIndex(4)
         self.tabWidget.setCurrentIndex(0)
         self.categoryWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -472,15 +472,13 @@ class Ui_MainWindow(object):
         self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
         self.plotWindow.setText(_translate("MainWindow", "Open Visuals Menu"))
         self.TabWidget.setTabText(self.TabWidget.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
-        self.label_11.setText(_translate("MainWindow", "Predictive Analysis"))
-        self.label_7.setText(_translate("MainWindow", "Checking Account Balance"))
+        self.label_7.setText(_translate("MainWindow", "Predictive Analysis"))
         self.TabWidget.setTabText(self.TabWidget.indexOf(self.Projection), _translate("MainWindow", "Projection"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
         self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
-
 
 
 ##############################################################################################
@@ -514,10 +512,25 @@ class Ui_MainWindow(object):
         # Analysis Tab
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
+        # Projection Tab
+        
+
 
     '''
-    Setup Tab Functions
+    Setup Tab Functions - uses basic information mainly for predictive analysis.
+    Put it all in one tab to consolidate arbitrary user input.
+
     '''
+
+
+    def saveStartInfo(self):
+        self.checkingAccBalance = int(self.checkingAccBal.text())
+        self.incomeAmt = int(self.incomeAmount.text())
+        self.payDayFreq = self.freqPayDay.currentText()
+        self.payDay = self.nextPayDay.text()
+        self.payCreditDate = self.nextCCPayment.text()
+        print(self.payDayFreq)
+        print(self.payCreditDate)
 
     '''
 
@@ -899,7 +912,7 @@ class Ui_MainWindow(object):
     '''
 
     def openPlottingWindow(self):
-        plotWindow = plottingWindow(self.app)
+        plotWindow = PlottingWindow(self.app)
         plotWindow.show()
 
 
@@ -949,6 +962,7 @@ class Ui_MainWindow(object):
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+        self.saveStartInfo()
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
