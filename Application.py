@@ -51,7 +51,7 @@ class Application():
     @self.transactionManager.categories.values(): names
     of Category objects
     '''
-    self.pdm.stashPersistentData("transactionData.xml", "categoryData.xml", 
+    self.pdm.stashPersistentData("TransactionData.xml", "CategoryData.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
