@@ -1,6 +1,6 @@
 import pandas as pd
 
-class PandasModuleAgent():
+class PandasAgent():
 
 
 	def getTimeSeriesData(self, fileName):

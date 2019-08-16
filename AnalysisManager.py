@@ -5,7 +5,7 @@ from Category import Category
 from CSVAgent import CSVAgent
 from APIData import TransactionData
 from TransactionFactory import TransactionFactory
-from pandasModuleAgent import PandasModuleAgent
+from PandasAgent import PandasAgent
 
 class AnalysisManager():
 
@@ -18,7 +18,7 @@ class AnalysisManager():
     self.excelManager = ExcelManager()
     self.csvAgent = CSVAgent()
     self.transactionFactory = TransactionFactory()
-    self.pandasModuleAgent = PandasModuleAgent()
+    self.pandasAgent = PandasAgent()
     self.completedTransactionsDataFrame = None
 
   
@@ -111,8 +111,8 @@ class AnalysisManager():
     
   def getTimeSeriesData(self, fileName):
     '''
-    Equivalent call to PandasModuleAgent that prepares
+    Equivalent call to PandasAgent that prepares
     dates and total expenditures to plot in plottingWindow.py
     '''
-    return self.pandasModuleAgent.getTimeSeriesData(fileName)
+    return self.pandasAgent.getTimeSeriesData(fileName)
 

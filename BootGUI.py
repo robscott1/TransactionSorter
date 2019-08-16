@@ -1,11 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from Application import Application
-from pyCategoryPop import Ui_createDialog
-from pyEditCategoryPop import Ui_editDialog
+from CategoryPopUpWindow import Ui_createDialog
+from EditCategoryPopUpWindow import Ui_editDialog
 from APIData import TransactionData
-from embeddedMatplotlib import PlottingWindow
-from embeddedMatplotlib import ProjectionWidget
+from EmbeddedMatplotlibWindow import PlottingWindow
+from EmbeddedMatplotlibWindow import ProjectionWidget
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
