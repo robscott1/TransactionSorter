@@ -514,6 +514,8 @@ class Ui_MainWindow(object):
         self.payDayFreq = self.freqPayDay.currentText()
         self.payDay = self.nextPayDay.text()
         self.payCreditDate = self.nextCCPayment.text()
+        self.app.saveUserSetupData(self.checkingAccBalance, self.incomeAmt, self.payDayFreq,
+                                   self.payDay, self.payCreditDate)
         print(self.payDayFreq)
         print(self.payCreditDate)
 
