@@ -38,6 +38,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -346,26 +347,12 @@ class Ui_MainWindow(object):
         self.percentageSpentLabel.setFont(font)
         self.percentageSpentLabel.setObjectName("percentageSpentLabel")
         self.plotWindow = QtWidgets.QPushButton(self.Analysis)
-        self.plotWindow.setGeometry(QtCore.QRect(730, 470, 151, 51))
+        self.plotWindow.setGeometry(QtCore.QRect(610, 680, 151, 51))
         self.plotWindow.setObjectName("plotWindow")
+        self.cashProjectionsBtn = QtWidgets.QPushButton(self.Analysis)
+        self.cashProjectionsBtn.setGeometry(QtCore.QRect(800, 680, 141, 51))
+        self.cashProjectionsBtn.setObjectName("cashProjectionsBtn")
         self.TabWidget.addTab(self.Analysis, "")
-        self.Projection = QtWidgets.QWidget()
-        self.Projection.setObjectName("Projection")
-        self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.Projection)
-        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(40, 50, 991, 681))
-        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
-        self.projectionLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
-        self.projectionLayout.setContentsMargins(0, 0, 0, 0)
-        self.projectionLayout.setObjectName("projectionLayout")
-        self.label_7 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(36)
-        self.label_7.setFont(font)
-        self.label_7.setTextFormat(QtCore.Qt.PlainText)
-        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_7.setObjectName("label_7")
-        self.projectionLayout.addWidget(self.label_7)
-        self.TabWidget.addTab(self.Projection, "")
         self.gridLayout.addWidget(self.TabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -391,7 +378,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAnalysis.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.TabWidget.setCurrentIndex(4)
+        self.TabWidget.setCurrentIndex(3)
         self.tabWidget.setCurrentIndex(0)
         self.categoryWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -470,16 +457,14 @@ class Ui_MainWindow(object):
         self.amountSpentLabel.setText(_translate("MainWindow", "TextLabel"))
         self.label_6.setText(_translate("MainWindow", "Percentage of Monthly Budget:"))
         self.percentageSpentLabel.setText(_translate("MainWindow", "TextLabel"))
-        self.plotWindow.setText(_translate("MainWindow", "Open Visuals Menu"))
+        self.plotWindow.setText(_translate("MainWindow", "Credit Card Analysis"))
+        self.cashProjectionsBtn.setText(_translate("MainWindow", "Cash Projections"))
         self.TabWidget.setTabText(self.TabWidget.indexOf(self.Analysis), _translate("MainWindow", "Analysis"))
-        self.label_7.setText(_translate("MainWindow", "Predictive Analysis"))
-        self.TabWidget.setTabText(self.TabWidget.indexOf(self.Projection), _translate("MainWindow", "Projection"))
         self.menuImport.setTitle(_translate("MainWindow", "Import"))
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
         self.menuTransactions.setTitle(_translate("MainWindow", "Transactions"))
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
         self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
-
 
 ##############################################################################################
                     # end of auto-generated code
@@ -513,7 +498,7 @@ class Ui_MainWindow(object):
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
         # Projection Tab
-        
+        self.cashProjectionsBtn.clicked.connect(self.openProjectionWindow)
 
 
     '''
@@ -538,6 +523,10 @@ class Ui_MainWindow(object):
     QTableWidget; pulls data from API and updates concurrently with categorization method calls.
     
     '''
+    def openProjectionWindow(self):
+        self.projectionWidget = ProjectionWidget(self.app) 
+        self.projectionWidget.show()
+
 
     def createAnalysisTable(self):
         self.categoryAnalysisTable.setRowCount(0)
@@ -967,7 +956,6 @@ class Ui_MainWindow(object):
         self.printUnhandledTransactions()
         self.createCategoryWidget()
         self.createAnalysisTable()
-
         return filePath
 
 
@@ -977,6 +965,7 @@ class Ui_MainWindow(object):
 ##############################################################################################
                     # beginning of auto-generated code
 ##############################################################################################
+
 
 if __name__ == "__main__":
     import sys

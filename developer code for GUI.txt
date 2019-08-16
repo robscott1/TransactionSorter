@@ -38,6 +38,8 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
 
+
+
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -70,8 +72,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
         self.plotWindow.clicked.connect(self.openPlottingWindow)
 
         # Projection Tab
-        self.projectionWidget =  ProjectionWidget(self.app)
-        self.predictionWidget.addWidget.
+        
 
 
     '''

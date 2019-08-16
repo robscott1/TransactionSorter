@@ -24,7 +24,7 @@
        <string/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="Setup">
        <attribute name="title">
@@ -875,50 +875,28 @@
        <widget class="QPushButton" name="plotWindow">
         <property name="geometry">
          <rect>
-          <x>730</x>
-          <y>470</y>
+          <x>610</x>
+          <y>680</y>
           <width>151</width>
           <height>51</height>
          </rect>
         </property>
         <property name="text">
-         <string>Open Visuals Menu</string>
+         <string>Credit Card Analysis</string>
         </property>
        </widget>
-      </widget>
-      <widget class="QWidget" name="Projection">
-       <attribute name="title">
-        <string>Projection</string>
-       </attribute>
-       <widget class="QWidget" name="verticalLayoutWidget_3">
+       <widget class="QPushButton" name="cashProjectionsBtn">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>50</y>
-          <width>991</width>
-          <height>681</height>
+          <x>800</x>
+          <y>680</y>
+          <width>141</width>
+          <height>51</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="projectionLayout">
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="font">
-            <font>
-             <pointsize>36</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Predictive Analysis</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::PlainText</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string>Cash Projections</string>
+        </property>
        </widget>
       </widget>
      </widget>

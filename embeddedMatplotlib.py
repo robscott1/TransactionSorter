@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QHBoxLayout, QWidget
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -14,9 +14,9 @@ import numpy as np
 
 import pandas as pd
 
-class plottingWindow(QDialog):
+class PlottingWindow(QDialog):
     def __init__(self, App, parent=None):
-        super(plottingWindow, self).__init__(parent)
+        super(PlottingWindow, self).__init__(parent)
 
         self.app = App
 
@@ -124,10 +124,51 @@ class plottingWindow(QDialog):
         plt.plot(listOfDates, spendingByDay)
         self.canvas.draw()
 
+class ProjectionWidget(QDialog):
+
+    def __init__(self, App, parent=None):
+        super(ProjectionWidget, self).__init__(parent)
+
+
+        self.app = App
+
+        # A figure instance to plot on
+        self.figure = plt.figure()
+
+        # This is the Canvas Widget that displays the `figure`
+        # it takes the `figure` instance as a parameter to __init__
+        self.canvas = FigureCanvas(self.figure)
+
+        # this is the Navigation widget
+        # it takes the Canvas widget and a parent
+        self.toolbar = NavigationToolbar(self.canvas, self)
+
+        self.plot3MonthProjectionBtn = QPushButton('3 Month')
+        self.plot3MonthProjectionBtn.clicked.connect(self.plot3Month)
+
+        # Set the plottingWindow layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.toolbar)
+        layout.addWidget(self.canvas)
+
+        # Within the layout, create horizontal
+        # layout for various plotting functionality
+        btnLayout = QHBoxLayout()
+        layout.addLayout(btnLayout)
+
+        btnLayout.addWidget(self.plot3MonthProjectionBtn)
+
+        self.setLayout(layout)
+
+
+    def plot3Month(self):
+        print("well den..")
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    plotWindow = plottingWindow()
+    plotWindow = PlottingWindow()
     plotWindow.show()
 
     sys.exit(app.exec_())
