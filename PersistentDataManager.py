@@ -22,6 +22,8 @@ class xmlAgent():
           t.date = element.text
         elif element.tag == "category":
           t.category = element.text
+        elif element.tag == "priority":
+          t.priority = element.text
 
       transactionList.append(t)
 
@@ -57,11 +59,13 @@ class xmlAgent():
       amount = et.SubElement(trans, "amount") 
       date = et.SubElement(trans, "date")
       category = et.SubElement(trans, "category")
+      priority = et.SubElement(priority, "priority")
 
       name.text = t.name
       amount.text = str(t.amount)
       date.text = t.date
       category.text = t.category
+      priority.text = t.priority
 
     tree = et.ElementTree()
     tree._setroot(root)
