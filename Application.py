@@ -54,6 +54,9 @@ class Application():
     self.pdm.stashPersistentData("transactionData.xml", "categoryData.xml", 
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
+  def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
+    self.analysisManager.saveUserSetupData(chkAccBal, incomeAmt, incomeFreq, payDate, ccDate)
+
   def getCategoryNamesList(self):
     '''
     This method can be used to get the keys

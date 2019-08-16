@@ -6,6 +6,7 @@ from CSVAgent import CSVAgent
 from APIData import TransactionData
 from TransactionFactory import TransactionFactory
 from PandasAgent import PandasAgent
+from UserData import UserData
 
 class AnalysisManager():
 
@@ -20,8 +21,15 @@ class AnalysisManager():
     self.transactionFactory = TransactionFactory()
     self.pandasAgent = PandasAgent()
     self.completedTransactionsDataFrame = None
+    self.userData = UserData()
 
-  
+  def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
+    self.userData.checkingAccountBal = chkAccBal
+    self.userData.incomeAmount = incomeAmt
+    self.userData.incomeFrequency = incomeFreq
+    self.userData.nextPayDate = payDate
+    self.userData.nextCreditCardPaymentDate = ccDate
+
   def sortCompletedTransactions(self, fileName):
     '''
     Takes parsed data from CSV agent and records 

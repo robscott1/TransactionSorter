@@ -7,3 +7,6 @@
     - If you specify a start date that is in the past, all of your actual transaction history should appear on the graph as applicable
 
 - add a way to save what your bank account balance was on any given date for history tracking purposes
+
+Backend:
+- add support for saving "Setup" data (i.e. Income Amt, Frequency, etc)
