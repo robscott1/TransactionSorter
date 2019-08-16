@@ -12,7 +12,7 @@ class TransactionFactory():
     transaction = PlannedTransaction(data.name)
     transaction.initialize(date=data.date, category=data.category, amount=data.amount,
                            idKeywords=data.idKeywords, recurring=data.recurring, 
-                           rateOfRecurrence=data.rateOfRecurrence)
+                           rateOfRecurrence=data.rateOfRecurrence, priority=data.priority)
     return transaction
 
   def createCompletedTransaction(self, data):

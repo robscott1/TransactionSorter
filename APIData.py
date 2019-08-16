@@ -9,6 +9,7 @@ class TransactionData():
     self.recurring = None
     self.rateOfRecurrence = None
     self.location = None
+    self.priority = None
 
 class CategoryData():
 

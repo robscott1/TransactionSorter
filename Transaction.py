@@ -5,14 +5,15 @@ class PlannedTransaction():
     self.initialized = False
     self.key = None
 
-  def initialize(self, date=None, category=None, amount=0.0, location=None, idKeywords=[], recurring=False, rateOfRecurrence=None):
+  def initialize(self, date=None, category=None, amount=0.0, location=None, 
+                 idKeywords=[], recurring=False, rateOfRecurrence=None, priority=None):
     self.initialized = True
-    #for planned, not for completed
     self.date = date
     self.category = category
     self.amount = amount
     self.location = location
     self.idKeywords = idKeywords
+    self.priority = priority
 
     if recurring == True:
       if rateOfRecurrence == "annually":
