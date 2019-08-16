@@ -13,7 +13,7 @@ class Application():
   # retrieves past transactions and categorys from xml files from past uses of the app
   # recreates categories and transactions
   def initialize(self):
-    tList, cList = self.pdm.retrievePersistentData("transactionData.xml", "categoryData.xml")
+    tList, cList = self.pdm.retrievePersistentData("TransactionData.xml", "CategoryData.xml")
 
     for c in cList:
       self.transactionManager.createCategory(c)
