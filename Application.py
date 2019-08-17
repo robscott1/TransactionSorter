@@ -263,7 +263,13 @@ class Application():
     self.transactionManager.categoryDbg()
 
   def getTimeSeriesData(self):
-    return self.analysisManager.getTimeSeriesData(self.fileName)
+    return self.analysisManager.getTimeSeriesData()
+
+  def createCompletedTransactionsDataFrame(self):
+    return self.analysisManager.getCompletedTransactionsDataFrame(self.fileName)
+
+
+
 
 
 if __name__ == "__main__":
