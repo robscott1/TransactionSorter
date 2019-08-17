@@ -20,7 +20,6 @@ class AnalysisManager():
     self.csvAgent = CSVAgent()
     self.transactionFactory = TransactionFactory()
     self.pandasAgent = PandasAgent()
-    self.completedTransactionsDataFrame = None
     self.userData = UserData()
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
