@@ -5,7 +5,10 @@ class PandasAgent():
 	def __init__(self, df=None, plannedDf=None):
 		self.completedDf = None
 		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Priority'])
+		self.userData = None
 
+	def getUserData(self, data):
+		self.userData = data
 
 	def getCompletedTransactionsDataframe(self, fileName):
 	 	self.completedDf = pd.read_csv(fileName, sep=',', header = None)
@@ -16,13 +19,12 @@ class PandasAgent():
 			print(item.date)
 			plannedDf.loc[item.location] = ({'Date': item.date, 'Amount': item.amount,
 											 'Priority': item.priority})
-
 	
 	def updatePlannedTransactionsDataframe(self, data):
 		plannedDf.loc[date.location] = ({'Date': data.date, 'Amount': data.amount,
 										 'Priority': data.priority})
 
-		
+	def getProjectionData(self):
 
 
 

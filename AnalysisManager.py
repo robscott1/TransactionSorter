@@ -28,6 +28,7 @@ class AnalysisManager():
     self.userData.incomeFrequency = incomeFreq
     self.userData.nextPayDate = payDate
     self.userData.nextCreditCardPaymentDate = ccDate
+    self.pandasAgent.getUserData(self.userData)
 
   def sortCompletedTransactions(self, fileName):
     '''
@@ -129,4 +130,7 @@ class AnalysisManager():
 
   def createPlannedTransactionsDataframe(self):
     self.pandasAgent.createPlannedTransactionsDataframe(self.plannedTransactions)
+
+  def updatePlannedTransactionsDataframe(self, data):
+    self.pandasAgent.updatePlannedTransactionsDataframe(data)
 
