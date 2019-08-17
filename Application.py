@@ -22,7 +22,7 @@ class Application():
     for t in tList:
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
-
+    self.analysisManager.createPlannedTransactionsDataframe()
   
   def sortCompletedTransactions(self, fileName):
     '''
@@ -34,6 +34,7 @@ class Application():
     '''
     self.fileName = fileName
     self.analysisManager.sortCompletedTransactions(fileName)
+    self.analysisManager.getCompletedTransactionsDataframe(fileName)
     self.transactionManager.completedTransactions = self.analysisManager.completedTransactions
 
   
@@ -243,6 +244,7 @@ class Application():
     '''
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
+    self.analysisManager.updateCompletedTransactionsDataFrame(data)
 
   def getPlannedTransactions(self, category):
     '''

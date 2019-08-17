@@ -116,10 +116,17 @@ class AnalysisManager():
     '''
     return self.categories[categoryName].keywords
     
-  def getTimeSeriesData(self, fileName):
+  def getTimeSeriesData(self):
     '''
     Equivalent call to PandasAgent that prepares
     dates and total expenditures to plot in plottingWindow.py
     '''
-    return self.pandasAgent.getTimeSeriesData(fileName)
+    return self.pandasAgent.getTimeSeriesData()
+
+  def getCompletedTransactionsDataframe(self, fileName):
+
+    self.pandasAgent.getCompletedTransactionsDataframe(fileName)
+
+  def createPlannedTransactionsDataframe(self):
+    self.pandasAgent.createPlannedTransactionsDataframe(self.plannedTransactions)
 

@@ -2,15 +2,37 @@ import pandas as pd
 
 class PandasAgent():
 
+	def __init__(self, df=None, plannedDf=None):
+		self.completedDf = None
+		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Priority'])
 
-	def getTimeSeriesData(self, fileName):
-		self.df = pd.read_csv(fileName, sep=',', header = None)
-		self.df.columns = ['date', 'amount', 'bye', 'felicia', 'location']
-		del self.df['bye']
-		del self.df['felicia']
 
-		#reverse the order to get df chronologically correct
-		df1 = self.df[::-1]
+	def getCompletedTransactionsDataframe(self, fileName):
+	 	self.completedDf = pd.read_csv(fileName, sep=',', header = None)
+
+	def createPlannedTransactionsDataframe(self, planned):
+
+		for item in planned:
+			print(item.date)
+			plannedDf.loc[item.location] = ({'Date': item.date, 'Amount': item.amount,
+											 'Priority': item.priority})
+
+	
+	def updatePlannedTransactionsDataframe(self, data):
+		plannedDf.loc[date.location] = ({'Date': data.date, 'Amount': data.amount,
+										 'Priority': data.priority})
+
+		
+
+
+
+	def getTimeSeriesData(self):
+		self.completedDf.columns = ['date', 'amount', 'bye', 'felicia', 'location']
+		del self.completedDf['bye']
+		del self.completedDf['felicia']
+
+		# Reverse the order to get df chronologically correct
+		df1 = self.completedDf[::-1]
 		# Getting the items to plot
 		trans = df1.loc[:,'date':'amount']
 
