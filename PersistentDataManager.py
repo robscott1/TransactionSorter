@@ -59,7 +59,7 @@ class xmlAgent():
       amount = et.SubElement(trans, "amount") 
       date = et.SubElement(trans, "date")
       category = et.SubElement(trans, "category")
-      priority = et.SubElement(priority, "priority")
+      priority = et.SubElement(trans, "priority")
 
       name.text = t.name
       amount.text = str(t.amount)

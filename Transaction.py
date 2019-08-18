@@ -6,7 +6,7 @@ class PlannedTransaction():
     self.key = None
 
   def initialize(self, date=None, category=None, amount=0.0, location=None, 
-                 idKeywords=[], recurring=False, rateOfRecurrence=None, priority=None):
+                 idKeywords=[], recurring=False, rateOfRecurrence=None, priority=3):
     self.initialized = True
     self.date = date
     self.category = category

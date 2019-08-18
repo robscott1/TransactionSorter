@@ -729,7 +729,7 @@ class Ui_MainWindow(object):
             for t in plannedTransactions:
                 rowPos = self.tabWidget.currentWidget().rowCount()          
                 self.tabWidget.currentWidget().insertRow(rowPos)
-                self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(t.date))
+                self.tabWidget.currentWidget().setItem(rowPos, 0, QtWidgets.QTableWidgetItem(str(t.date)))
                 self.tabWidget.currentWidget().setItem(rowPos, 1, QtWidgets.QTableWidgetItem(t.name))
                 self.tabWidget.currentWidget().setItem(rowPos, 2, QtWidgets.QTableWidgetItem(str(t.amount)))
 
