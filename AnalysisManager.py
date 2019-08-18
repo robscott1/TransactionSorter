@@ -124,6 +124,14 @@ class AnalysisManager():
     '''
     return self.pandasAgent.getTimeSeriesData()
 
+  def getProjectionData(self):
+    totalAllotted = 0
+    for c in categories.values():
+      if c != 'Unhandled':
+        totalAllotted += c.getTotalAmountAllotted()
+    self.pandasAgent.getProjectionData(totalAllotted)
+
+
   def getCompletedTransactionsDataframe(self, fileName):
 
     self.pandasAgent.getCompletedTransactionsDataframe(fileName)
@@ -132,5 +140,6 @@ class AnalysisManager():
     self.pandasAgent.createPlannedTransactionsDataframe(self.plannedTransactions)
 
   def updatePlannedTransactionsDataframe(self, data):
-    self.pandasAgent.updatePlannedTransactionsDataframe(data)
+    print(data)
+    return self.pandasAgent.updatePlannedTransactionsDataframe(data)
 

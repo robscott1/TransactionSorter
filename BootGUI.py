@@ -516,9 +516,7 @@ class Ui_MainWindow(object):
         self.payCreditDate = self.nextCCPayment.text()
         self.app.saveUserSetupData(self.checkingAccBalance, self.incomeAmt, self.payDayFreq,
                                    self.payDay, self.payCreditDate)
-        print(self.payDayFreq)
-        print(self.payCreditDate)
-
+        
     '''
 
     Analysis Table Funcs - handles all functions that deal with the analysis tab and analysis
@@ -639,6 +637,7 @@ class Ui_MainWindow(object):
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
+        print(self.namePlannedT.text(), 'what in the world is going on')
         transaction.name = self.namePlannedT.text()
         transaction.category = self.categoryComboBox.currentText()
         transaction.amount = float(self.amountPlannedT.text())
@@ -649,6 +648,7 @@ class Ui_MainWindow(object):
             transaction.recurring = False
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
         self.app.createPlannedTransaction(transaction)
+        print(transaction, 'wtf')
         self.createPlannedTransactionsWidget()
         self.app.saveData()
 
@@ -958,7 +958,7 @@ class Ui_MainWindow(object):
         self.printUnhandledTransactions()
         self.createCategoryWidget()
         self.createAnalysisTable()
-        return filePath
+        
 
 
 

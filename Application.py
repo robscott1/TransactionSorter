@@ -242,9 +242,10 @@ class Application():
 
     @data: TransactionData API object with identifying members
     '''
+    print(data.location)
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
-    self.analysisManager.updateCompletedTransactionsDataFrame(data)
+    self.analysisManager.updatePlannedTransactionsDataframe(data)
 
   def getPlannedTransactions(self, category):
     '''
@@ -268,7 +269,10 @@ class Application():
     return self.analysisManager.getTimeSeriesData()
 
   def createCompletedTransactionsDataFrame(self):
-    return self.analysisManager.getCompletedTransactionsDataFrame(self.fileName)
+    return self.analysisManager.getCompletedTransactionsDataframe(self.fileName)
+
+  def getProjectionData(self):
+    return self.analysisManager.getProjectionData()
 
 
 

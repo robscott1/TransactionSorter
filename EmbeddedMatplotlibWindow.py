@@ -162,9 +162,20 @@ class ProjectionWidget(QDialog):
 
 
     def plotProjection(self):
-      categories = self.app.getCategoryNamesList()[1:]
-      for c in categories:
+      dates, runningBalance = self.app.getProjectionData()
 
+      # Prepare figure
+      self.figure.clear()
+      self.ax = self.figure.add_subplot(111)
+      self.ax.clear()
+      plt.xlabel('Time')
+      plt.ylabel('Checking Account Balance')
+      plt.title('Cash Projection')
+      plt.tight_layout()
+      plt.xticks(rotation=60)
+      
+      plt.plot(dates, runningBalance)
+      self.canvas.draw()
 
 
 if __name__ == '__main__':

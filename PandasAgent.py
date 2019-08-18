@@ -1,10 +1,11 @@
 import pandas as pd
+from datetime import date
 
 class PandasAgent():
 
 	def __init__(self, df=None, plannedDf=None):
 		self.completedDf = None
-		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Priority'])
+		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount'])
 		self.userData = None
 
 	def getUserData(self, data):
@@ -16,22 +17,43 @@ class PandasAgent():
 	def createPlannedTransactionsDataframe(self, planned):
 
 		for item in planned:
-			print(item.date)
-			plannedDf.loc[item.location] = ({'Date': item.date, 'Amount': item.amount,
-											 'Priority': item.priority})
+			item.date = pd.to_datetime(item.date)
+			self.plannedDf.loc[item.name] = ({'Date': item.date, 'Amount': item.amount})
+			self.plannedDf.sort('Date')
 	
 	def updatePlannedTransactionsDataframe(self, data):
-		plannedDf.loc[date.location] = ({'Date': data.date, 'Amount': data.amount,
-										 'Priority': data.priority})
+		print(data.location)
+		data.date = pd.to_datetime(data.date)
+		self.plannedDf.loc[data.name] = ({'Date': data.date, 'Amount': data.amount})
+		self.plannedDf.sort('Date')
 
-	def getProjectionData(self):
 
+	def getProjectionData(self, allottedAmt):
+		checkingBalance = self.userData.checkingAccountBal
+		incomeAmt = self.userData.incomeAmount
+		incomeFreq = self.userData.incomeFrequency
+		nextPayDate = pd.to_datetime(self.userData.nextPayDate)
+		nextCreditPaymentDate = pd.to_datetime(self.userData.nextCreditCardPaymentDate)
 
+		today = date.today()
+		today = pd.to_datetime(today)
+
+		dates = list(pd.date_range(today, freq='D', periods=365))
+		runningBalance = []
+
+		for i in range(365):
+			if dates[i] in plannedDf['Dates']:
+				print(plannedDf.loc[dates[i]])
+				balance -= row.amount
+			if i % 14 == 0 and i != 0:
+				balance += incomeAmt
+			if row.date.is_month_start():
+				balance -= allottedAmt
+			runningBalance.append(balance)
+
+		return dates, runningBalance
 
 	def getTimeSeriesData(self):
-		self.completedDf.columns = ['date', 'amount', 'bye', 'felicia', 'location']
-		del self.completedDf['bye']
-		del self.completedDf['felicia']
 
 		# Reverse the order to get df chronologically correct
 		df1 = self.completedDf[::-1]
