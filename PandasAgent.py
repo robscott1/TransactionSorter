@@ -41,16 +41,18 @@ class PandasAgent():
     dates = list(pd.date_range(today, freq='D', periods=365))
     runningBalance = []
 
+    balance = checkingBalance
     for i in range(365):
-      if dates[i] in plannedDf['Dates']:
-        print(plannedDf.loc[dates[i]])
+      if dates[i] in self.plannedDf['Date']:
+        print(self.plannedDf.loc[dates[i]])
         balance -= row.amount
       if i % 14 == 0 and i != 0:
         balance += incomeAmt
-      if row.date.is_month_start():
-        balance -= allottedAmt
+      # if row.date.is_month_start():
+      #   balance -= allottedAmt
       runningBalance.append(balance)
 
+    print(runningBalance)
     return dates, runningBalance
 
   def getTimeSeriesData(self):

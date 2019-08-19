@@ -126,10 +126,11 @@ class AnalysisManager():
 
   def getProjectionData(self):
     totalAllotted = 0
-    for c in categories.values():
+    for c in self.categories.values():
       if c != 'Unhandled':
         totalAllotted += c.getTotalAmountAllotted()
-    self.pandasAgent.getProjectionData(totalAllotted)
+        
+    return self.pandasAgent.getProjectionData(totalAllotted)
 
 
   def getCompletedTransactionsDataframe(self, fileName):
