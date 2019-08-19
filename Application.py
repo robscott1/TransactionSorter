@@ -242,7 +242,7 @@ class Application():
 
     @data: TransactionData API object with identifying members
     '''
-    print(data.location)
+    print(data.name)
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
     self.analysisManager.updatePlannedTransactionsDataframe(data)
