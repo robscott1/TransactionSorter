@@ -44,12 +44,14 @@ class PandasAgent():
     balance = checkingBalance
     for i in range(365):
       if dates[i] in self.plannedDf['Date']:
-        print(self.plannedDf.loc[dates[i]])
+        print('subtracted planned amount')
         balance -= row.amount
       if i % 14 == 0 and i != 0:
         balance += incomeAmt
-      # if row.date.is_month_start():
-      #   balance -= allottedAmt
+        print('got paid')
+      if self.isMonthStart(dates[i]):
+        balance -= allottedAmt
+        print('paid credit card')
       runningBalance.append(balance)
 
     print(runningBalance)
@@ -85,6 +87,12 @@ class PandasAgent():
 
     return spendingByDay, listOfDates
 
+  def isMonthStart(self, date):
+    date = str(date)
+    print(date)
+    date = date.split('-')
+    day = date[2].split()
+    return day[0] == '01'
 
 if __name__ == "__main__":
   print(pd.to_datetime(date.today()))
