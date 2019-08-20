@@ -141,6 +141,5 @@ class AnalysisManager():
     self.pandasAgent.createPlannedTransactionsDataframe(self.plannedTransactions)
 
   def updatePlannedTransactionsDataframe(self, data):
-    print(data)
     return self.pandasAgent.updatePlannedTransactionsDataframe(data)
 
