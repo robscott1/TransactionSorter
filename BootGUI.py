@@ -410,7 +410,7 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "Enter expenditure:"))
         self.recurrenceComboBox.setItemText(0, _translate("MainWindow", "daily"))
         self.recurrenceComboBox.setItemText(1, _translate("MainWindow", "weekly"))
-        self.recurrenceComboBox.setItemText(2, _translate("MainWindow", "bi-Weekly"))
+        self.recurrenceComboBox.setItemText(2, _translate("MainWindow", "bi-weekly"))
         self.recurrenceComboBox.setItemText(3, _translate("MainWindow", "monthly"))
         self.recurrenceComboBox.setItemText(4, _translate("MainWindow", "quarterly"))
         self.recurrenceComboBox.setItemText(5, _translate("MainWindow", "bi-annually"))
@@ -561,13 +561,14 @@ class Ui_MainWindow(object):
         self.flagCategory(row)
 
 
+
     def updateAnalysisTable(self, category):
         row = self.app.getCategoryNamesList().index(category) - 1
-        self.categoryAnalysisTable.item(row, 0).setText(category)
-        self.categoryAnalysisTable.item(row, 1).setText(str(self.app.getAmountAllottedByCategory(category)))
-        self.categoryAnalysisTable.item(row, 2).setText(str(self.app.getAmountSpentByCategory(category)))
-        self.categoryAnalysisTable.item(row, 3).setText(str(self.app.getAmountPlannedByCategory(category)))
-        self.categoryAnalysisTable.item(row, 4).setText(str(self.app.getDeltaByCategory(category)))
+        self.categoryAnalysisTable.setItem(row, 0, QtWidgets.QTableWidgetItem(category))
+        self.categoryAnalysisTable.setItem(row, 1, QtWidgets.QTableWidgetItem(str(self.app.getAmountAllottedByCategory(category))))
+        self.categoryAnalysisTable.setItem(row, 2, QtWidgets.QTableWidgetItem(str(self.app.getAmountSpentByCategory(category))))
+        self.categoryAnalysisTable.setItem(row, 3, QtWidgets.QTableWidgetItem(str(self.app.getAmountPlannedByCategory(category))))
+        self.categoryAnalysisTable.setItem(row, 4, QtWidgets.QTableWidgetItem(str(self.app.getDeltaByCategory(category))))
         self.flagCategory(category)
         self.updateSpendingLabels()
 
@@ -637,7 +638,6 @@ class Ui_MainWindow(object):
 
     def savePlannedTransaction(self):
         transaction = TransactionData()
-        print(self.namePlannedT.text(), 'what in the world is going on')
         transaction.name = self.namePlannedT.text()
         transaction.category = self.categoryComboBox.currentText()
         transaction.amount = float(self.amountPlannedT.text())
@@ -648,7 +648,6 @@ class Ui_MainWindow(object):
             transaction.recurring = False
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
         self.app.createPlannedTransaction(transaction)
-        print(transaction, 'wtf')
         self.createPlannedTransactionsWidget()
         self.app.saveData()
 
@@ -737,23 +736,6 @@ class Ui_MainWindow(object):
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)    
             header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
-
-
-    def savePlannedTransaction(self):
-        transaction = TransactionData()
-        transaction.name = self.namePlannedT.text()
-        transaction.category = self.categoryComboBox.currentText()
-        transaction.amount = float(self.amountPlannedT.text())
-        if self.recurringBtn.isChecked():
-            transaction.recurring = True
-            transaction.rateOfRecurrence = self.getToggledFrequency()[1]
-        else:
-            transaction.recurring = False
-        transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-        self.app.createPlannedTransaction(transaction)
-        self.createPlannedTransactionsWidget()
-        self.app.saveData()
-        self.updateAnalysisTable(transaction.category)
 
 
     def getToggledFrequency(self):
