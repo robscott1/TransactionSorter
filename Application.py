@@ -23,6 +23,9 @@ class Application():
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
   
+    for t in self.analysisManager.plannedTransactions.values():
+      print("plannedT in analysisManager:", t.rateOfRecurrence)
+
   def sortCompletedTransactions(self, fileName):
     '''
     Wrapper function for AnalysisManager's equivalent
@@ -243,7 +246,6 @@ class Application():
     '''
     self.transactionManager.createTransaction(data)
     self.analysisManager.plannedTransactions[data.name] = self.transactionManager.transactions[data.name]
-    self.analysisManager.updatePlannedTransactionsDataframe(data)
 
   def getPlannedTransactions(self, category):
     '''

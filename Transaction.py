@@ -6,7 +6,7 @@ class PlannedTransaction():
     self.key = None
 
   def initialize(self, date=None, category=None, amount=0.0, location=None, 
-                 idKeywords=[], recurring=False, rateOfRecurrence=None, priority=3):
+                 idKeywords=[], rateOfRecurrence=None, priority=3):
     self.initialized = True
     self.date = date
     self.category = category
@@ -15,35 +15,26 @@ class PlannedTransaction():
     self.idKeywords = idKeywords
     self.priority = priority
 
-    if recurring == True:
-      if rateOfRecurrence == "annually":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      elif rateOfRecurrence == "bi-annually":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      elif rateOfRecurrence == "quarterly":
-        self.recurring = recurring
-        self.rateOfRecurrence == rateOfRecurrence
-      elif rateOfRecurrence == "monthly":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      elif rateOfRecurrence == "bi-weekly":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      elif rateOfRecurrence == "weekly":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      elif rateOfRecurrence == "daily":
-        self.recurring = recurring
-        self.rateOfRecurrence = rateOfRecurrence
-      else:
-        print("Unrecognized rate of recurrence - transaction has defaulted to non-recurring.")
-        self.recurring = False
-        self.rateOfRecurrence = None
+    if rateOfRecurrence == "annually":
+      self.rateOfRecurrence = rateOfRecurrence
+    elif rateOfRecurrence == "bi-annually":
+      self.rateOfRecurrence = rateOfRecurrence
+    elif rateOfRecurrence == "quarterly":
+      self.rateOfRecurrence == rateOfRecurrence
+    elif rateOfRecurrence == "monthly":
+      self.rateOfRecurrence = rateOfRecurrence
+    elif rateOfRecurrence == "bi-weekly":
+      self.rateOfRecurrence = rateOfRecurrence
+    elif rateOfRecurrence == "weekly":
+      self.rateOfRecurrence = rateOfRecurrence
+    elif rateOfRecurrence == "daily":
+      self.rateOfRecurrence = rateOfRecurrence
     else:
-      self.recurring = False
+      print("Unrecognized rate of recurrence - transaction has defaulted to non-recurring.")
       self.rateOfRecurrence = None
+
+
+      print("rateOfRecurrence in initialize", self.rateOfRecurrence)
 
   def printData(self):
     print("Name: " + self.name)

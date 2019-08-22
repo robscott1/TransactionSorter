@@ -129,17 +129,10 @@ class AnalysisManager():
     for c in self.categories.values():
       if c != 'Unhandled':
         totalAllotted += c.getTotalAmountAllotted()
-        
-    return self.pandasAgent.getProjectionData(totalAllotted)
+    
+    return self.pandasAgent.getProjectionData(totalAllotted, list(self.plannedTransactions.values()))
 
 
   def getCompletedTransactionsDataframe(self, fileName):
 
     self.pandasAgent.getCompletedTransactionsDataframe(fileName)
-
-  def createPlannedTransactionsDataframe(self):
-    self.pandasAgent.createPlannedTransactionsDataframe(self.plannedTransactions)
-
-  def updatePlannedTransactionsDataframe(self, data):
-    return self.pandasAgent.updatePlannedTransactionsDataframe(data)
-

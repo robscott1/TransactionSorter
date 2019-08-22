@@ -3,18 +3,18 @@ from datetime import datetime
 
 class TransactionPackage():
     
-    def __init__(self, date=None, amount=None, priority=None):
-        self.date = None
-        self.amount = None
-        self.priority = None
-        self.rateOfRecurrence = None
+    def __init__(self):
+      self.date = None
+      self.amount = None
+      self.priority = None
+      self.rateOfRecurrence = None
 
 
 
 class DataProcessor():
 
 
-	def __init__(self, freqKey=None):
+	def __init__(self):
 		self.freqKey = {'annually': ['A', 1], 'monthly': ['M', 12], 'bi-weekly': ['2W', 26] , 'weekly': ['W', 52]}
 		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Recurrence','Priority'])
 
@@ -40,12 +40,13 @@ class DataProcessor():
 			package = self.packageTransactionData(item.date, item.name, item.amount,
 			                                       item.priority, item.rateOfRecurrence)
 		  
-		self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
+			self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
             
 	def addTransactionToDataframe(self, transaction):
 		for item in transaction.date:
 			self.plannedDf = self.plannedDf.append({'Date': item, 'Amount': transaction.amount,
-			'Recurrence': transaction.rateOfRecurrence, 'Priority': transaction.priority}, ignore_index=True)
+																							'Recurrence': transaction.rateOfRecurrence,
+																						 	'Priority': transaction.priority}, ignore_index=True)
 
 		return self.plannedDf
 
@@ -71,12 +72,12 @@ class DataProcessor():
 		for index, row in self.plannedDf.iterrows():
 
 			#before transaction
-			datesOfExpense.append(row.Date)
+			datesOfExpense.append(str(row.Date))
 			runningBalance.append(chkBal)
 
 			#after transaction
 			chkBal -= row.Amount
-			datesOfExpense.append(row.Date)
+			datesOfExpense.append(str(row.Date))
 			runningBalance.append(chkBal)
 
 		return datesOfExpense, runningBalance
