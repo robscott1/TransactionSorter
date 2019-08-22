@@ -129,7 +129,6 @@ class AnalysisManager():
     for c in self.categories.values():
       if c != 'Unhandled':
         totalAllotted += c.getTotalAmountAllotted()
-    
     return self.pandasAgent.getProjectionData(totalAllotted, list(self.plannedTransactions.values()))
 
 

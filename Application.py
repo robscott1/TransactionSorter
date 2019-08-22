@@ -23,8 +23,6 @@ class Application():
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
   
-    for t in self.analysisManager.plannedTransactions.values():
-      print("plannedT in analysisManager:", t.rateOfRecurrence)
 
   def sortCompletedTransactions(self, fileName):
     '''

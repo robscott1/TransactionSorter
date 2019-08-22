@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QHB
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+import matplotlib.ticker as plticker
 import datetime
 
 import random
@@ -169,6 +170,9 @@ class ProjectionWidget(QDialog):
     self.figure.clear()
     self.ax = self.figure.add_subplot(111)
     self.ax.clear()
+    loc = plticker.MultipleLocator(base=1.0)  # this locator puts ticks at regular intervals
+    print(loc)
+    self.ax.xaxis.set_major_locator(loc)
     plt.xlabel('Time')
     plt.ylabel('Checking Account Balance')
     plt.title('Cash Projection')

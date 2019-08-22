@@ -14,70 +14,88 @@ class TransactionPackage():
 class DataProcessor():
 
 
-	def __init__(self):
-		self.freqKey = {'annually': ['A', 1], 'monthly': ['M', 12], 'bi-weekly': ['2W', 26] , 'weekly': ['W', 52]}
-		self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Recurrence','Priority'])
+  def __init__(self):
+    self.freqKey = {'annually': ['A', 1], 'monthly': ['M', 12], 'bi-weekly': ['2W', 26] , 'weekly': ['W', 52]}
+    self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Recurrence','Priority'])
 
 
-	def createDateList(self, startDay, rateOfRecurrence):
-		if rateOfRecurrence == None:
-			return list(startDay)
+  def createDateList(self, startDay, rateOfRecurrence):
+    if rateOfRecurrence == None:
+      return list(startDay)
 
-		return list(pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1], freq=self.freqKey[rateOfRecurrence][0]))
+    return list(pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1], freq=self.freqKey[rateOfRecurrence][0]))
 
-	def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence):
-		package = TransactionPackage()
-		package.name = name
-		package.date = self.createDateList(date, rateOfRecurrence)
-		package.amount = amount
-		package.rateOfRecurrence = rateOfRecurrence
-		package.priority = priority
+  def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence):
+    package = TransactionPackage()
+    package.name = name
+    package.date = self.createDateList(date, rateOfRecurrence)
+    package.amount = amount
+    package.rateOfRecurrence = rateOfRecurrence
+    package.priority = priority
 
-		return package
+    return package
 
-	def extractPlannedTransactionData(self, plannedT):
-		for item in plannedT:
-			package = self.packageTransactionData(item.date, item.name, item.amount,
-			                                       item.priority, item.rateOfRecurrence)
-		  
-			self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
-            
-	def addTransactionToDataframe(self, transaction):
-		for item in transaction.date:
-			self.plannedDf = self.plannedDf.append({'Date': item, 'Amount': transaction.amount,
-																							'Recurrence': transaction.rateOfRecurrence,
-																						 	'Priority': transaction.priority}, ignore_index=True)
+  def extractPlannedTransactionData(self, plannedT):
+    for item in plannedT:
+      package = self.packageTransactionData(item.date, item.name, -1 * item.amount,
+                                             item.priority, item.rateOfRecurrence)
 
-		return self.plannedDf
+      self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
 
-	def getProjectionData(self, allottedAmt, userData, plannedTransactions):
+  def addTransactionToDataframe(self, transaction):
+    for item in transaction.date:
+      self.plannedDf = self.plannedDf.append({'Date': item, 'Amount': transaction.amount,
+                                              'Recurrence': transaction.rateOfRecurrence,
+                                              'Priority': transaction.priority}, ignore_index=True)
 
-		self.extractPlannedTransactionData(plannedTransactions)
-		print(self.plannedDf)
+    return self.plannedDf
 
-		today = datetime.today().strftime('%Y-%m-%d')
 
-		chkBal = 2500
-		incomeAmt = 800
-		incomeFreq = 'bi-weekly'
-		nextPayDate = pd.to_datetime('08/23/2019')
-		nextCreditPaymentDate = pd.to_datetime('09/01/2019')
+  def getUserDataDefinedTransactions(self, allottedAmt, userData):
+    creditCardPayment = self.packageTransactionData(userData.nextCreditCardPaymentDate,
+                                                     'Credit Card', -1 * allottedAmt, 1, 'monthly')
+    
+    self.addTransactionToDataframe(creditCardPayment)
 
-		datesOfExpense = []
-		runningBalance = []
+    incomeTransaction = self.packageTransactionData(userData.nextPayDate, 'Income',
+                                                         userData.incomeAmount, 1, userData.incomeFrequency)
+    
+    self.plannedDf = self.addTransactionToDataframe(incomeTransaction).sort_values(by='Date')
 
-		runningBalance.append(chkBal)
-		datesOfExpense.append(today)
+  def getProjectionData(self, allottedAmt, userData, plannedTransactions):
 
-		for index, row in self.plannedDf.iterrows():
+    self.extractPlannedTransactionData(plannedTransactions)
 
-			#before transaction
-			datesOfExpense.append(str(row.Date))
-			runningBalance.append(chkBal)
 
-			#after transaction
-			chkBal -= row.Amount
-			datesOfExpense.append(str(row.Date))
-			runningBalance.append(chkBal)
+    chkBal = userData.checkingAccountBal
+    incomeAmt = userData.incomeAmount
+    incomeFreq = userData.incomeFrequency
+    nextPayDate = pd.to_datetime(userData.nextPayDate)
+    nextCreditCardPaymentDate = pd.to_datetime(userData.nextCreditCardPaymentDate)
+    
+    self.getUserDataDefinedTransactions(allottedAmt, userData)
 
-		return datesOfExpense, runningBalance
+    self.plannedDf.sort_values(by='Date')
+    
+    datesOfExpense = []
+    runningBalance = []
+
+    runningBalance.append(chkBal)
+
+    today = datetime.today().strftime('%Y-%m-%d')
+    datesOfExpense.append(today)
+
+    for index, row in self.plannedDf.iterrows():
+
+      date = str(row.Date).split()[0]
+
+      #before transaction
+      datesOfExpense.append(str(date))
+      runningBalance.append(chkBal)
+
+      #after transaction
+      chkBal += row.Amount
+      datesOfExpense.append(str(date))
+      runningBalance.append(chkBal)
+
+    return datesOfExpense, runningBalance
