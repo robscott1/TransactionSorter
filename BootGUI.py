@@ -647,6 +647,10 @@ class Ui_MainWindow(object):
         else:
             transaction.recurring = False
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        if self.checkingRadioBtn.isChecked():
+            transaction.paymentMethod = 'Checking'
+        else:
+            transaction.paymentMethod = 'Credit'
         self.app.createPlannedTransaction(transaction)
         self.createPlannedTransactionsWidget()
         self.app.saveData()

@@ -11,8 +11,8 @@ class TransactionFactory():
   def createTransaction(self, data):
     transaction = PlannedTransaction(data.name)
     transaction.initialize(date=data.date, category=data.category, amount=data.amount,
-                           idKeywords=data.idKeywords, 
-                           rateOfRecurrence=data.rateOfRecurrence, priority=data.priority)
+                           idKeywords=data.idKeywords, rateOfRecurrence=data.rateOfRecurrence,
+                           priority=data.priority, paymentMethod=data.paymentMethod)
     return transaction
 
   def createCompletedTransaction(self, data):

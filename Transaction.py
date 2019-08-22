@@ -6,7 +6,8 @@ class PlannedTransaction():
     self.key = None
 
   def initialize(self, date=None, category=None, amount=0.0, location=None, 
-                 idKeywords=[], rateOfRecurrence=None, priority=3):
+                 idKeywords=[], rateOfRecurrence=None, priority=3, paymentMethod='Checking'):
+
     self.initialized = True
     self.date = date
     self.category = category
@@ -14,6 +15,7 @@ class PlannedTransaction():
     self.location = location
     self.idKeywords = idKeywords
     self.priority = priority
+    self.paymentMethod = paymentMethod
 
     if rateOfRecurrence == "annually":
       self.rateOfRecurrence = rateOfRecurrence

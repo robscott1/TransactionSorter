@@ -10,6 +10,7 @@ class TransactionData():
     self.rateOfRecurrence = None
     self.location = None
     self.priority = None
+    self.paymentMethod = None
 
 class CategoryData():
 

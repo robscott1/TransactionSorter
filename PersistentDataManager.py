@@ -26,6 +26,8 @@ class xmlAgent():
           t.priority = element.text
         elif element.tag == "rateOfRecurrence":
           t.rateOfRecurrence = element.text
+        elif element.tag == 'paymentMethod':
+          t.paymentMethod = element.text
 
       transactionList.append(t)
 
@@ -63,6 +65,7 @@ class xmlAgent():
       category = et.SubElement(trans, "category")
       priority = et.SubElement(trans, "priority")
       rateOfRecurrence = et.SubElement(trans, "rateOfRecurrence")
+      paymentMethod = et.SubElement(trans, "paymentMethod")
 
       name.text = t.name
       amount.text = str(t.amount)
@@ -70,6 +73,7 @@ class xmlAgent():
       category.text = t.category
       priority.text = t.priority
       rateOfRecurrence.text = t.rateOfRecurrence
+      paymentMethod.text = t.paymentMethod
 
     tree = et.ElementTree()
     tree._setroot(root)

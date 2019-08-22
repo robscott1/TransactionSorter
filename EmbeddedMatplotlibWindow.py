@@ -144,8 +144,6 @@ class ProjectionWidget(QDialog):
     # it takes the Canvas widget and a parent
     self.toolbar = NavigationToolbar(self.canvas, self)
 
-    # self.plot3MonthProjectionBtn = QPushButton('3 Month')
-    # self.plot3MonthProjectionBtn.clicked.connect(self.plot3Month)
 
     # Set the plottingWindow layout
     layout = QVBoxLayout()
@@ -170,9 +168,6 @@ class ProjectionWidget(QDialog):
     self.figure.clear()
     self.ax = self.figure.add_subplot(111)
     self.ax.clear()
-    loc = plticker.MultipleLocator(base=1.0)  # this locator puts ticks at regular intervals
-    print(loc)
-    self.ax.xaxis.set_major_locator(loc)
     plt.xlabel('Time')
     plt.ylabel('Checking Account Balance')
     plt.title('Cash Projection')

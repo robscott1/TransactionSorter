@@ -16,7 +16,6 @@ class PandasAgent():
     self.completedDf = pd.read_csv(fileName, sep=',', header = None)
 
   def getProjectionData(self, allottedAmt, plannedT):
-    print('self.plannedT rateOfRecurrence:', plannedT[0].rateOfRecurrence)
     return self.dataProcessor.getProjectionData(allottedAmt, self.userData, plannedT)
 
   def getTimeSeriesData(self):

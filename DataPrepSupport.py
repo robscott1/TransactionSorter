@@ -8,6 +8,7 @@ class TransactionPackage():
       self.amount = None
       self.priority = None
       self.rateOfRecurrence = None
+      self.paymentMethod = None
 
 
 
@@ -16,7 +17,7 @@ class DataProcessor():
 
   def __init__(self):
     self.freqKey = {'annually': ['A', 1], 'monthly': ['M', 12], 'bi-weekly': ['2W', 26] , 'weekly': ['W', 52]}
-    self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Recurrence','Priority'])
+    self.plannedDf = pd.DataFrame(columns=['Date', 'Amount', 'Recurrence','Priority', 'Method'])
 
 
   def createDateList(self, startDay, rateOfRecurrence):
@@ -25,20 +26,24 @@ class DataProcessor():
 
     return list(pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1], freq=self.freqKey[rateOfRecurrence][0]))
 
-  def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence):
+  def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence, paymentMethod=None):
     package = TransactionPackage()
     package.name = name
     package.date = self.createDateList(date, rateOfRecurrence)
     package.amount = amount
     package.rateOfRecurrence = rateOfRecurrence
     package.priority = priority
+    package.paymentMethod = paymentMethod
 
     return package
 
   def extractPlannedTransactionData(self, plannedT):
     for item in plannedT:
-      package = self.packageTransactionData(item.date, item.name, -1 * item.amount,
-                                             item.priority, item.rateOfRecurrence)
+      print(item.paymentMethod)
+      if item.paymentMethod == 'Checking':
+        package = self.packageTransactionData(item.date, item.name, -1 * item.amount,
+                                               item.priority, item.rateOfRecurrence,
+                                               item.paymentMethod)
 
       self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
 
@@ -46,7 +51,8 @@ class DataProcessor():
     for item in transaction.date:
       self.plannedDf = self.plannedDf.append({'Date': item, 'Amount': transaction.amount,
                                               'Recurrence': transaction.rateOfRecurrence,
-                                              'Priority': transaction.priority}, ignore_index=True)
+                                              'Priority': transaction.priority,
+                                              'Method': transaction.paymentMethod}, ignore_index=True)
 
     return self.plannedDf
 
@@ -76,6 +82,7 @@ class DataProcessor():
     self.getUserDataDefinedTransactions(allottedAmt, userData)
 
     self.plannedDf.sort_values(by='Date')
+    print(self.plannedDf)
     
     datesOfExpense = []
     runningBalance = []
