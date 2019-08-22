@@ -22,7 +22,6 @@ class Application():
     for t in tList:
       self.transactionManager.createTransaction(t)
     self.analysisManager.plannedTransactions = self.transactionManager.transactions
-    self.analysisManager.createPlannedTransactionsDataframe()
   
   def sortCompletedTransactions(self, fileName):
     '''
