@@ -24,6 +24,8 @@ class xmlAgent():
           t.category = element.text
         elif element.tag == "priority":
           t.priority = element.text
+        elif element.tag == "rateOfRecurrence":
+          t.rateOfRecurrence == element.text
 
       transactionList.append(t)
 
@@ -60,12 +62,14 @@ class xmlAgent():
       date = et.SubElement(trans, "date")
       category = et.SubElement(trans, "category")
       priority = et.SubElement(trans, "priority")
+      rateOfRecurrence = et.SubElement(trans, "rateOfRecurrence")
 
       name.text = t.name
       amount.text = str(t.amount)
       date.text = t.date
       category.text = t.category
       priority.text = t.priority
+      rateOfRecurrence.text = t.rateOfRecurrence
 
     tree = et.ElementTree()
     tree._setroot(root)
@@ -109,6 +113,9 @@ class PersistentDataManager():
     categoryTree = et.parse(categoryFilePath)
     self.categoryList = self.xmlAgent.parseCategoryData(categoryTree)
 
+    print(self.transactionList)
+    print(self.transactionList[0])
+    print(self.transactionList[0].rateOfRecurrence)
     return self.transactionList, self.categoryList
 
   def stashPersistentData(self, transactionFilePath, categoryFilePath, tList, cList):
