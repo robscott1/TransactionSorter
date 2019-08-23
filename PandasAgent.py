@@ -11,6 +11,9 @@ class PandasAgent():
 
   def getUserData(self, data):
     self.userData = data
+    print("pandasA ccDate:", self.userData.nextCreditCardPaymentDate.replace('/', '-'))
+    self.userData.nextPayDate = self.userData.nextPayDate.replace('/', '-')
+    self.userData.nextCreditCardPaymentDate = self.userData.nextCreditCardPaymentDate.replace('/', '-')
 
   def getCompletedTransactionsDataframe(self, fileName):
     self.completedDf = pd.read_csv(fileName, sep=',', header = None)

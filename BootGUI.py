@@ -649,6 +649,7 @@ class Ui_MainWindow(object):
         transaction.date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
         if self.checkingRadioBtn.isChecked():
             transaction.paymentMethod = 'Checking'
+            transaction.paymentMethod
         else:
             transaction.paymentMethod = 'Credit'
         self.app.createPlannedTransaction(transaction)

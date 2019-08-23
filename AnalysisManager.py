@@ -24,6 +24,7 @@ class AnalysisManager():
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
     self.userData.checkingAccountBal = chkAccBal
+    print("analysisM ccDate")
     self.userData.incomeAmount = incomeAmt
     self.userData.incomeFrequency = incomeFreq
     self.userData.nextPayDate = payDate

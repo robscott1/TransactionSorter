@@ -56,6 +56,7 @@ class Application():
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
+    print("app ccDate:", ccDate)
     self.analysisManager.saveUserSetupData(float(chkAccBal), float(incomeAmt), 
                                            str(incomeFreq), str(payDate), str(ccDate))
 
