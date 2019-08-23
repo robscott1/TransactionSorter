@@ -5,6 +5,10 @@
 
 ## FRONT-END
 
+- Trying to add multiple categories without closing and re-opening the New Category Popup Window between each one does not work
+- After doing the process above, every single transaction from my imported csv was categorized under the first category I created
+
+
 
 ## BACK-END
 - parser has random quotation marks when it collects the info on transactions, its from the quotations
@@ -15,3 +19,6 @@ when it pulled it from the csv. See the unhandledTransactions List Widget. Just 
 
 
 - if there are multiple transactions at a certain place but for different categories, they will be sorted to the same place. Then you cant undo categorizations because once you undo one transaction the keyword is removed as well. program will crash because the keyword does not exist in the list after the first transaction is undone
+
+- Date for planned transaction is off by 5 days in TransactionData.xml
+- After closing the app with a planned transaction saved, re-opening the app and entering the Setup data causes the program to crash after the csv is uploaded
