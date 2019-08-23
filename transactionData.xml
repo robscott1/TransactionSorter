@@ -1,1 +1,1 @@
-<root />
+<root><transaction><name>Rent</name><amount>2000.0</amount><date>2019-08-28</date><category>Rent</category><priority /><rateOfRecurrence>monthly</rateOfRecurrence><paymentMethod>Checking</paymentMethod></transaction></root>
