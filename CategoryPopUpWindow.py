@@ -90,14 +90,26 @@ class Ui_createDialog(object):
         self.newCategoryKeywordField.setText("")
 
     def createNewCategory(self):
+        invalidEntries = 0
         category = CategoryData()
         category.name = str(self.newCategoryName.text())
-        category.monthlyAllotment = float(self.newCategoryAllotment.text())
+
+        # Validate proper allottment input
+        try:
+            category.monthlyAllotment = float(self.newCategoryAllotment.text())
+        except ValueError:
+            invalidEntries += 1
+            self.newCategoryAllotment.setText("")
+            self.newCategoryAllotment.setPlaceholderText("Enter a float or an integer")
+
         category.idKeywords = self.keywordList
         self.newCategoryName.setText("")
         self.newCategoryAllotment.setText("")
         self.newCategoryKeywords.clear()
-        self.app.createNewCategory(category)
+
+        if invalidEntries == 0:
+            self.newCategoryAllotment.setPlaceholderText("")
+            self.app.createNewCategory(category)
 
 ##############################################################################################
                     # begin auto-generated code
