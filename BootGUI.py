@@ -8,7 +8,6 @@ from EmbeddedMatplotlibWindow import PlottingWindow
 from EmbeddedMatplotlibWindow import ProjectionWidget
 from pandas import to_datetime
 
-
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
   This class utilizes the concept of inheritance. It is
@@ -380,7 +379,7 @@ class Ui_MainWindow(object):
     self.menubar.addAction(self.menuAnalysis.menuAction())
 
     self.retranslateUi(MainWindow)
-    self.TabWidget.setCurrentIndex(3)
+    self.TabWidget.setCurrentIndex(0)
     self.tabWidget.setCurrentIndex(0)
     self.categoryWidget.setCurrentIndex(0)
     QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -393,9 +392,9 @@ class Ui_MainWindow(object):
     self.label_12.setText(_translate("MainWindow", "Bank:"))
     self.label_13.setText(_translate("MainWindow", "Income Amount:"))
     self.label_14.setText(_translate("MainWindow", "Income Frequency:"))
-    self.freqPayDay.setItemText(0, _translate("MainWindow", "bi-weekly"))
-    self.freqPayDay.setItemText(1, _translate("MainWindow", "weekly"))
-    self.freqPayDay.setItemText(2, _translate("MainWindow", "monthly"))
+    self.freqPayDay.setItemText(0, _translate("MainWindow", "Bi-weekly"))
+    self.freqPayDay.setItemText(1, _translate("MainWindow", "Weekly"))
+    self.freqPayDay.setItemText(2, _translate("MainWindow", "Monthly"))
     self.label_15.setText(_translate("MainWindow", "Next Pay Day:"))
     self.label_16.setText(_translate("MainWindow", "Day of next credit card payment:"))
     self.label_17.setText(_translate("MainWindow", "By getting started, your information will get saved and you will choose a CSV to import"))
@@ -1013,6 +1012,7 @@ class Ui_MainWindow(object):
 ##############################################################################################
                   # beginning of auto-generated code
 ##############################################################################################
+
 
 
 if __name__ == "__main__":
