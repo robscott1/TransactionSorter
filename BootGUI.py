@@ -6,6 +6,8 @@ from EditCategoryPopUpWindow import Ui_editDialog
 from APIData import TransactionData
 from EmbeddedMatplotlibWindow import PlottingWindow
 from EmbeddedMatplotlibWindow import ProjectionWidget
+from pandas import to_datetime
+
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''
@@ -475,7 +477,7 @@ class Ui_MainWindow(object):
 
         # Import Tab
         self.app.initialize()
-        self.importCSVBtn.clicked.connect(self.fileOpen)
+        self.importCSVBtn.clicked.connect(self.saveStartInfo)
 
         # Categorize Tab
         self.createCategoryWidget()
@@ -509,13 +511,58 @@ class Ui_MainWindow(object):
 
 
     def saveStartInfo(self):
-        self.checkingAccBalance = int(self.checkingAccBal.text())
-        self.incomeAmt = int(self.incomeAmount.text())
-        self.payDayFreq = self.freqPayDay.currentText()
-        self.payDay = self.nextPayDay.text()
-        self.payCreditDate = self.nextCCPayment.text()
-        self.app.saveUserSetupData(self.checkingAccBalance, self.incomeAmt, self.payDayFreq,
-                                   self.payDay, self.payCreditDate)
+        checkingAccBal = 0
+        incomeAmt = 0
+        payDayFreq = None
+        payDay = None
+        payCreditDate = None
+
+        invalidEntries = 0
+        # Validating proper checking acc input
+        try:
+            checkingAccBalance = int(self.checkingAccBal.text())
+        except ValueError:
+            invalidEntries += 1
+            self.checkingAccBal.setText("")
+            self.checkingAccBal.setPlaceholderText("Enter an integer or float value")
+
+        # Validating proper income amt input
+        try:
+            incomeAmt = int(self.incomeAmount.text())
+            
+        except ValueError:
+            invalidEntries += 1
+            self.incomeAmount.setText("")
+            self.incomeAmount.setPlaceholderText("Enter an integer or float value")
+        
+        # ComboBox wont allow for bad input
+        payDayFreq = self.freqPayDay.currentText()
+
+        # Validating proper date format for nextPayDay
+        # This isnt perfect but if its this close to format
+        # I will assume the user properly entered a date
+        # Can be refined to make sure dates are valid
+        try:
+            payDay = to_datetime(self.nextPayDay.text())
+           
+        except:
+            invalidEntries += 1
+            self.nextPayDay.setText("")
+            self.nextPayDay.setPlaceholderText("Use format mm/dd/yyyy")
+
+        # See block above
+        try:
+            payCreditDate = to_datetime(self.nextCCPayment.text())
+            
+        except:
+            invalidEntries += 1
+            self.nextCCPayment.setText("")
+            self.nextCCPayment.setPlaceholderText("Use format mm/dd/yyyy")
+
+        self.app.saveUserSetupData(checkingAccBalance, incomeAmt, payDayFreq,
+                                   payDay, payCreditDate)
+        if invalidEntries == 0:
+            self.fileOpen()
         
     '''
 
@@ -940,11 +987,12 @@ class Ui_MainWindow(object):
 
     def fileOpen(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
-        self.saveStartInfo()
         self.app.sortCompletedTransactions(filePath)
         self.printUnhandledTransactions()
         self.createCategoryWidget()
         self.createAnalysisTable()
+
+
         
 
 
