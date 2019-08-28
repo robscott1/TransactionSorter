@@ -27,29 +27,28 @@ class DataProcessor():
     return int(day)
 
   def createDateList(self, startDay, rateOfRecurrence):
+    print("")
+    print("each transaction startDay and rateOfRecurrence: ", startDay, rateOfRecurrence)
     if rateOfRecurrence == None:
       return list(startDay)
     
     if rateOfRecurrence == 'monthly':
-      print("Start day of monthly transaction", startDay)
       return list((pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1],
                    freq=self.freqKey[rateOfRecurrence][0]) + pd.DateOffset(days=self.getDateOffset(startDay) - 1)))
-    
     if rateOfRecurrence == 'bi-weekly':
-      print("Start day of bi-weekly transaction", startDay)
       return list(pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1],
                    freq=self.freqKey[rateOfRecurrence][0]))
 
   def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence, paymentMethod=None):
     package = TransactionPackage()
-    print("T name:", name)
     package.name = name
+    print("DPS packageTransactionData date: ", name, date)
     package.date = self.createDateList(date, rateOfRecurrence)
     package.amount = amount
     package.rateOfRecurrence = rateOfRecurrence
     package.priority = priority
     package.paymentMethod = paymentMethod
-
+    print("package name and date:", package.name, package.date)
     return package
 
   def extractPlannedTransactionData(self, plannedT):
@@ -62,7 +61,6 @@ class DataProcessor():
       self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
 
   def addTransactionToDataframe(self, transaction):
-    print("Transaction dates:", transaction.date)
     for item in transaction.date:
       self.plannedDf = self.plannedDf.append({'Date': item, 'Amount': transaction.amount,
                                               'Recurrence': transaction.rateOfRecurrence,
@@ -73,15 +71,15 @@ class DataProcessor():
 
 
   def getUserDataDefinedTransactions(self, allottedAmt, userData):
-    print("DataPoc ccdate:", userData.nextCreditCardPaymentDate)
     creditCardPayment = self.packageTransactionData(userData.nextCreditCardPaymentDate,
                                                      'Credit Card', -1 * allottedAmt, 1, 'monthly')
     
     self.addTransactionToDataframe(creditCardPayment)
 
+
     incomeTransaction = self.packageTransactionData(userData.nextPayDate, 'Income',
                                                          userData.incomeAmount, 1, userData.incomeFrequency)
-    
+        
     self.plannedDf = self.addTransactionToDataframe(incomeTransaction).sort_values(by='Date')
 
   def getProjectionData(self, allottedAmt, userData, plannedTransactions):
@@ -93,9 +91,7 @@ class DataProcessor():
     incomeAmt = userData.incomeAmount
     incomeFreq = userData.incomeFrequency
     userData.nextPayDate = pd.to_datetime(userData.nextPayDate)
-    print("nextIncome:", userData.nextPayDate)
     userData.nextCreditCardPaymentDate = pd.to_datetime(userData.nextCreditCardPaymentDate)
-    print("next CCpay:", userData.nextCreditCardPaymentDate)
     self.getUserDataDefinedTransactions(allottedAmt, userData)
 
     self.plannedDf.sort_values(by='Date')

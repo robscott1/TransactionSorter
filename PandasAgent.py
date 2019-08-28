@@ -11,7 +11,6 @@ class PandasAgent():
 
   def getUserData(self, data):
     self.userData = data
-    print("pandasA ccDate:", self.userData.nextCreditCardPaymentDate.replace('/', '-'))
     self.userData.nextPayDate = self.userData.nextPayDate.replace('/', '-')
     self.userData.nextCreditCardPaymentDate = self.userData.nextCreditCardPaymentDate.replace('/', '-')
 
