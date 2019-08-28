@@ -126,17 +126,17 @@
         </property>
         <item>
          <property name="text">
-          <string>Bi-weekly</string>
+          <string>bi-weekly</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Weekly</string>
+          <string>weekly</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Monthly</string>
+          <string>monthly</string>
          </property>
         </item>
        </widget>
