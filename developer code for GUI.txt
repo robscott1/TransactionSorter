@@ -39,6 +39,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
 
+
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
