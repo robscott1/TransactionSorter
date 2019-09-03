@@ -653,6 +653,13 @@ class Ui_MainWindow(object):
 
 
   def createAnalysisTable(self):
+    '''
+    Creates table within analysis tab that represents important information
+    for all user-defined categories
+
+    As each row is made, each category is screened for overspending or overplanning.
+    flagCategory will change the color of the row if anything is flagged
+    '''
     self.categoryAnalysisTable.setRowCount(0)
     categories = self.app.getCategoryNamesList()
     for c in categories:
@@ -739,6 +746,10 @@ class Ui_MainWindow(object):
 
 
   def createPlannedTransactionsWidget(self):
+    '''
+    Creates table within planning category that shows all 
+    the planned transacions by category
+    '''
     self.tabWidget.clear()
     for category in self.app.getCategoryNamesList():
       if category != "Unhandled":
@@ -751,6 +762,9 @@ class Ui_MainWindow(object):
 
 
   def removePlannedTransaction(self):
+    '''
+    Removes selected transaction from table
+    '''
     row = self.tabWidget.currentWidget().currentRow()
     index = self.tabWidget.currentIndex()
     category = self.app.getCategoryNamesList()[index + 1]
@@ -761,6 +775,14 @@ class Ui_MainWindow(object):
 
 
   def savePlannedTransaction(self):
+    '''
+    After user enters information to create a category, the information
+    is stored in a TransactionData API object (refer to APIData.py/
+    Transaction.py/Category.py to see difference in the objects). 
+    That API object is stored and passed to the Application. 
+    From there, the backend createsa PlannedTransaction object 
+    with that user-defined info
+    '''
     transaction = TransactionData()
     transaction.name = self.namePlannedT.text()
     transaction.category = self.categoryComboBox.currentText()
