@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
     self.Setup = QtWidgets.QWidget()
     self.Setup.setObjectName("Setup")
     self.importCSVBtn = QtWidgets.QPushButton(self.Setup)
-    self.importCSVBtn.setGeometry(QtCore.QRect(820, 230, 231, 191))
+    self.importCSVBtn.setGeometry(QtCore.QRect(790, 390, 261, 61))
     font = QtGui.QFont()
     font.setPointSize(18)
     self.importCSVBtn.setFont(font)
@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
     self.label_12.setFont(font)
     self.label_12.setObjectName("label_12")
     self.label_17 = QtWidgets.QLabel(self.Setup)
-    self.label_17.setGeometry(QtCore.QRect(850, 170, 151, 31))
+    self.label_17.setGeometry(QtCore.QRect(850, 220, 131, 31))
     self.label_17.setObjectName("label_17")
     self.label_18 = QtWidgets.QLabel(self.Setup)
     self.label_18.setGeometry(QtCore.QRect(30, 590, 161, 41))
@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
     self.label_18.setFont(font)
     self.label_18.setObjectName("label_18")
     self.checkingAccBal = QtWidgets.QLineEdit(self.Setup)
-    self.checkingAccBal.setGeometry(QtCore.QRect(470, 180, 121, 51))
+    self.checkingAccBal.setGeometry(QtCore.QRect(470, 180, 151, 51))
     self.checkingAccBal.setMinimumSize(QtCore.QSize(5, 5))
     font = QtGui.QFont()
     font.setPointSize(24)
@@ -115,20 +115,20 @@ class Ui_MainWindow(object):
     self.label_13.setFont(font)
     self.label_13.setObjectName("label_13")
     self.incomeAmount = QtWidgets.QLineEdit(self.Setup)
-    self.incomeAmount.setGeometry(QtCore.QRect(470, 270, 121, 51))
+    self.incomeAmount.setGeometry(QtCore.QRect(470, 260, 151, 51))
     font = QtGui.QFont()
     font.setPointSize(24)
     self.incomeAmount.setFont(font)
     self.incomeAmount.setObjectName("incomeAmount")
     self.label_14 = QtWidgets.QLabel(self.Setup)
-    self.label_14.setGeometry(QtCore.QRect(80, 350, 371, 61))
+    self.label_14.setGeometry(QtCore.QRect(80, 340, 371, 61))
     font = QtGui.QFont()
     font.setFamily("Segoe UI")
     font.setPointSize(26)
     self.label_14.setFont(font)
     self.label_14.setObjectName("label_14")
     self.freqPayDay = QtWidgets.QComboBox(self.Setup)
-    self.freqPayDay.setGeometry(QtCore.QRect(470, 360, 131, 41))
+    self.freqPayDay.setGeometry(QtCore.QRect(460, 360, 161, 41))
     font = QtGui.QFont()
     font.setPointSize(14)
     self.freqPayDay.setFont(font)
@@ -137,34 +137,44 @@ class Ui_MainWindow(object):
     self.freqPayDay.addItem("")
     self.freqPayDay.addItem("")
     self.label_15 = QtWidgets.QLabel(self.Setup)
-    self.label_15.setGeometry(QtCore.QRect(180, 430, 281, 61))
+    self.label_15.setGeometry(QtCore.QRect(130, 420, 281, 71))
     font = QtGui.QFont()
     font.setFamily("Segoe UI")
     font.setPointSize(26)
     self.label_15.setFont(font)
     self.label_15.setObjectName("label_15")
     self.nextPayDay = QtWidgets.QLineEdit(self.Setup)
-    self.nextPayDay.setGeometry(QtCore.QRect(470, 440, 181, 41))
+    self.nextPayDay.setGeometry(QtCore.QRect(410, 440, 211, 41))
     font = QtGui.QFont()
     font.setPointSize(16)
     self.nextPayDay.setFont(font)
     self.nextPayDay.setObjectName("nextPayDay")
     self.nextCCPayment = QtWidgets.QLineEdit(self.Setup)
-    self.nextCCPayment.setGeometry(QtCore.QRect(590, 660, 191, 41))
+    self.nextCCPayment.setGeometry(QtCore.QRect(520, 670, 191, 41))
     font = QtGui.QFont()
     font.setPointSize(16)
     self.nextCCPayment.setFont(font)
     self.nextCCPayment.setObjectName("nextCCPayment")
     self.label_16 = QtWidgets.QLabel(self.Setup)
-    self.label_16.setGeometry(QtCore.QRect(60, 640, 511, 78))
+    self.label_16.setGeometry(QtCore.QRect(10, 650, 511, 78))
     font = QtGui.QFont()
     font.setFamily("Segoe UI")
     font.setPointSize(26)
     self.label_16.setFont(font)
     self.label_16.setObjectName("label_16")
     self.label_11 = QtWidgets.QLabel(self.Setup)
-    self.label_11.setGeometry(QtCore.QRect(850, 190, 161, 20))
+    self.label_11.setGeometry(QtCore.QRect(840, 360, 161, 20))
     self.label_11.setObjectName("label_11")
+    self.saveUserDataBtn = QtWidgets.QPushButton(self.Setup)
+    self.saveUserDataBtn.setGeometry(QtCore.QRect(790, 260, 261, 61))
+    font = QtGui.QFont()
+    font.setPointSize(18)
+    self.saveUserDataBtn.setFont(font)
+    self.saveUserDataBtn.setObjectName("saveUserDataBtn")
+    self.savedDataLabel = QtWidgets.QLabel(self.Setup)
+    self.savedDataLabel.setGeometry(QtCore.QRect(830, 330, 191, 16))
+    self.savedDataLabel.setText("")
+    self.savedDataLabel.setObjectName("savedDataLabel")
     self.TabWidget.addTab(self.Setup, "")
     self.Planning = QtWidgets.QWidget()
     self.Planning.setObjectName("Planning")
@@ -462,10 +472,10 @@ class Ui_MainWindow(object):
   def retranslateUi(self, MainWindow):
     _translate = QtCore.QCoreApplication.translate
     MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-    self.importCSVBtn.setText(_translate("MainWindow", "Get Started"))
+    self.importCSVBtn.setText(_translate("MainWindow", "Import CSV"))
     self.label_9.setText(_translate("MainWindow", "Get Started"))
     self.label_12.setText(_translate("MainWindow", "Bank:"))
-    self.label_17.setText(_translate("MainWindow", "Save your information and"))
+    self.label_17.setText(_translate("MainWindow", "Save your information"))
     self.label_18.setText(_translate("MainWindow", "Credit Card:"))
     self.label_19.setText(_translate("MainWindow", "Checking Acc Balance:"))
     self.label_13.setText(_translate("MainWindow", "Income Amount:"))
@@ -477,7 +487,8 @@ class Ui_MainWindow(object):
     self.nextPayDay.setPlaceholderText(_translate("MainWindow", "mm/dd/yyyy"))
     self.nextCCPayment.setPlaceholderText(_translate("MainWindow", "mm/dd/yyyy"))
     self.label_16.setText(_translate("MainWindow", "Next credit card payment:"))
-    self.label_11.setText(_translate("MainWindow", "choose a CSV file to import"))
+    self.label_11.setText(_translate("MainWindow", "Choose a CSV file to import"))
+    self.saveUserDataBtn.setText(_translate("MainWindow", "Save"))
     self.TabWidget.setTabText(self.TabWidget.indexOf(self.Setup), _translate("MainWindow", "Setup"))
     self.namePlannedT.setPlaceholderText(_translate("MainWindow", "Name"))
     self.amountPlannedT.setPlaceholderText(_translate("MainWindow", "Amount"))
@@ -544,7 +555,6 @@ class Ui_MainWindow(object):
     self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
     self.actionImport_CSV.setText(_translate("MainWindow", "Import CSV"))
 
-
 ##############################################################################################
                     # end of auto-generated code
 ##############################################################################################
@@ -554,7 +564,8 @@ class Ui_MainWindow(object):
 
     # Import Tab
     self.app.initialize()
-    self.importCSVBtn.clicked.connect(self.saveStartInfo)
+    self.saveUserDataBtn.clicked.connect(self.saveStartInfo)
+    self.importCSVBtn.clicked.connect(self.fileOpen)
 
     # Categorize Tab
     self.createCategoryWidget()
@@ -564,7 +575,7 @@ class Ui_MainWindow(object):
     self.undoBtn.clicked.connect(self.uncategorizeCompletedTransaction)
     # self.showCategorySummary()
 
-    # Planning Tab
+# Planning Tab
     self.recurrenceComboBox.hide()
     self.recurringBtn.toggled.connect(self.recurrenceComboBox.show)
     self.singularBtn.toggled.connect(self.recurrenceComboBox.hide)
@@ -573,18 +584,18 @@ class Ui_MainWindow(object):
     self.updateCategoryBox()
     self.removeBtn.clicked.connect(self.removePlannedTransaction)
 
-    # Analysis Tab
+# Analysis Tab
     self.plotWindow.clicked.connect(self.openPlottingWindow)
 
-    # Projection Tab
+# Projection Tab
     self.cashProjectionsBtn.clicked.connect(self.openProjectionWindow)
 
 
-    '''
-    Setup Tab Functions - uses basic information mainly for predictive analysis.
-    Put it all in one tab to consolidate arbitrary user input.
+  '''
+  Setup Tab Functions - uses basic information mainly for predictive analysis.
+  Put it all in one tab to consolidate arbitrary user input.
 
-    '''
+  '''
 
 
   def saveStartInfo(self):
@@ -638,8 +649,11 @@ class Ui_MainWindow(object):
 
     self.app.saveUserSetupData(checkingAccBalance, incomeAmt, payDayFreq,
                                payDay, payCreditDate)
-    if invalidEntries == 0:
-      self.fileOpen()
+
+    self.savedDataLabel.setText("Last saved: " + str(time.ctime))
+
+
+
       
   '''
 
@@ -653,13 +667,6 @@ class Ui_MainWindow(object):
 
 
   def createAnalysisTable(self):
-    '''
-    Creates table within analysis tab that represents important information
-    for all user-defined categories
-
-    As each row is made, each category is screened for overspending or overplanning.
-    flagCategory will change the color of the row if anything is flagged
-    '''
     self.categoryAnalysisTable.setRowCount(0)
     categories = self.app.getCategoryNamesList()
     for c in categories:
@@ -746,10 +753,6 @@ class Ui_MainWindow(object):
 
 
   def createPlannedTransactionsWidget(self):
-    '''
-    Creates table within planning category that shows all 
-    the planned transacions by category
-    '''
     self.tabWidget.clear()
     for category in self.app.getCategoryNamesList():
       if category != "Unhandled":
@@ -762,9 +765,6 @@ class Ui_MainWindow(object):
 
 
   def removePlannedTransaction(self):
-    '''
-    Removes selected transaction from table
-    '''
     row = self.tabWidget.currentWidget().currentRow()
     index = self.tabWidget.currentIndex()
     category = self.app.getCategoryNamesList()[index + 1]
@@ -775,14 +775,6 @@ class Ui_MainWindow(object):
 
 
   def savePlannedTransaction(self):
-    '''
-    After user enters information to create a category, the information
-    is stored in a TransactionData API object (refer to APIData.py/
-    Transaction.py/Category.py to see difference in the objects). 
-    That API object is stored and passed to the Application. 
-    From there, the backend createsa PlannedTransaction object 
-    with that user-defined info
-    '''
     transaction = TransactionData()
     transaction.name = self.namePlannedT.text()
     transaction.category = self.categoryComboBox.currentText()
@@ -982,7 +974,6 @@ class Ui_MainWindow(object):
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
 
-
   def moveRowToDropDestination(self, referenceNumber, date, location, amount, category):
     rowPos = self.categoryWidget.currentWidget().rowCount()
     self.categoryWidget.currentWidget().insertRow(rowPos)
@@ -1095,12 +1086,12 @@ class Ui_MainWindow(object):
   '''
 
 
-def fileOpen(self):
-  filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
-  self.app.sortCompletedTransactions(filePath)
-  self.printUnhandledTransactions()
-  self.createCategoryWidget()
-  self.createAnalysisTable()
+  def fileOpen(self):
+    self.filePath, _ = QtWidgets.QFileDialog.getOpenFileName()
+    self.app.sortCompletedTransactions(self.filePath)
+    self.printUnhandledTransactions()
+    self.createCategoryWidget()
+    self.createAnalysisTable()
 
 
       
@@ -1113,12 +1104,13 @@ def fileOpen(self):
                   # beginning of auto-generated code
 ##############################################################################################
 
+
 if __name__ == "__main__":
-  import sys
-  app = QtWidgets.QApplication(sys.argv)
-  MainWindow = QtWidgets.QMainWindow()
-  ui = Ui_MainWindow()
-  ui.setupUi(MainWindow)
-  MainWindow.show()
-  sys.exit(app.exec_())
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
 
