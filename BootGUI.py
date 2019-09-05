@@ -802,7 +802,6 @@ class Ui_MainWindow(object):
     try:
       transaction.amount = float(self.amountPlannedT.text())
     except ValueError:
-      invalidEntries += 1
       self.amountPlannedT.setText("")
       self.amountPlannedT.setPlaceholderText("Enter a float or an integer")
 
@@ -819,11 +818,9 @@ class Ui_MainWindow(object):
     else:
       transaction.paymentMethod = 'Credit'
 
-    if invalidEntries == 0:
-
-      self.app.createPlannedTransaction(transaction)
-      self.createPlannedTransactionsWidget()
-      self.app.saveData()
+    self.app.createPlannedTransaction(transaction)
+    self.createPlannedTransactionsWidget()
+    self.app.saveData()
 
 
   def getToggledFrequency(self):

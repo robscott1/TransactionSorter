@@ -62,24 +62,12 @@ class DataProcessor():
       return list(pd.date_range(startDay, periods=self.freqKey[rateOfRecurrence][1],
                    freq=self.freqKey[rateOfRecurrence][0]))
 
-  def packageTransactionData(self, date, name, amount, priority, rateOfRecurrence, paymentMethod=None):
-    package = TransactionPackage()
-    package.name = name
-    package.date = self.createDateList(date, rateOfRecurrence)
-    package.amount = amount
-    package.rateOfRecurrence = rateOfRecurrence
-    package.priority = priority
-    package.paymentMethod = paymentMethod
-    return package
-
   def extractPlannedTransactionData(self, plannedT):
     for item in plannedT:
       if item.paymentMethod == 'Checking':
-        package = self.packageTransactionData(item.date, item.name, -1 * item.amount,
-                                               item.priority, item.rateOfRecurrence,
-                                               item.paymentMethod)
+        item.date = self.createDateList(item.date, item.rateOfRecurrence)
 
-      self.plannedDf = self.addTransactionToDataframe(package).sort_values(by='Date')
+      self.plannedDf = self.addTransactionToDataframe(item).sort_values(by='Date')
 
   def addTransactionToDataframe(self, transaction):
     for item in transaction.date:
@@ -116,6 +104,8 @@ class DataProcessor():
                                                          userData.incomeAmount, 1, userData.incomeFrequency)
         
     self.plannedDf = self.addTransactionToDataframe(incomeTransaction).sort_values(by='Date')
+
+    print(self.plannedDf)
 
   def getProjectionData(self, allottedAmt, userData, plannedTransactions):
     '''
