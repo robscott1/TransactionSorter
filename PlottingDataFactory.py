@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import date
 from DataPrepSupport import *
+from APIData import TransactionData
 
 class PlottingDataFactory():
 
@@ -32,10 +33,10 @@ class PlottingDataFactory():
     See DataPrepSupport.py to see analysis functions 
     '''
     for t in completedT:
-      self.completedDf = self.completedDf.append({'Date': t.date, 'Amount': t.amount})
+      self.completedDf = self.completedDf.append({'Date': t.date, 'Amount': t.amount}, ignore_index=True)
 
 
-  def getUserDataDefinedTransactions(self, allottedAmt, userData):
+  def getUserDataDefinedTransactions(self, allottedAmt):
     '''
     Creates the recurring transactions defined in the user-defined "setup"
     page of the GUI. Instantiates the recurring credit card payment and 
@@ -50,16 +51,25 @@ class PlottingDataFactory():
     See UserData object for details.
 
     '''
-    creditCardPayment = self.packageTransactionData(userData.nextCreditCardPaymentDate,
-                                                     'Credit Card', -1 * allottedAmt, 1, 'monthly')
+    ccPayment = TransactionData()
+    ccPayment.name = "creditCardPayment"
+    ccPayment.date = self.createDateList(self.userData.nextCreditCardPaymentDate, 'monthly')
+    ccPayment.amount = allottedAmt * -1
+    ccPayment.priority = 1
+    ccPayment.rateOfRecurrence = 'monthly'
+
     
-    self.addTransactionToDataframe(creditCardPayment)
+    self.addTransactionToDataframe(ccPayment).sort_values(by='Date')
 
 
-    incomeTransaction = self.packageTransactionData(userData.nextPayDate, 'Income',
-                                                         userData.incomeAmount, 1, userData.incomeFrequency)
+    income = TransactionData()
+    income.name = "income"
+    income.date = self.createDateList(self.userData.nextPayDate, self.userData.incomeFrequency)
+    income.amount = self.userData.incomeAmount
+    income.priority = 1
+    income.rateOfRecurrence = self.userData.incomeFrequency
         
-    self.plannedDf = self.addTransactionToDataframe(incomeTransaction).sort_values(by='Date')
+    self.plannedDf = self.addTransactionToDataframe(income).sort_values(by='Date')
 
 
   def getDateOffset(self, startDay):
@@ -89,7 +99,7 @@ class PlottingDataFactory():
 
     @rateOfRecurrence: the rate of recurrence specified in the GUI when planned
     transaction is made. That rate of recurrence links to a dictionary key-value
-    that points to the Pandas syntax for frequency of the date_range.
+    that points to the Pandas syntax for frequency of the date_range
 
     @returns: list of dates that transactions occur on for cash projection analysis
 
@@ -114,7 +124,7 @@ class PlottingDataFactory():
     @plannedT: list of plannedTransaction objects that are extracted and ordered
     in order to project checking account balance in the future based on other
     user-specified data
-    
+
     '''
     for item in plannedT:
       if item.paymentMethod == 'Checking':
@@ -128,6 +138,8 @@ class PlottingDataFactory():
                                               'Recurrence': transaction.rateOfRecurrence,
                                               'Priority': transaction.priority,
                                               'Method': transaction.paymentMethod, 'Name':transaction.name}, ignore_index=True)
+
+    return self.plannedDf
 
 
   def getProjectionData(self, allottedAmt, plannedTransactions):
@@ -155,9 +167,9 @@ class PlottingDataFactory():
     chkBal = self.userData.checkingAccountBal
     incomeAmt = self.userData.incomeAmount
     incomeFreq = self.userData.incomeFrequency
-    userData.nextPayDate = pd.to_datetime(self.userData.nextPayDate)
-    userData.nextCreditCardPaymentDate = pd.to_datetime(self.userData.nextCreditCardPaymentDate)
-    self.getUserDataDefinedTransactions(allottedAmt, userData)
+    self.userData.nextPayDate = pd.to_datetime(self.userData.nextPayDate)
+    self.userData.nextCreditCardPaymentDate = pd.to_datetime(self.userData.nextCreditCardPaymentDate)
+    self.getUserDataDefinedTransactions(allottedAmt)
 
     self.plannedDf.sort_values(by='Date')
     
@@ -185,7 +197,7 @@ class PlottingDataFactory():
     return datesOfExpense, runningBalance
 
 
- def getTimeSeriesData(self):
+  def getTimeSeriesData(self):
     '''
     Prepares the lists of dates on which credit card transactions 
     took place, and the running total of charges for all
@@ -202,35 +214,35 @@ class PlottingDataFactory():
     '''
 
     # Reverse the order to make the DataFrame chronologically correct
-    df1 = self.completedDf[::-1]
+    self.completedDf = self.completedDf[::-1]
 
     # Define variables that will be recorded as the function
     # iterates through the completedDf
-    previousDate = trans.date[len(trans) - 1]
+    previousDate = self.completedDf.Date[len(self.completedDf) - 1]
     spendingByDay = []
     listOfDates = []
     dailyTotal = 0
 
-    for index, row in trans.iterrows():
+    for index, row in self.completedDf.iterrows():
+
+      # Because several charges can happen in one day, the function will
+      # total up all charges on the same day before appending it to
+      # spendingByDay accurately tracking spending per day
+      if previousDate == str(row.Date):
+        dailyTotal += float(row.Amount)
+        previousDate = str(row.Date)
+      
+      else:
+        spendingByDay.append(abs(round(dailyTotal, 0)))
+        ts = pd.to_datetime(row.Date)
+        dailyTotal += float(row.Amount)
         
-        # Because several charges can happen in one day, the function will
-        # total up all charges on the same day before appending it to
-        # spendingByDay accurately tracking spending per day
-        if previousDate == row.date:
-            dailyTotal += row.amount
-            previousDate = row.date
-        
-        else:
-            spendingByDay.append(abs(round(dailyTotal, 0)))
-            ts = pd.to_datetime(row.date)
-            dailyTotal += row.amount
-            
-            # Remove the year from the timestamp for visual purposes in the plottingWindow
-            date = row.date.split('/')
-            date.pop(-1)
-            date = '/'.join(date)
-            listOfDates.append(date)
-            previousDate = row.date
+        # Remove the year from the timestamp for visual purposes in the plottingWindow
+        date = row.Date.split('/')
+        date.pop(-1)
+        date = '/'.join(date)
+        listOfDates.append(date)
+        previousDate = row.Date
 
 
     return spendingByDay, listOfDates
