@@ -33,10 +33,10 @@
        <widget class="QPushButton" name="importCSVBtn">
         <property name="geometry">
          <rect>
-          <x>820</x>
-          <y>230</y>
-          <width>231</width>
-          <height>191</height>
+          <x>790</x>
+          <y>390</y>
+          <width>261</width>
+          <height>61</height>
          </rect>
         </property>
         <property name="font">
@@ -45,7 +45,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Get Started</string>
+         <string>Import CSV</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_9">
@@ -95,13 +95,13 @@
         <property name="geometry">
          <rect>
           <x>850</x>
-          <y>170</y>
-          <width>151</width>
+          <y>220</y>
+          <width>131</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Save your information and</string>
+         <string>Save your information</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_18">
@@ -131,7 +131,7 @@
          <rect>
           <x>470</x>
           <y>180</y>
-          <width>121</width>
+          <width>151</width>
           <height>51</height>
          </rect>
         </property>
@@ -192,8 +192,8 @@
         <property name="geometry">
          <rect>
           <x>470</x>
-          <y>270</y>
-          <width>121</width>
+          <y>260</y>
+          <width>151</width>
           <height>51</height>
          </rect>
         </property>
@@ -207,7 +207,7 @@
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>350</y>
+          <y>340</y>
           <width>371</width>
           <height>61</height>
          </rect>
@@ -225,9 +225,9 @@
        <widget class="QComboBox" name="freqPayDay">
         <property name="geometry">
          <rect>
-          <x>470</x>
+          <x>460</x>
           <y>360</y>
-          <width>131</width>
+          <width>161</width>
           <height>41</height>
          </rect>
         </property>
@@ -255,10 +255,10 @@
        <widget class="QLabel" name="label_15">
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>430</y>
+          <x>130</x>
+          <y>420</y>
           <width>281</width>
-          <height>61</height>
+          <height>71</height>
          </rect>
         </property>
         <property name="font">
@@ -274,9 +274,9 @@
        <widget class="QLineEdit" name="nextPayDay">
         <property name="geometry">
          <rect>
-          <x>470</x>
+          <x>410</x>
           <y>440</y>
-          <width>181</width>
+          <width>211</width>
           <height>41</height>
          </rect>
         </property>
@@ -292,8 +292,8 @@
        <widget class="QLineEdit" name="nextCCPayment">
         <property name="geometry">
          <rect>
-          <x>590</x>
-          <y>660</y>
+          <x>520</x>
+          <y>670</y>
           <width>191</width>
           <height>41</height>
          </rect>
@@ -310,8 +310,8 @@
        <widget class="QLabel" name="label_16">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>640</y>
+          <x>10</x>
+          <y>650</y>
           <width>511</width>
           <height>78</height>
          </rect>
@@ -329,14 +329,45 @@
        <widget class="QLabel" name="label_11">
         <property name="geometry">
          <rect>
-          <x>850</x>
-          <y>190</y>
+          <x>840</x>
+          <y>360</y>
           <width>161</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>choose a CSV file to import</string>
+         <string>Choose a CSV file to import</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="saveUserDataBtn">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>260</y>
+          <width>261</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="savedDataLabel">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>330</y>
+          <width>191</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
