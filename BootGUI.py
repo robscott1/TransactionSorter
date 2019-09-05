@@ -32,6 +32,7 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     date = self.mainWindow.tableWidget.item(row, 1).text()
     location = self.mainWindow.tableWidget.item(row, 2).text()
     amount = self.mainWindow.tableWidget.item(row, 3).text()
+    
     self.mainWindow.tableWidget.removeRow(row)
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
@@ -47,7 +48,6 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
       print("Index of tableWidget: ", i)
       loc = self.mainWindow.tableWidget.item(i, 2).text()
       if loc == location:
-        print("Location: ", loc, " UnhandledT: ",list(self.app.getUnhandledTransactions().values())[i].location)
         referenceNumber = int(self.mainWindow.tableWidget.item(i, 0).text())
         date = self.mainWindow.tableWidget.item(i, 1).text()
         location = self.mainWindow.tableWidget.item(i, 2).text()
