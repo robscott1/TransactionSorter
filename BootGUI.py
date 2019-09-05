@@ -7,6 +7,7 @@ from APIData import TransactionData
 from EmbeddedMatplotlibWindow import PlottingWindow
 from EmbeddedMatplotlibWindow import ProjectionWidget
 from pandas import to_datetime
+import time
 
 class DragDropTableWidget(QtWidgets.QTableWidget):
   '''

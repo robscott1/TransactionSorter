@@ -135,4 +135,4 @@ class AnalysisManager():
 
   def getCompletedTransactionsDataframe(self):
 
-    self.plottingDataFactory.getCompletedTransactionsDataframe(list(self.completedTransactions.values())
+    self.plottingDataFactory.getCompletedTransactionsDataframe(list(self.completedTransactions.values()))
