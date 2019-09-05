@@ -1,16 +1,6 @@
 import pandas as pd
 from datetime import datetime
 
-class TransactionPackage():
-    
-    def __init__(self):
-      self.date = None
-      self.amount = None
-      self.priority = None
-      self.rateOfRecurrence = None
-      self.paymentMethod = None
-
-
 
 class DataProcessor():
 

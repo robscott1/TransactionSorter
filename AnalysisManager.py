@@ -5,7 +5,7 @@ from Category import Category
 from CSVAgent import CSVAgent
 from APIData import TransactionData
 from TransactionFactory import TransactionFactory
-from PandasAgent import PandasAgent
+from PlottingDataFactory import PlottingDataFactory
 from UserData import UserData
 
 class AnalysisManager():
@@ -19,7 +19,7 @@ class AnalysisManager():
     self.excelManager = ExcelManager()
     self.csvAgent = CSVAgent()
     self.transactionFactory = TransactionFactory()
-    self.pandasAgent = PandasAgent()
+    self.plottingDataFactory = PlottingDataFactory()
     self.userData = UserData()
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
@@ -28,7 +28,7 @@ class AnalysisManager():
     self.userData.incomeFrequency = incomeFreq
     self.userData.nextPayDate = payDate
     self.userData.nextCreditCardPaymentDate = ccDate
-    self.pandasAgent.getUserData(self.userData)
+    self.plottingDataFactory.getUserData(self.userData)
 
   def sortCompletedTransactions(self, fileName):
     '''
@@ -120,19 +120,19 @@ class AnalysisManager():
     
   def getTimeSeriesData(self):
     '''
-    Equivalent call to PandasAgent that prepares
+    Equivalent call to plottingDataFactory that prepares
     dates and total expenditures to plot in plottingWindow.py
     '''
-    return self.pandasAgent.getTimeSeriesData()
+    return self.plottingDataFactory.getTimeSeriesData()
 
   def getProjectionData(self):
     totalAllotted = 0
     for c in self.categories.values():
       if c != 'Unhandled':
         totalAllotted += c.getTotalAmountAllotted()
-    return self.pandasAgent.getProjectionData(totalAllotted, list(self.plannedTransactions.values()))
+    return self.plottingDataFactory.getProjectionData(totalAllotted, list(self.plannedTransactions.values()))
 
 
-  def getCompletedTransactionsDataframe(self, fileName):
+  def getCompletedTransactionsDataframe(self):
 
-    self.pandasAgent.getCompletedTransactionsDataframe(fileName)
+    self.plottingDataFactory.getCompletedTransactionsDataframe(list(self.completedTransactions.values())

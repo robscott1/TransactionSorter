@@ -37,7 +37,7 @@ class Application():
     '''
     self.fileName = fileName
     self.analysisManager.sortCompletedTransactions(fileName)
-    self.analysisManager.getCompletedTransactionsDataframe(fileName)
+    self.analysisManager.getCompletedTransactionsDataframe()
     self.transactionManager.completedTransactions = self.analysisManager.completedTransactions
 
   
@@ -283,7 +283,7 @@ class Application():
     return self.analysisManager.getTimeSeriesData()
 
   def createCompletedTransactionsDataFrame(self):
-    return self.analysisManager.getCompletedTransactionsDataframe(self.fileName)
+    return self.analysisManager.getCompletedTransactionsDataframe()
 
   def getProjectionData(self):
     '''
