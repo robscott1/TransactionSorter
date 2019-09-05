@@ -49,6 +49,7 @@ class AnalysisManager():
     
     self.sortingAgent.categorize(self.completedTransactions, self.categories)
 
+
   def getAmountSpentByCategory(self, categoryName):
     c = self.categories[categoryName]
     return c.getTotalAmountSpent()

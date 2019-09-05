@@ -10,9 +10,12 @@ class Application():
     self.transactionManager = TransactionManager()
     self.analysisManager = AnalysisManager()
 
-  # retrieves past transactions and categorys from xml files from past uses of the app
-  # recreates categories and transactions
   def initialize(self):
+    '''
+    Retrieves past transactions and categorys from xml 
+    files from past uses of the app recreates categories
+    and transactions.
+    '''
     tList, cList = self.pdm.retrievePersistentData("TransactionData.xml", "CategoryData.xml")
 
     for c in cList:
@@ -56,7 +59,7 @@ class Application():
                                   self.transactionManager.transactions.values(), self.transactionManager.categories.values())
 
   def saveUserSetupData(self, chkAccBal, incomeAmt, incomeFreq, payDate, ccDate):
-    print("app-saveuserdata payDate: ", payDate)
+
     self.analysisManager.saveUserSetupData(float(chkAccBal), float(incomeAmt), 
                                            str(incomeFreq), str(payDate), str(ccDate))
 
@@ -259,18 +262,35 @@ class Application():
     return self.transactionManager.getPlannedTransactions(category)
 
   def removePlannedTransaction(self, category, name):
+    '''
+    Wrapper function for removing a planned transaction for the list
+    of plannedTransactions
+
+    @category: specified category of transaction chosen
+
+    @name: name of transaction chosen to be deleted
+    '''
     self.transactionManager.removePlannedTransaction(category, name)
 
   def diagnosticDbg(self):
     self.transactionManager.categoryDbg()
 
   def getTimeSeriesData(self):
+    '''
+    Wrapper function for getting time series data to be plotted 
+    in the PlottingWindow.
+    '''
     return self.analysisManager.getTimeSeriesData()
 
   def createCompletedTransactionsDataFrame(self):
     return self.analysisManager.getCompletedTransactionsDataframe(self.fileName)
 
   def getProjectionData(self):
+    '''
+    Wrapper function for projection data to be plotted in 
+    ProjectionWindow.
+    '''
+
     return self.analysisManager.getProjectionData()
 
 

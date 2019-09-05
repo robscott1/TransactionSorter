@@ -36,8 +36,28 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
     c = self.app.getCategoryNamesList()[self.mainWindow.categoryWidget.currentIndex() + 1]
     self.app.registerCompletedTransaction(c, referenceNumber)
     self.app.saveData()
+    self.autoSortAfterDrop(location, c)
     self.mainWindow.updateAnalysisTable(c)
     self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
+
+  def autoSortAfterDrop(self, location, c):
+    tableSize = self.mainWindow.tableWidget.rowCount() - 1
+    i = 0
+    while i <= tableSize:
+      print("Index of tableWidget: ", i)
+      loc = self.mainWindow.tableWidget.item(i, 2).text()
+      if loc == location:
+        print("Location: ", loc, " UnhandledT: ",list(self.app.getUnhandledTransactions().values())[i].location)
+        referenceNumber = int(self.mainWindow.tableWidget.item(i, 0).text())
+        date = self.mainWindow.tableWidget.item(i, 1).text()
+        location = self.mainWindow.tableWidget.item(i, 2).text()
+        amount = self.mainWindow.tableWidget.item(i, 3).text()
+        self.app.registerCompletedTransaction(c, referenceNumber)
+        self.mainWindow.tableWidget.removeRow(i)
+        self.mainWindow.moveRowToDropDestination(referenceNumber, date, location, amount, c)
+        tableSize -= 1
+      else:
+        i += 1
 
 
 class Ui_MainWindow(object):
