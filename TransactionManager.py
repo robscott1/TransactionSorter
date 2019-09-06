@@ -5,6 +5,7 @@ from Category import Category
 from CategoryFactory import CategoryFactory
 
 class TransactionManager():
+  
   '''
   This modules job is to itemize the transactions in correct
   categories, setting up the foundation for useful analysis. 
