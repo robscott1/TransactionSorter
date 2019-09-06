@@ -1,3 +1,12 @@
+'''
+The purpose for these API Data objects is to use "lighter weight"
+objects to pass into the back-end. There, these objects pass the
+information over to a more versatile version of that respective
+object(transaction or category). These are instantiated when the 
+user defines a new object, and passed along into the backend.
+
+'''
+
 class TransactionData():
 
   def __init__(self):
