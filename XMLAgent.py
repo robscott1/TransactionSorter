@@ -1,10 +1,14 @@
 class xmlAgent():
 
-  # extracts data from xml file and assigns
-  # attributes to a transaction object
-
-  # returns list to Application() where it 
-  # gets handed off to the analysis manager
+  '''
+  This is a sub module of the PersistentDataManager. Any time a 
+  category or planned transaction is made, this module will
+  write it into an xml file. Any time the user opens the
+  application again, the data saved in the .xml can be retrieved,
+  providing continuity of planning and analysis for the user
+  over time.
+  '''
+  
   def parseTransactionData(self, tree):
     root = tree.getroot()
     transactionList = []
