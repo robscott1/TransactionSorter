@@ -4,6 +4,15 @@ from DataPrepSupport import *
 from APIData import TransactionData
 
 class PlottingDataFactory():
+  
+  '''
+  This module utilizes pandas to store all data in DataFrames.
+  The DataFrame allows for quick and specific access to retrieve
+  data that the user needs. Right now, this class procures
+  data in array form to be plotted in the GUI. The arrays are
+  ready to be used in matplotlib once it leaves this class.
+
+  '''
 
   def __init__(self, df=None, plannedDf=None):
     self.completedDf = pd.DataFrame(columns=['Date', 'Amount'])
