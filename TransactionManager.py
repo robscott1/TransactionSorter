@@ -5,6 +5,15 @@ from Category import Category
 from CategoryFactory import CategoryFactory
 
 class TransactionManager():
+  '''
+  This modules job is to itemize the transactions in correct
+  categories, setting up the foundation for useful analysis. 
+  Whenever the user manually sorts transactions, creates
+  a new category or plansand major transactions, this 
+  class will register the transaction using the Transaction
+  and Category factory. This enables all functionality to make
+  this data ready for analysis.
+  '''
 
   def __init__(self):
     self.transactionFactory = TransactionFactory()
