@@ -62,6 +62,39 @@ class DragDropTableWidget(QtWidgets.QTableWidget):
 
 
 class Ui_MainWindow(object):
+  '''
+  This is the GUI for the user. All buttons and line fields will be pased into
+  the back-end. The GUI consists of 4 tabs: Setup, Planning, Categorize, and Analysis.
+
+  In the Setup tab, the user will define their financial standing. It asks for the user's
+  current checking account balance, income information, and when they pay their credit card.
+  That is all saved in a UserData object and used for future projection functionality in 
+  the Analysis tab.
+
+  Next is the Planning tab. The user will enter information regarding any transactions
+  they plan to make. It will have the name, date, amount, and category in which the money
+  will be spent in. These PlannedTransaction objects are created in the backend for more
+  analysis in the Analysis tab and the popup plotting windows.
+
+  While the user can plan future transactions, they can also itemize completed transactions
+  that were pulled from their credit card. In this tab, the user will create categories
+  that will hold the transactions. After a category is created, the transactions just
+  need to be dragged into the corresponding category. After they are dropped into the 
+  correct tab, they are categorized in the back-end as a transaction of that particular 
+  category- this opens avenues for more analysis functionality.
+
+  Finally is the analysis tab. Once all of the planned and completed transactions are
+  established in their representative categories, all analysis functionality can be
+  utilized for the user's view. The functionality consists of a table with all spending,
+  planning, allottment per category in the main tab. Their are buttons for two pop up
+  windows. One pop-up window offers predictive analysis; this uses the UserData and 
+  user-defined planned transactions to represent the user's checking account balance
+  over the next year. The other window offers graphs that represent the user's spending
+  over the last month based on their credit card statement in the CSV that was downloaded
+  and opened in the application
+
+  More information in the ReadMe
+  '''
   def setupUi(self, MainWindow):
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(1224, 947)
@@ -607,8 +640,6 @@ class Ui_MainWindow(object):
 
 # Analysis Tab
     self.plotWindow.clicked.connect(self.openPlottingWindow)
-
-# Projection Tab
     self.cashProjectionsBtn.clicked.connect(self.openProjectionWindow)
 
 
