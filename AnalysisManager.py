@@ -9,7 +9,17 @@ from PlottingDataFactory import PlottingDataFactory
 from UserData import UserData
 
 class AnalysisManager():
-
+  '''
+  This main branch is responsible for all analysis functions. It has
+  several sub-modules for several distinct uses. That includes parsing,
+  sorting, preparing useful information from different sources of data. 
+  It holds a dictionary of category objects that can return important
+  spending information as well as items planned by the user. It also
+  holds all completed transactions that were parsed from the CSV chosen
+  by the user. They are held in a dictionary with their "reference number"
+  as their key. Any information asked for by the user will be called
+  through here.
+  '''
 
   def __init__(self):
     self.completedTransactions = dict()
