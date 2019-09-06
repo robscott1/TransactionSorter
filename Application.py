@@ -4,6 +4,18 @@ from AnalysisManager import AnalysisManager
 
 class Application():
 
+  '''
+  This class is the bridge to the back-end. All function calls in the GUI
+  are in this class. From here, it will split off into three major 
+  modules. The functions in this class are plain- they send calls down
+  to sub modules where most of the "heavy lifting" occurs. This structure
+  allows for separation of distinct functionality/duties of the app. The
+  three main branches are the PersistentDataManager, the TransactionManager,
+  and the Analysis Manager. 
+
+  See each of those classes to get the description on their distinct functionality.
+  '''
+
   # intitializes 3 managers with specialized tools in each of their layers
   def __init__(self):
     self.pdm = PersistentDataManager()
