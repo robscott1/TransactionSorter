@@ -3,6 +3,11 @@ from Transaction import CompletedTransaction
 from Transaction import PlannedTransaction
 
 class TransactionFactory():
+  '''
+  Takes information from either parsed CSV file or
+  plannedTransaction and creates object that will be
+  held in the back-end for analysis purposes.
+  '''
 
   def __init__(self):
     self.completedTransactionIndex = 0
