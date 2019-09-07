@@ -136,6 +136,13 @@ class AnalysisManager():
     return self.plottingDataFactory.getTimeSeriesData()
 
   def getProjectionData(self):
+    '''
+    Called from Application(); retrieves two array of dates and 
+    projected cash balance from plottingDataFactory. In order 
+    to project the cash balance, the application gets the 
+    total amount allotted for spending each month to mimic 
+    monthly credit card payments.
+    '''
     totalAllotted = 0
     for c in self.categories.values():
       if c != 'Unhandled':
