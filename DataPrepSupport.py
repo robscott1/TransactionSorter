@@ -4,6 +4,13 @@ from datetime import datetime
 
 class DataProcessor():
 
+  '''
+  Uses pandas DataFrame to store and extract particular types
+  of information for plotting purposes. These function calls
+  originate in the pop-up windows of the GUI and request arrays
+  that will be used with matplotlib
+  '''
+
 
   def __init__(self):
     self.freqKey = {'annually': ['A', 1], 'monthly': ['MS', 12], 'bi-weekly': ['2W-FRI', 26] , 'weekly': ['W', 52]}
