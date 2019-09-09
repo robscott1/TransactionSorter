@@ -9,7 +9,7 @@ class TransactionManager():
   '''
   This modules job is to itemize the transactions in correct
   categories, setting up the foundation for useful analysis. 
-  Whenever the user manually sorts transactions, creates
+  Whenever the user manually sorts transactions or creates
   a new category or plansand major transactions, this 
   class will register the transaction using the Transaction
   and Category factory. This enables all functionality to make
