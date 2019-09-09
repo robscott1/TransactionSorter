@@ -2,10 +2,10 @@ import csv
 
 class CSVAgent():
 
-'''
-Parses CSV and returns dates, amounts, and locations
-that will create completedTransaction objects.
-'''
+  '''
+  Parses CSV and returns dates, amounts, and locations
+  that will create completedTransaction objects.
+  '''
 
   def parseFile(self, fileName):
     f = open(fileName, 'r')
