@@ -7,10 +7,10 @@ transactions and project balances based on the user’s financial goals. Though 
 is still in a very infantile state, it can offer useful data for analysis right now. There are
 several other features that can be implemented in the future: these include a more flexible
 projection plot based on priority of planned transactions(which the back-end is already prepared
- to do), adjusting transactions for venmo reimbursements, and tracking other assets like stocks,
-  bonds, and commodities. The interface consists of four tabs: Setup, Planning, Categorize, and
-   Analysis. Each tab offers tools to create a comprehensive analysis of the user’s financial 
-   standing.
+to do), adjusting transactions for venmo reimbursements, and tracking other assets like stocks,
+bonds, and commodities. The interface consists of four tabs: Setup, Planning, Categorize, and
+Analysis. Each tab offers tools to create a comprehensive analysis of the user’s financial 
+standing.
 
 
 The application opens up in the Setup tab. There, the user has the option to enter their 
