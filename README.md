@@ -4,7 +4,7 @@ The TransactionSorter is a personal financial management application. It offers 
 analytical tools for a comprehensive overview of the user’s financial standing- past, present,
 and future. The application takes several user-defined benchmarks that will then itemize
 transactions and project balances based on the user’s financial goals. Though the application
-is still in a very infantile state, it can offer useful data for analysis right now. There are
+has bugs and is still in early stages, it offers useful data for spending analysis right now. There are
 several other features that can be implemented in the future: these include a more flexible
 projection plot based on priority of planned transactions(which the back-end is already prepared
 to do), adjusting transactions for venmo reimbursements, and tracking other assets like stocks,
