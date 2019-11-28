@@ -77,5 +77,7 @@ tool, and accounting for other assets (savings and trading accounts). For now, t
 application offers a fast, seamless comprehensive overview of the user’s financial 
 standpoint.
 
+Please refer to AppOverview.pdf in the repository for more information.
+
 
 
