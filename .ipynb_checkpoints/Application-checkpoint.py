@@ -24,7 +24,7 @@ class Application():
 
   def initialize(self):
     '''
-    Retrieves past transactions and categorys from xml 
+    Retrieves past transactions and categories from xml 
     files from past uses of the app recreates categories
     and transactions.
     '''
