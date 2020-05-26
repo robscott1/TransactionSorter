@@ -1,4 +1,4 @@
-refer to REAL-README.md
+refer to REAL-README.pdf
 
 
 
